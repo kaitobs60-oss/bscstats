@@ -142,7 +142,7 @@ create index if not exists draft_picks_brawler_idx on public.draft_picks(brawler
 create index if not exists scrims_played_at_idx on public.scrims(played_at desc);
 create index if not exists prediction_entries_user_idx on public.prediction_entries(user_id);
 
--- Public read access is limited to verified competitive records.
+-- Row Level Security: public catalogue + verified competitive records.
 alter table public.teams enable row level security;
 alter table public.players enable row level security;
 alter table public.roster_history enable row level security;
@@ -159,24 +159,66 @@ alter table public.prediction_entries enable row level security;
 alter table public.fantasy_rosters enable row level security;
 alter table public.fantasy_roster_players enable row level security;
 
-do $$
-declare t text;
-begin
-  foreach t in array array['teams','players','tournaments','maps','matches','match_sets','draft_picks','scrims','transfers','news'] loop
-    execute format('drop policy if exists "public read verified %1$s" on public.%1$I', t);
-    if t in ('teams','players','maps') then
-      execute format('create policy "public read verified %1$s" on public.%1$I for select using (true)', t);
-    else
-      execute format('create policy "public read verified %1$s" on public.%1$I for select using (verified = true)', t);
-    end if;
-  end loop;
-end $$;
+drop policy if exists "public read verified teams" on public.teams;
+drop policy if exists "public read teams" on public.teams;
+create policy "public read teams" on public.teams for select to anon, authenticated using (true);
+drop policy if exists "public read verified players" on public.players;
+drop policy if exists "public read players" on public.players;
+create policy "public read players" on public.players for select to anon, authenticated using (true);
+drop policy if exists "public read verified maps" on public.maps;
+drop policy if exists "public read maps" on public.maps;
+create policy "public read maps" on public.maps for select to anon, authenticated using (true);
 
--- Users may read and manage only their own prediction entries and fantasy rosters.
-create policy "users read own prediction entries" on public.prediction_entries for select using (auth.uid() = user_id);
-create policy "users insert own prediction entries" on public.prediction_entries for insert with check (auth.uid() = user_id);
-create policy "users update own prediction entries" on public.prediction_entries for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
-create policy "users manage own fantasy rosters" on public.fantasy_rosters for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
-create policy "users manage own fantasy roster players" on public.fantasy_roster_players for all
+drop policy if exists "public read verified roster_history" on public.roster_history;
+drop policy if exists "public read verified roster history" on public.roster_history;
+create policy "public read verified roster history" on public.roster_history for select to anon, authenticated using (verified = true);
+drop policy if exists "public read verified tournaments" on public.tournaments;
+create policy "public read verified tournaments" on public.tournaments for select to anon, authenticated using (verified = true);
+drop policy if exists "public read verified matches" on public.matches;
+create policy "public read verified matches" on public.matches for select to anon, authenticated using (verified = true);
+drop policy if exists "public read verified scrims" on public.scrims;
+create policy "public read verified scrims" on public.scrims for select to anon, authenticated using (verified = true);
+drop policy if exists "public read verified transfers" on public.transfers;
+create policy "public read verified transfers" on public.transfers for select to anon, authenticated using (verified = true);
+drop policy if exists "public read verified news" on public.news;
+create policy "public read verified news" on public.news for select to anon, authenticated using (verified = true);
+
+drop policy if exists "public read verified match_sets" on public.match_sets;
+drop policy if exists "public read sets of verified matches" on public.match_sets;
+create policy "public read sets of verified matches" on public.match_sets for select to anon, authenticated
+  using (exists (select 1 from public.matches m where m.id = match_id and m.verified = true));
+drop policy if exists "public read verified draft_picks" on public.draft_picks;
+drop policy if exists "public read drafts of verified matches" on public.draft_picks;
+create policy "public read drafts of verified matches" on public.draft_picks for select to anon, authenticated
+  using (exists (select 1 from public.matches m where m.id = match_id and m.verified = true));
+
+drop policy if exists "public read verified match predictions" on public.predictions;
+create policy "public read verified match predictions" on public.predictions for select to anon, authenticated
+  using (exists (select 1 from public.matches m where m.id = match_id and m.verified = true));
+drop policy if exists "users read own prediction entries" on public.prediction_entries;
+create policy "users read own prediction entries" on public.prediction_entries for select to authenticated using (auth.uid() = user_id);
+drop policy if exists "users submit own open prediction" on public.prediction_entries;
+create policy "users submit own open prediction" on public.prediction_entries for insert to authenticated
+  with check (auth.uid() = user_id and points = 0 and exists (
+    select 1 from public.predictions p join public.matches m on m.id = p.match_id
+    where p.id = prediction_id and m.verified = true
+      and (p.closes_at is null or p.closes_at > now())
+      and predicted_winner_team_id in (m.team_a_id, m.team_b_id)
+  ));
+
+drop policy if exists "users manage own fantasy rosters" on public.fantasy_rosters;
+create policy "users manage own fantasy rosters" on public.fantasy_rosters for all to authenticated
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+drop policy if exists "users manage own fantasy roster players" on public.fantasy_roster_players;
+create policy "users manage own fantasy roster players" on public.fantasy_roster_players for all to authenticated
   using (exists (select 1 from public.fantasy_rosters r where r.id = roster_id and r.user_id = auth.uid()))
   with check (exists (select 1 from public.fantasy_rosters r where r.id = roster_id and r.user_id = auth.uid()));
+
+-- Explicit API grants; RLS remains the row-level security boundary.
+grant usage on schema public to anon, authenticated;
+grant select on public.teams, public.players, public.roster_history, public.tournaments, public.maps,
+  public.matches, public.match_sets, public.draft_picks, public.scrims, public.transfers, public.news,
+  public.predictions to anon, authenticated;
+grant select on public.prediction_entries, public.fantasy_rosters, public.fantasy_roster_players to authenticated;
+grant insert on public.prediction_entries to authenticated;
+grant select, insert, update, delete on public.fantasy_rosters, public.fantasy_roster_players to authenticated;
