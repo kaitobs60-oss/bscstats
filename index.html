@@ -158,21 +158,31 @@ footer{border-top:1px solid #211b2b;padding-top:15px;letter-spacing:.5px}
 .csPanel .bars{margin-top:10px}
 .csPanel .tablewrap{margin-top:8px}
 @media(max-width:700px){.csRecentRow{grid-template-columns:minmax(0,1fr) auto}.csRecentRow small{grid-column:1/-1;text-align:left}.csPanel .csPanelHead h2{font-size:15px}}
+
+/* CoreStats-inspired responsive application shell */
+.shell{display:block;min-height:100vh}.side{z-index:120;width:248px;background:#050505;border-right:1px solid #202020;padding:22px 14px;display:flex;flex-direction:column}.side .brand{padding:4px 8px 22px;border-bottom:1px solid #202020;margin-bottom:14px}.side .navlabel{padding:17px 10px 7px;color:#777;font-size:10px}.side .nav{display:flex;gap:13px;align-items:center;color:#aaa;padding:12px 13px;border-radius:10px;font-size:14px}.side .nav span{font-weight:600}.side .nav.active,.side .nav:hover{background:#1b1b1b;color:#fff;box-shadow:none}.side .nav.active{border-left:3px solid var(--purple);padding-left:10px}.sideEvent{display:flex;align-items:center;gap:8px;padding:12px;border:1px solid #242424;border-radius:12px;font-size:12px}.sideEvent small{color:#888;margin-left:auto}.sideFoot{margin-top:auto;padding:20px 10px 4px;color:#888;font-size:9px;line-height:1.8}.sideFoot span{color:#555}.siteMain{margin-left:248px;min-width:0}.main{margin:0;width:100%;max-width:none;padding:24px clamp(18px,3vw,42px) 60px}.csEventStrip{padding:0 24px;background:#080808;border-color:#202020}.mobileTop{display:none}.drawerShade{display:none}
+body{background:#050505;color:#f5f5f5;background-image:none}.side{background:#050505}.main .title{font-size:clamp(27px,3vw,40px);letter-spacing:-1.2px}.main .sub{font-size:14px;color:#999}.card,.csPanel,.csHomePanel,.csMetric,.csExploreCard{background:#0b0b0b;border-color:#242424}.field,select.field,input.field{background:#080808;border:1px solid #292929;color:#eee;border-radius:12px}.btn{border-radius:12px}.tablewrap{border:1px solid #222;border-radius:14px;overflow:auto}.tablewrap table th{background:#101010}.tablewrap table td{border-color:#1e1e1e}
+@media(max-width:760px){.side{position:fixed;inset:0 auto 0 0;width:min(82vw,330px);transform:translateX(-105%);transition:transform .22s ease;box-shadow:none}.side.open{transform:translateX(0);box-shadow:20px 0 70px #000b}.drawerShade.show{display:block;position:fixed;inset:0;background:#000a;z-index:110}.siteMain{margin-left:0}.mobileTop{height:68px;display:flex;align-items:center;gap:14px;padding:0 16px;background:#050505;border-bottom:1px solid #202020;position:sticky;top:0;z-index:90}.menuBtn{width:42px;height:42px;border:1px solid #292929;border-radius:13px;background:#080808;color:white;font-size:22px}.mobileBrand{display:flex;flex-direction:column;gap:2px}.mobileBrand b{font-size:17px;letter-spacing:1px}.mobileBrand small{font-size:9px;letter-spacing:1.5px;color:#999}.mobileTop .csStatus{margin-left:auto;font-size:8px}.csEventStrip{height:30px;padding:0 16px}.csStripRight{display:none}.main{padding:22px 16px 44px}.top{display:block}.top .pill{display:none}.main .title{font-size:29px;line-height:1.12}.main .sub{font-size:13px;line-height:1.5}.csHomeHero{grid-template-columns:1fr;padding:20px 16px}.csExploreGrid{grid-template-columns:1fr 1fr}.csHomeLower{grid-template-columns:1fr}}
 </style>
 </head>
 <body><div class="shell">
+<aside class="side" id="sideNav">
+ <a class="brand" href="#" onclick="render('overview');closeMenu();return false"><div class="logo">B</div><div><b>BSCSTATS</b><small>COMPETITIVE ANALYTICS</small></div></a>
+ <div class="sideEvent"><span class="csLiveDot"></span><b>NOW</b><small>Competitive database</small></div>
+ <nav id="nav">
+  <div class="navlabel">MAIN</div><a class="nav active" data-page="overview">⌂ <span>Home</span></a>
+  <div class="navlabel">PLAYERS</div><a class="nav" data-page="players">♙ <span>Player</span></a><a class="nav" data-page="players">✧ <span>Pro players</span></a><a class="nav" data-page="analytics">⑂ <span>Compare</span></a>
+  <div class="navlabel">TEAMS</div><a class="nav" data-page="teams">♧ <span>Teams</span></a><a class="nav" data-page="scrims">⚔ <span>Scrims</span></a><a class="nav" data-page="leaderboards">♜ <span>Leaderboards</span></a>
+  <div class="navlabel">EVENTS</div><a class="nav" data-page="brackets">⌘ <span>Brackets</span></a><a class="nav" data-page="tournaments">🏆 <span>Tournaments</span></a>
+  <div class="navlabel">TOOLS</div><a class="nav" data-page="draft">⚡ <span>Draft analytics</span></a><a class="nav" data-page="meta">◈ <span>Meta</span></a><a class="nav" data-page="maps">▦ <span>Map statistics</span></a><a class="nav" data-page="mvp">♛ <span>Player statistics</span></a>
+ </nav>
+ <div class="sideFoot">BSCSTATS · COMPETITIVE DATA<br><span>Not affiliated with Supercell</span></div>
+</aside><div class="drawerShade" id="drawerShade" onclick="closeMenu()"></div>
+<div class="siteMain">
+<header class="mobileTop"><button class="menuBtn" onclick="toggleMenu()" aria-label="Open menu">☰</button><div class="mobileBrand"><b>BSCSTATS</b><small id="mobilePage">HOME</small></div><span class="pill csStatus">● DATABASE</span></header>
 <div class="csEventStrip"><span class="csLiveDot"></span><b>NOW IN BSCSTATS</b><span>Competitive database</span><span class="csStripRight">Current event: <strong>Awaiting event data</strong></span></div>
-<header class="csHeader">
- <a class="brand" href="#" onclick="render('overview');return false"><div class="logo">B</div><div><b>BSCSTATS</b><small>COMPETITIVE ANALYTICS</small></div></a>
- <nav id="nav" class="csNav">
-  <a class="nav active" data-page="overview">Home</a>
-  <div class="csNavGroup"><span>Players⌄</span><div class="csDropdown"><a class="nav" data-page="players">Player profile</a><a class="nav" data-page="players">Pro players</a><a class="nav" data-page="analytics">Compare</a></div></div>
-  <div class="csNavGroup"><span>Teams⌄</span><div class="csDropdown"><a class="nav" data-page="teams">Teams</a><a class="nav" data-page="scrims">Scrims</a><a class="nav" data-page="leaderboards">Leaderboards</a><a class="nav" data-page="analytics">Head to head</a></div></div>
-  <div class="csNavGroup"><span>Events⌄</span><div class="csDropdown"><a class="nav" data-page="tournaments">Tournaments</a><a class="nav" data-page="tournaments">Matches</a><a class="nav" data-page="brackets">Brackets</a></div></div>
-  <div class="csNavGroup"><span>Tools⌄</span><div class="csDropdown"><a class="nav" data-page="draft">Draft analytics</a><a class="nav" data-page="meta">Meta</a><a class="nav" data-page="maps">Map statistics</a><a class="nav" data-page="mvp">Player statistics</a></div></div>
- </nav><span class="pill csStatus">● DATABASE</span>
-</header>
-<main class="main"><div class="top"><div><div class="crumb" id="crumb">BSCSTATS / HOME</div><div class="title" id="pageTitle">Brawl Stars stats and esports</div><div class="sub" id="pageSub">Competitive data, pro scrims, teams and tournaments.</div></div><span class="pill csStatus">● DATABASE</span></div><div id="content"></div><footer>BSCSTATS · Independent Brawl Stars competitive statistics platform · Not affiliated with Supercell.</footer></main></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<main class="main"><div class="top"><div><div class="crumb" id="crumb">BSCSTATS / HOME</div><div class="title" id="pageTitle">Brawl Stars stats and esports</div><div class="sub" id="pageSub">Competitive data, pro scrims, teams and tournaments.</div></div><span class="pill csStatus">● DATABASE</span></div><div id="content"></div><footer>BSCSTATS · Independent Brawl Stars competitive statistics platform · Not affiliated with Supercell.</footer></main>
+</div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const supabaseClient=window.supabase.createClient('https://xjncfrxsnriyikfkpkbs.supabase.co','sb_publishable_yakQagljFbhgvmfMIbV9hA_l1nCdMJQ');
 let teams=[];
