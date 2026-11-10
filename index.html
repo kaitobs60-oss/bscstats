@@ -122,27 +122,41 @@ footer{border-top:1px solid #211b2b;padding-top:15px;letter-spacing:.5px}
 .csTopline{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:4px 0 22px}.csPageTitle{font-size:30px;letter-spacing:-.8px;margin:5px 0}.csMetrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0 20px}.csMetric{background:#12101b;border:1px solid #302440;border-radius:10px;padding:17px 18px;display:flex;flex-direction:column;gap:7px}.csMetric span{font-size:10px;letter-spacing:1.2px;color:#a69bb7;font-weight:800}.csMetric b{font-size:29px;line-height:1.1}.csMetric small{font-size:11px;color:#8e849e}.csDashGrid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.csPanel{background:#111019;border:1px solid #2d243b;border-radius:11px;padding:17px;min-width:0}.csPanelWide{grid-column:auto}.csPanelHead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.csPanelHead h2{font-size:17px;margin:4px 0 0}.csPanelHead p{font-size:11px;margin:5px 0 0}.csRecent{display:grid}.csRecentRow{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:16px;padding:13px 2px;border-bottom:1px solid #282233}.csRecentRow:last-child{border-bottom:0}.csMatchMeta{display:flex;align-items:center;gap:10px;min-width:0}.csMatchMeta b{font-size:12px}.csMatchMeta span,.csRecentRow small{font-size:10px;color:#8f849e}.csRecentRow strong{font-size:14px;color:#d7c1ff;white-space:nowrap}.csQuickLinks{display:grid;gap:7px}.csQuickLinks button{background:#171321;border:1px solid #302640;color:#e9e1f4;border-radius:7px;padding:11px 12px;text-align:left;display:flex;justify-content:space-between}.csQuickLinks button:hover{border-color:#8f5be2;background:#211630}.csQuickLinks span,.textAction{color:#b58bff}.csFootnote{font-size:10px;color:#80768e;margin-top:17px;padding:12px 2px;border-top:1px solid #282233}
 @media(max-width:950px){.csDashGrid{grid-template-columns:1fr}.csMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.csTopline{display:block}.csTopline .pill{display:inline-block;margin-top:10px}.csPageTitle{font-size:23px}.csMetrics{grid-template-columns:1fr 1fr;gap:7px}.csMetric{padding:12px}.csMetric b{font-size:22px}.csPanel{padding:11px}.csRecentRow{grid-template-columns:1fr auto;gap:8px}.csRecentRow small{grid-column:1/-1}.csMatchMeta{gap:6px}.csMatchMeta b{font-size:10px}}
+
+/* Corestats-inspired BSCSTATS shell */
+.csHeader{min-height:72px;padding:12px clamp(18px,4vw,54px);display:flex;align-items:center;gap:24px;border-bottom:1px solid #282136;background:#0c0a12;position:sticky;top:0;z-index:80}
+.csHeader .brand{padding:0;flex:0 0 auto;text-decoration:none;color:var(--text)}.csHeader .brand b{font-size:16px}.csHeader .brand small{font-size:8px;letter-spacing:1.5px}
+.csNav{display:flex;align-items:center;gap:2px;flex:1;min-width:0}.csNav .nav{font-size:11px;padding:10px 11px;margin:0;color:#bdb5cb;white-space:nowrap;border:1px solid transparent}
+.csNav .nav:hover,.csNav .nav.active{background:#241733;border-color:#3a2850;color:#fff;box-shadow:none}
+.csNavGroup{position:relative;color:#bdb5cb;font-size:11px;padding:10px 11px;cursor:pointer;border-radius:8px}.csNavGroup:hover{background:#241733;color:#fff}
+.csDropdown{display:none;position:absolute;top:100%;right:0;min-width:180px;padding:7px;background:#100d18;border:1px solid #39284d;border-radius:10px;box-shadow:0 15px 35px #0009}
+.csNavGroup:hover .csDropdown,.csNavGroup:focus-within .csDropdown{display:block}.csDropdown .nav{display:block;width:100%;text-align:left}
+.csStatus{white-space:nowrap;font-size:8px}.main{margin:0 auto;width:min(1440px,100%);max-width:1440px;padding:26px clamp(18px,4vw,54px) 60px}
+.top{margin-bottom:22px;padding-bottom:17px;border-bottom:1px solid #241d30}.crumb{font-size:9px;color:#8d829e;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:8px}
+.csHomeHero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);gap:26px;align-items:center;min-height:360px;padding:34px;border:1px solid #3d2b52;border-radius:18px;background:radial-gradient(ellipse at 25% 0%,#4a267055,transparent 55%),linear-gradient(115deg,#21142f,#100e18 75%);margin-bottom:38px}
+.csHeroText h1{font-size:clamp(34px,4.5vw,56px);line-height:1.03;letter-spacing:-2px;margin:20px 0 14px;font-weight:900}.csHeroText h1 span{color:#b58bff}.csHeroText p{font-size:13px;color:#c0b6cd;line-height:1.7;max-width:560px}
+.csKicker{display:flex;align-items:center;gap:8px;font-size:9px;color:#bda1e3;letter-spacing:1.5px;font-weight:850}.csKicker i{width:7px;height:7px;border-radius:50%;background:#b58bff;box-shadow:0 0 10px #b58bff}
+.csHeroButtons{display:flex;gap:9px;flex-wrap:wrap;margin-top:22px}.btn.ghost{background:#17111f;border-color:#49375c}
+.csCompareCard{padding:22px;border:1px solid #49365e;border-radius:13px;background:#100d18;box-shadow:0 18px 50px #0003}.csCompareCard h3{font-size:23px;margin:13px 0 5px}.csCompareCard p{font-size:11px;color:#a99db8;line-height:1.6}
+.csVersus{display:grid;grid-template-columns:1fr 26px 1fr;gap:7px;align-items:center;margin:18px 0}.csVersus b{text-align:center;color:#a88bd0;font-size:10px}.csVersus .field{min-width:0;width:100%;font-size:10px}.csFull{width:100%}.csCompareCard>small{display:block;margin-top:12px;color:#80758f;font-size:9px;line-height:1.5}
+.csHomeSection{margin:0 0 34px}.csSectionTitle{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:15px}.csSectionTitle h2{font-size:23px;letter-spacing:-.5px;margin:5px 0 0}.csSectionTitle .muted{font-size:9px;letter-spacing:1px}
+.csExploreGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.csExploreCard{position:relative;min-height:130px;padding:17px;text-align:left;border:1px solid #2c2438;border-radius:11px;background:linear-gradient(145deg,#171321,#100e18);color:var(--text);display:flex;flex-direction:column;align-items:flex-start;gap:8px;cursor:pointer;transition:.18s}
+.csExploreCard:hover{border-color:#8052b5;background:#21172d;transform:translateY(-2px)}.csExploreCard>span{font-size:20px;color:#bd91ff}.csExploreCard b{font-size:14px}.csExploreCard small{font-size:10px;color:#9e95ac;line-height:1.5;max-width:85%}.csExploreCard i{position:absolute;right:15px;bottom:15px;color:#b58bff;font-style:normal}
+.csHomeLower{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}.csHomePanel{min-width:0;padding:18px;border:1px solid #2b2337;border-radius:12px;background:#100e17}.csHomePanel .csSectionTitle h2{font-size:17px}.csHomePanel .csSectionTitle{align-items:center}
+.csHomeFoot{display:flex;justify-content:space-between;gap:12px;padding:18px 20px;border:1px solid #38294a;border-radius:10px;background:linear-gradient(100deg,#21152f,#100e18);font-size:11px}.csHomeFoot span{color:#968aa7;font-size:9px}
+@media(max-width:1000px){.csHeader{gap:12px;flex-wrap:wrap}.csNav{order:3;flex-basis:100%;overflow-x:auto}.csNav .nav{font-size:10px}.csStatus{margin-left:auto}.csHomeHero{grid-template-columns:1fr 300px}.csExploreGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.csHeader{padding:10px 12px;gap:8px}.csHeader .brand{padding:0}.csHeader .brand b{font-size:13px}.csHeader .brand small{font-size:7px}.csHeader .logo{width:30px;height:30px}.csStatus{font-size:7px}.csNav{gap:0;padding-bottom:2px}.csNav .nav{padding:9px 10px;font-size:10px}.csNavGroup{padding:9px 10px;font-size:10px}.main{margin:0;width:100%;padding:18px 12px 40px}.top{display:block}.top .pill{display:none}.title{font-size:21px}.sub{font-size:11px}.csHomeHero{grid-template-columns:1fr;padding:21px 15px;gap:18px;min-height:0}.csHeroText h1{font-size:34px;letter-spacing:-1.4px;margin:16px 0 10px}.csHeroText p{font-size:11px}.csCompareCard{padding:15px}.csCompareCard h3{font-size:19px}.csExploreGrid{grid-template-columns:1fr 1fr;gap:7px}.csExploreCard{min-height:130px;padding:11px}.csExploreCard b{font-size:11px}.csExploreCard small{font-size:9px}.csHomeLower{grid-template-columns:1fr}.csHomeFoot{display:block;line-height:1.8}.csHomeFoot span{display:block}}
 </style>
 </head>
 <body><div class="shell">
-<aside class="side"><div class="brand"><div class="logo">B</div><div><b>BSCSTATS</b><small>COMPETITIVE BRAWL STARS</small></div></div>
-<div class="navlabel">MAIN</div><nav id="nav">
-<a class="nav active" data-page="overview"><span class="ico">⌂</span> Dashboard</a>
-<a class="nav" data-page="scrims"><span class="ico">⚔</span> Scrims</a>
-<a class="nav" data-page="draft"><span class="ico">◈</span> Draft</a>
-<a class="nav" data-page="tournaments"><span class="ico">🏆</span> Tournaments</a>
-<a class="nav" data-page="brackets"><span class="ico">▦</span> Brackets</a>
-<a class="nav" data-page="teams"><span class="ico">♜</span> Teams</a>
-<a class="nav" data-page="players"><span class="ico">♙</span> Players</a>
-<a class="nav" data-page="leaderboards"><span class="ico">♛</span> Leaderboards</a>
-<a class="nav" data-page="analytics"><span class="ico">⌁</span> Head to Head</a>
-<a class="nav" data-page="meta"><span class="ico">✦</span> Meta</a>
-<div class="navlabel">MORE STATS</div>
-<a class="nav" data-page="maps"><span class="ico">▧</span> Map Statistics</a>
-<a class="nav" data-page="mvp"><span class="ico">★</span> Player Statistics</a>
-</nav></aside>
-<main class="main"><div class="top"><div><div class="eyebrow">BRAWL STARS ESPORTS DATABASE</div><div class="title" id="pageTitle">Competitive Overview</div><div class="sub" id="pageSub">Tutto il competitivo, in un unico posto.</div></div><span class="pill">● DEMO PREVIEW</span></div><div id="content"></div><footer>BSCSTATS • Fan-made competitive analytics concept • Dati dimostrativi, non ufficiali.</footer></main></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<header class="csHeader">
+ <a class="brand" href="#" onclick="render('overview');return false"><div class="logo">B</div><div><b>BSCSTATS</b><small>COMPETITIVE ANALYTICS</small></div></a>
+ <nav id="nav" class="csNav">
+  <a class="nav active" data-page="overview">Home</a><a class="nav" data-page="players">Players</a><a class="nav" data-page="teams">Teams</a><a class="nav" data-page="scrims">Scrims</a><a class="nav" data-page="leaderboards">Leaderboards</a><a class="nav" data-page="brackets">Brackets</a><a class="nav" data-page="tournaments">Tournaments</a>
+  <div class="csNavGroup"><span>Tools⌄</span><div class="csDropdown"><a class="nav" data-page="analytics">Compare / H2H</a><a class="nav" data-page="draft">Draft</a><a class="nav" data-page="meta">Meta</a><a class="nav" data-page="maps">Map stats</a><a class="nav" data-page="mvp">Player stats</a></div></div>
+ </nav><span class="pill csStatus">● DATABASE</span>
+</header>
+<main class="main"><div class="top"><div><div class="crumb" id="crumb">BSCSTATS / HOME</div><div class="title" id="pageTitle">Brawl Stars stats and esports</div><div class="sub" id="pageSub">Competitive data, pro scrims, teams and tournaments.</div></div><span class="pill csStatus">● DATABASE</span></div><div id="content"></div><footer>BSCSTATS · Independent Brawl Stars competitive statistics platform · Not affiliated with Supercell.</footer></main></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const supabaseClient=window.supabase.createClient('https://xjncfrxsnriyikfkpkbs.supabase.co','sb_publishable_yakQagljFbhgvmfMIbV9hA_l1nCdMJQ');
 let teams=[];
@@ -154,49 +168,38 @@ let dbTournaments=[];
 let dbMatches=[];
 let currentPage='overview';
 const pages={
-overview:['Home','The home of competitive Brawl Stars.'],
-teams:['Teams & Power Rankings','Team database, roster e confronti diretti.'],
-players:['Players & Pro Profiles','Profili, carriere e statistiche dei professionisti.'],
-scrims:['Scrims & Results','Risultati e storico delle scrim.'],
-tournaments:['Tournaments','Calendario e archivio dei tornei.'],
-brackets:['Competitive Brackets','World Finals, Monthly Finals, Brawl Cup e LCQ.'],
-leaderboards:['Leaderboards','Classifiche basate sui risultati competitivi verificati.'],
-draft:['Draft Statistics','Pick, ban, first pick, last pick e win rate dei draft.'],
-meta:['Meta Tracker','Forza competitiva dei Brawler basata sui dati raccolti.'],
-analytics:['Analytics & Comparisons','Confronta giocatori, team e andamento delle prestazioni.'],
-maps:['Map Analytics','Performance per mappa e modalità.'],
-mvp:['MVP Rankings','Classifiche individuali delle prestazioni.'],
-news:['News & Transfers','Notizie competitive e storico dei trasferimenti.'],
-fantasy:['Fantasy League','Crea una squadra fantasy con i pro player.'],
-predictions:['Community Predictions','Pronostici e classifiche della community.'],
-draftbot:['Draft Bot','Strumenti di supporto alla preparazione dei draft.']
+overview:['Brawl Stars stats and esports','Competitive data, pro scrims, teams and tournaments.'],
+teams:['Teams','Rosters, regional standings and recorded results.'],
+players:['Players','Professional profiles, teams and career statistics.'],
+scrims:['Pro scrims','Recent sets, matchups, activity and draft records.'],
+tournaments:['Tournaments','Community events, official matches and archive.'],
+brackets:['Brackets','Championship brackets, groups and playoff stages.'],
+leaderboards:['Leaderboards','Team rankings based on verified competitive results.'],
+draft:['Draft analytics','Picks, bans, first pick, last pick and win rates.'],
+meta:['Meta rankings','Competitive brawler usage and effectiveness.'],
+analytics:['Compare teams and players','Head-to-head records and performance comparisons.'],
+maps:['Map statistics','Competitive results by map and game mode.'],
+mvp:['Player statistics','Individual performance and MVP rankings.'],
+news:['News & Transfers','Competitive news and roster history.'],
+fantasy:['Fantasy League','Fantasy team builder.'],
+predictions:['Community Predictions','Community match predictions.'],
+draftbot:['Draft Bot','Draft preparation tools.']
 };
 function table(headers,rows){return '<div class="tablewrap"><table><thead><tr>'+headers.map(x=>'<th>'+x+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>'}
 function card(label,value,detail){return '<div class="card"><div class="statlabel">'+label+'</div><div class="stat">'+value+'</div><div class="delta">'+detail+'</div></div>'}
 function bars(data){return '<div class="bars">'+data.map(x=>'<div class="barrow"><span>'+x[0]+'</span><div class="track"><div class="fill" style="width:'+x[1]+'%"></div></div><b>'+x[1]+'%</b></div>').join('')+'</div>'}
 function filters(opts){return '<div class="filters"><select class="field" id="period"><option>All time</option><option>2026</option><option>2025</option></select><select class="field"><option>All tournaments</option><option>World Finals</option><option>Monthly Finals</option><option>Brawl Cup</option><option>LCQ</option></select><select class="field"><option>All regions</option><option>EMEA</option><option>North America</option><option>South America</option><option>APAC</option></select><input class="field" id="search" placeholder="Search..."></div>'}
-function render(page){currentPage=page;document.querySelectorAll('.nav[data-page]').forEach(n=>n.classList.toggle('active',n.dataset.page===page));document.getElementById('pageTitle').textContent=pages[page][0];document.getElementById('pageSub').textContent=pages[page][1];let c='';
+function render(page){currentPage=page;document.querySelectorAll('.nav[data-page]').forEach(n=>n.classList.toggle('active',n.dataset.page===page));document.getElementById('pageTitle').textContent=pages[page][0];document.getElementById('pageSub').textContent=pages[page][1];const crumb=document.getElementById('crumb');if(crumb)crumb.textContent='BSCSTATS / '+pages[page][0].toUpperCase();let c='';
 const demo='<div class="notice">Anteprima con dati dimostrativi. Le statistiche reali richiedono l’inserimento o l’importazione di risultati verificati da tornei e scrim: non vengono inventate né presentate come ufficiali.</div>';
 if(page==='overview'){
- const totalSets=dbScrims.length, teamCount=teams.length, playerCount=players.length;
- const recent=dbScrims.slice(0,6);
- const topPicks=(picks||[]).slice(0,8);
- const teamRows=(teams||[]).slice(0,8).map((x,i)=>[String(i+1),'<b>'+x[0]+'</b>',x[2]||'—',x[1]||'—',x[3]||'—']);
- const pickRows=topPicks.map((x,i)=>[String(i+1),'<b>'+x.brawler+'</b>',String(x.total||0),x.pick_type||'—','—']);
- c='<div class="csTopline"><div><div class="eyebrow">BRAWL STARS ESPORTS DATA</div><h1 class="csPageTitle">Dashboard</h1><p class="muted">Competitive statistics, scrims and tournament results.</p></div><span class="pill">● BSCSTATS DATABASE</span></div>'+
- '<div class="csMetrics">'+
- '<div class="csMetric"><span>TOTAL SETS</span><b>'+totalSets+'</b><small>Recorded scrim sets</small></div>'+
- '<div class="csMetric"><span>TEAMS</span><b>'+teamCount+'</b><small>Tracked teams</small></div>'+
- '<div class="csMetric"><span>PRO PLAYERS</span><b>'+playerCount+'</b><small>Player directory</small></div>'+
- '<div class="csMetric"><span>BRAWLER ENTRIES</span><b>'+picks.length+'</b><small>Recorded draft picks</small></div></div>'+
- '<div class="csDashGrid"><section class="csPanel csPanelWide"><div class="csPanelHead"><div><span class="eyebrow">COMPETITIVE META</span><h2>Top Brawlers</h2></div><button class="textAction" onclick="render(\'meta\')">VIEW META ↗</button></div>'+
- (pickRows.length?table(['#','Brawler','Picks','Type','Win rate'],pickRows):'<div class="empty">No brawler statistics available yet.</div>')+'</section>'+
- '<section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">TEAM DIRECTORY</span><h2>Teams</h2></div><button class="textAction" onclick="render(\'teams\')">VIEW ALL ↗</button></div>'+
- (teamRows.length?table(['#','Team','Region','W-L','Win rate'],teamRows):'<div class="empty">No teams have been added yet.</div>')+'</section>'+
- '<section class="csPanel csPanelWide"><div class="csPanelHead"><div><span class="eyebrow">MATCH CENTER</span><h2>Recent Scrims</h2><p class="muted">Latest completed competitive sets.</p></div><button class="textAction" onclick="render(\'scrims\')">VIEW ALL ↗</button></div>'+
- (recent.length?'<div class="csRecent">'+recent.map(x=>'<div class="csRecentRow"><div class="csMatchMeta"><b>'+(x.teams?.name||'Team A')+'</b><span>vs</span><b>'+(x.opponent?.name||'Team B')+'</b></div><strong>'+(x.score_a??'—')+' – '+(x.score_b??'—')+'</strong><small>'+((x.played_at||'').slice(0,10)||'—')+'</small></div>').join('')+'</div>':'<div class="empty">No scrim results recorded yet.</div>')+'</section>'+
- '<section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">COMPETITIONS</span><h2>Explore</h2></div></div><div class="csQuickLinks"><button onclick="render(\'tournaments\')">Tournaments <span>↗</span></button><button onclick="render(\'brackets\')">Championship Brackets <span>↗</span></button><button onclick="render(\'leaderboards\')">Leaderboards <span>↗</span></button><button onclick="render(\'analytics\')">Head to Head <span>↗</span></button></div></section></div>'+
- '<div class="csFootnote">Statistics are shown only when supported by records in the BSCSTATS database. Missing values are not estimated.</div>';
+ const topPlayers=players.slice(0,5), featured=dbTournaments.slice(0,3);
+ const teamOptions=teams.map(t=>'<option>'+t[0]+'</option>').join('');
+ c='<section class="csHomeHero"><div class="csHeroText"><div class="csKicker"><i></i> BSCSTATS · COMPETITIVE BRAWL STARS</div><h1>Brawl Stars stats,<br><span>pro scrims & esports.</span></h1><p>Follow professional teams, player profiles, competitive scrims, tournaments and draft data — all in one place.</p><div class="csHeroButtons"><button class="btn primary" onclick="render(\'players\')">Explore players ↗</button><button class="btn ghost" onclick="render(\'tournaments\')">This season\'s tournaments</button></div></div><div class="csCompareCard"><div class="csKicker">TEAM COMPARISON</div><h3>Who wins?</h3><p>Compare two teams using recorded competitive results.</p><div class="csVersus"><select class="field" id="homeTeamA"><option value="">Select team</option>'+teamOptions+'</select><b>VS</b><select class="field" id="homeTeamB"><option value="">Select team</option>'+teamOptions+'</select></div><button class="btn primary csFull" onclick="goCompare()">Compare teams</button><small>Win odds appear when enough verified results are available.</small></div></section>'+
+ '<section class="csHomeSection"><div class="csSectionTitle"><div><span class="eyebrow">EXPLORE</span><h2>Tools for everyone</h2></div><span class="muted">BSCSTATS PLATFORM</span></div><div class="csExploreGrid">'+
+ [['♙','Player profiles','Rosters, career and player statistics','players'],['♜','Teams','Team rosters, results and history','teams'],['⚔','Pro scrims','Recent sets, matchups and drafts','scrims'],['♛','Leaderboards','Regional team rankings and results','leaderboards'],['▦','Brackets','Championship brackets and stages','brackets'],['🏆','Tournaments','Events, matches and archived results','tournaments'],['◈','Draft analytics','Picks, bans and first / last pick','draft'],['✦','Meta rankings','Competitive brawler usage and strength','meta']].map(x=>'<button class="csExploreCard" onclick="render(\''+x[3]+'\')"><span>'+x[0]+'</span><b>'+x[1]+'</b><small>'+x[2]+'</small><i>↗</i></button>').join('')+'</div></section>'+
+ '<section class="csHomeLower"><div class="csHomePanel"><div class="csSectionTitle"><div><span class="eyebrow">EVENTS</span><h2>This week\'s tournaments</h2></div><button class="textAction" onclick="render(\'tournaments\')">ALL TOURNAMENTS ↗</button></div>'+(featured.length?table(['EVENT','SEASON','REGION','TYPE'],featured.map(t=>['<b>'+t.name+'</b>',t.season||'—',t.region||'—',t.event_type||'—'])):'<div class="empty">Tournament listings will appear when verified events are imported into BSCSTATS.</div>')+'</div>'+
+ '<div class="csHomePanel"><div class="csSectionTitle"><div><span class="eyebrow">PRO SCENE</span><h2>Professional players</h2></div><button class="textAction" onclick="render(\'players\')">ALL PLAYERS ↗</button></div>'+(topPlayers.length?table(['PLAYER','TEAM'],topPlayers.map(p=>['<b>'+p[0]+'</b>',p[1]])):'<div class="empty">Player profiles will appear when rosters are imported.</div>')+'</div></section>'+
+ '<div class="csHomeFoot"><b>Every competitive set counts.</b><span>Teams · Players · Scrims · Tournaments · Draft</span></div>';
 }
 if(page==='teams'){
  const ranked=teams.map(t=>({name:t[0],roster:t[1],region:t[2],sets:dbScrims.filter(s=>(s.teams?.name||'')===t[0]||(s.opponent?.name||'')===t[0]).length})).sort((a,b)=>b.sets-a.sets);
@@ -276,7 +279,7 @@ function wireTeamFilters(){
 }
 function wirePlayerFilters(){const el=document.getElementById('playerSearch');el?.addEventListener('input',()=>{const q=el.value.toLowerCase();document.querySelectorAll('#content tbody tr').forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none')})}
 function wireScrimFilters(){const el=document.getElementById('scrimSearch');el?.addEventListener('input',()=>{const q=el.value.toLowerCase();document.querySelectorAll('#content tbody tr').forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none')})}
-function openPlayer(name){const p=players.find(x=>x[0]===name);if(!p)return;document.getElementById('pageTitle').textContent=name;document.getElementById('pageSub').textContent='Professional player profile';document.getElementById('content').innerHTML='<button class="btn" onclick="render(\'players\')">← Back to players</button><div class="hero" style="margin-top:14px"><div class="profile"><div class="avatar">'+name.slice(0,2).toUpperCase()+'</div><div><div class="eyebrow">PRO PLAYER</div><h2>'+name+'</h2><p>'+p[1]+' · '+(p[3]||'Nationality not recorded')+'</p></div></div></div><div class="grid">'+card('CURRENT TEAM',p[1],'Roster database')+card('PLAYER ELO','—','Official matches required')+card('TOURNAMENTS','—','Career history not imported')+card('WIN RATE','—','Verified player results required')+'</div><div class="two"><div class="card"><h3>Career & team history</h3><div class="empty">Roster history will appear after verified transfers are imported.</div></div><div class="card"><h3>Performance & brawler form</h3><div class="empty">Requires official per-game stats and verified draft records.</div></div></div>'}
+function goCompare(){const a=document.getElementById('homeTeamA')?.value,b=document.getElementById('homeTeamB')?.value;if(!a||!b||a===b){alert('Select two different teams.');return}render('analytics');document.getElementById('content').insertAdjacentHTML('afterbegin','<div class="notice"><b>'+a+' vs '+b+'</b><br>Head-to-head results will appear when verified match records are available.</div>')}\nfunction openPlayer(name){const p=players.find(x=>x[0]===name);if(!p)return;document.getElementById('pageTitle').textContent=name;document.getElementById('pageSub').textContent='Professional player profile';document.getElementById('content').innerHTML='<button class="btn" onclick="render(\'players\')">← Back to players</button><div class="hero" style="margin-top:14px"><div class="profile"><div class="avatar">'+name.slice(0,2).toUpperCase()+'</div><div><div class="eyebrow">PRO PLAYER</div><h2>'+name+'</h2><p>'+p[1]+' · '+(p[3]||'Nationality not recorded')+'</p></div></div></div><div class="grid">'+card('CURRENT TEAM',p[1],'Roster database')+card('PLAYER ELO','—','Official matches required')+card('TOURNAMENTS','—','Career history not imported')+card('WIN RATE','—','Verified player results required')+'</div><div class="two"><div class="card"><h3>Career & team history</h3><div class="empty">Roster history will appear after verified transfers are imported.</div></div><div class="card"><h3>Performance & brawler form</h3><div class="empty">Requires official per-game stats and verified draft records.</div></div></div>'}
 async function communitySignIn(){const email=document.getElementById('communityEmail')?.value.trim(),status=document.getElementById('communityAuthStatus');if(!email){if(status)status.textContent='Enter a valid email address.';return}const {error}=await supabaseClient.auth.signInWithOtp({email,options:{emailRedirectTo:window.location.href}});if(status)status.textContent=error?error.message:'Sign-in link sent. Check your email.'}
 async function communitySignOut(){await supabaseClient.auth.signOut();window.bscSession=null;render('predictions')}
 async function submitCommunityPrediction(predictionId,teamId){const {data:{session}}=await supabaseClient.auth.getSession();if(!session){render('predictions');return}const {error}=await supabaseClient.from('prediction_entries').insert({prediction_id:predictionId,user_id:session.user.id,predicted_winner_team_id:teamId,points:0});alert(error?error.message:'Prediction saved. Points are assigned after the verified match result.');}
