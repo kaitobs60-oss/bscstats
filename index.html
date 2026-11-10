@@ -308,7 +308,10 @@ if(page==='predictions'){
  '<div class="card" style="margin-top:14px"><div class="sectionhead"><h3>Community leaderboard</h3><span class="tag">Weekly · Monthly · All-time</span></div><div class="empty">The leaderboard will activate when user accounts and completed prediction outcomes are available.</div></div>';
 }
 if(page==='draftbot'){c='<div class="card"><h3>Draft preparation</h3><p class="muted">Seleziona modalità, mappa e posizione. I suggerimenti qui sotto sono spunti generali, non una predizione basata su statistiche verificate.</p><div class="filters"><select class="field" id="dbMode"><option value="">Select mode</option><option>Gem Grab</option><option>Brawl Ball</option><option>Heist</option><option>Knockout</option><option>Hot Zone</option><option>Bounty</option></select><select class="field" id="dbMap"><option value="">Select map</option><option>Undermine</option><option>Dueling Beetles</option><option>Kaboom Canyon</option><option>Dry Season</option><option>Safe Zone</option><option>Hideout</option></select><select class="field" id="dbPosition"><option value="">Draft position</option><option>First Pick</option><option>Last Pick</option></select></div><button class="btn primary" onclick="generateDraft()">Generate draft ideas</button><div id="draftOutput"></div></div>'+demo}
-document.getElementById('content').innerHTML=c;\nif(page==='teams') wireTeamFilters();\nif(page==='players') wirePlayerFilters();\nif(page==='scrims') wireScrimFilters();
+document.getElementById('content').innerHTML=c;
+if(page==='teams') wireTeamFilters();
+if(page==='players') wirePlayerFilters();
+if(page==='scrims') wireScrimFilters();
 }
 
 function wireTeamFilters(){
