@@ -337,9 +337,13 @@ function openPlayer(name){const p=players.find(x=>x[0]===name);if(!p)return;docu
 async function communitySignIn(){const email=document.getElementById('communityEmail')?.value.trim(),status=document.getElementById('communityAuthStatus');if(!email){if(status)status.textContent='Enter a valid email address.';return}const {error}=await supabaseClient.auth.signInWithOtp({email,options:{emailRedirectTo:window.location.href}});if(status)status.textContent=error?error.message:'Sign-in link sent. Check your email.'}
 async function communitySignOut(){await supabaseClient.auth.signOut();window.bscSession=null;render('predictions')}
 async function submitCommunityPrediction(predictionId,teamId){const {data:{session}}=await supabaseClient.auth.getSession();if(!session){render('predictions');return}const {error}=await supabaseClient.from('prediction_entries').insert({prediction_id:predictionId,user_id:session.user.id,predicted_winner_team_id:teamId,points:0});alert(error?error.message:'Prediction saved. Points are assigned after the verified match result.');}
-\nfunction vote(btn){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('primary'));btn.classList.add('primary');}
+
+function vote(btn){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('primary'));btn.classList.add('primary');}
 document.getElementById('nav').addEventListener('click',e=>{const n=e.target.closest('[data-page]');if(n)render(n.dataset.page)});render('overview');
-window.bscPredictions=[];window.bscSession=null;\nsupabaseClient.auth.getSession().then(({data})=>{window.bscSession=data.session;});\nsupabaseClient.auth.onAuthStateChange((_event,session)=>{window.bscSession=session;});\nasync function loadBscStatsData(){
+window.bscPredictions=[];window.bscSession=null;
+supabaseClient.auth.getSession().then(({data})=>{window.bscSession=data.session;});
+supabaseClient.auth.onAuthStateChange((_event,session)=>{window.bscSession=session;});
+async function loadBscStatsData(){
   const badge=document.querySelector('.top .pill');
   try{
     const {data:t,error:te}=await supabaseClient.from('teams').select('id,slug,name,region').order('name');
