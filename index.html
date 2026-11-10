@@ -55,6 +55,8 @@ let players=[];
 let picks=[];
 let bans=[];
 let dbScrims=[];
+let dbTournaments=[];
+let dbMatches=[];
 let currentPage='overview';
 const pages={
 overview:['Home','The home of competitive Brawl Stars.'],
@@ -113,18 +115,17 @@ if(page==='scrims'){
  '<div class="card" style="margin-top:14px"><h3>Scrim ingestion</h3><p class="muted">The collector should submit each set once, map both teams and retain the source battle-log reference. Local-only entries are not included in public statistics.</p></div>';
 }
 if(page==='tournaments'){
- c='<div class="filters"><select class="field" id="eventSelect"><option>World Finals</option><option>Monthly Finals</option><option>Brawl Cup</option><option>Last Chance Qualifier</option><option>Community tournaments</option></select><select class="field" id="eventRegion"><option>All regions</option><option>EMEA</option><option>North America</option><option>South America</option><option>APAC</option></select><select class="field"><option>2026 season</option><option>2025 season</option></select></div>'+
- '<div class="grid">'+card('EVENTS','—','Official event records')+card('MATCHES','—','Verified match records')+card('BRACKETS','—','Awaiting event feed')+card('REGIONS','4','EMEA · NA · SA · APAC')+'</div>'+
- '<div class="card"><div class="sectionhead"><h3>Competition calendar</h3><span class="tag">2026</span></div><div class="empty">No verified tournament fixtures have been imported yet. The event selector and bracket views are ready for the official data feed.</div></div>'+
- '<div class="two" style="margin-top:14px"><div class="card"><h3>World Finals format</h3><p class="muted">Group stage 1 → Group stage 2 → Playoffs. Team names and match progression will populate from verified brackets.</p><div class="empty">No group standings loaded.</div></div><div class="card"><h3>Regional finals</h3><p class="muted">Monthly Finals, LCQ and Brawl Cup archive with region, stage and match detail.</p><div class="empty">No event results loaded.</div></div></div>';
+ c='<div class="filters"><select class="field"><option>All seasons</option><option>2026</option><option>2025</option></select><select class="field"><option>All regions</option><option>EMEA</option><option>North America</option><option>South America</option><option>APAC</option></select><select class="field"><option>All event types</option><option>Monthly Finals</option><option>Brawl Cup</option><option>LCQ</option><option>World Finals</option></select></div>'+
+ '<div class="grid">'+card('TOURNAMENTS',dbTournaments.length,'Verified event records')+card('OFFICIAL MATCHES',dbMatches.length,'Verified match records')+card('REGIONS',new Set(dbTournaments.map(x=>x.region).filter(Boolean)).size,'Regions represented')+card('SEASONS',new Set(dbTournaments.map(x=>x.season).filter(Boolean)).size,'Recorded seasons')+'</div>'+
+ '<div class="card"><div class="sectionhead"><h3>Tournament archive</h3><span class="tag">Verified data</span></div>'+(dbTournaments.length?table(['EVENT','SEASON','REGION','TYPE','DATES'],dbTournaments.map(t=>['<b>'+t.name+'</b>',t.season||'—',t.region||'—',t.event_type||'—',(t.starts_on||'—')+' → '+(t.ends_on||'—')])):'<div class="empty">No verified tournaments imported yet.</div>')+'</div>'+
+ '<div class="card" style="margin-top:14px"><div class="sectionhead"><h3>Latest official matches</h3><span class="tag">Verified only</span></div>'+(dbMatches.length?table(['DATE','MATCH','RESULT','STAGE'],dbMatches.slice(0,30).map(m=>[(m.played_at||'').slice(0,10),(m.teams?.name||'Team A')+' vs '+(m.opponent?.name||'Team B'),'<b>'+m.score_a+' – '+m.score_b+'</b>',m.stage||'—'])):'<div class="empty">No official match results available.</div>')+'</div>';
 }
-
 if(page==='brackets'){
- c='<div class="filters"><select class="field" id="bracketEvent"><option>World Finals</option><option>Monthly Finals</option><option>Brawl Cup</option><option>Last Chance Qualifier</option></select><select class="field" id="bracketRegion"><option>All regions</option><option>EMEA</option><option>North America</option><option>South America</option><option>APAC</option></select><select class="field"><option>2026</option><option>2025</option></select></div>'+
- '<div class="card"><div class="sectionhead"><h3>World Finals 2026 · Group stage 1</h3><span class="tag">Two-stage format</span></div><div class="bracketEmpty">Team groups and match progression will load from verified tournament data.</div></div>'+
- '<div class="card" style="margin-top:14px"><div class="sectionhead"><h3>World Finals 2026 · Group stage 2</h3><span class="tag">Stage 2</span></div><div class="bracketEmpty">Qualified teams and standings will appear after the official bracket is imported.</div></div>'+
- '<div class="card" style="margin-top:14px"><h3>Playoffs</h3><div class="bracketEmpty">Quarter-finals · Semi-finals · Grand Final — awaiting official bracket records.</div></div>'+
- '<div class="notice">No team names or match outcomes are fabricated. Bracket connectors and standings will be populated from verified event sources.</div>';
+ const stages=[...new Set(dbMatches.map(m=>m.stage).filter(Boolean))];
+ c='<div class="filters"><select class="field"><option>World Finals</option><option>Monthly Finals</option><option>Brawl Cup</option><option>Last Chance Qualifier</option></select><select class="field"><option>All regions</option><option>EMEA</option><option>North America</option><option>South America</option><option>APAC</option></select><select class="field"><option>2026</option><option>2025</option></select></div>'+
+ '<div class="grid">'+card('OFFICIAL MATCHES',dbMatches.length,'Verified bracket results')+card('STAGES',stages.length,'Stages found in data')+card('EVENTS',dbTournaments.length,'Tournament archive')+card('FORMAT','2 GROUP STAGES','World Finals structure')+'</div>'+
+ (stages.length?stages.map(stage=>'<div class="card" style="margin-bottom:14px"><div class="sectionhead"><h3>'+stage+'</h3><span class="tag">Official matches</span></div>'+table(['DATE','MATCH','RESULT'],dbMatches.filter(m=>m.stage===stage).map(m=>[(m.played_at||'').slice(0,10),(m.teams?.name||'Team A')+' vs '+(m.opponent?.name||'Team B'),'<b>'+m.score_a+' – '+m.score_b+'</b>']))+'</div>').join(''):'<div class="card"><div class="sectionhead"><h3>World Finals 2026 · Group stage 1</h3><span class="tag">Group stage 1</span></div><div class="bracketEmpty">Team groups and match progression will load from verified tournament data.</div></div><div class="card" style="margin-top:14px"><div class="sectionhead"><h3>World Finals 2026 · Group stage 2</h3><span class="tag">Group stage 2</span></div><div class="bracketEmpty">Qualified teams and standings will appear after the official bracket is imported.</div></div><div class="card" style="margin-top:14px"><h3>Playoffs</h3><div class="bracketEmpty">Quarter-finals · Semi-finals · Grand Final — awaiting official bracket records.</div></div>')+
+ '<div class="notice">No team names or match outcomes are fabricated. Bracket connectors and standings populate from verified event sources.</div>';
 }
 if(page==='leaderboards'){
  const records={};dbScrims.forEach(s=>{const a=s.teams?.name||'Team A',b=s.opponent?.name||'Team B';if(!records[a])records[a]={w:0,l:0};if(!records[b])records[b]={w:0,l:0};if(s.score_a>s.score_b){records[a].w++;records[b].l++}else if(s.score_b>s.score_a){records[b].w++;records[a].l++}});
@@ -185,11 +186,13 @@ window.bscPredictions=[];window.bscSession=null;\nsupabaseClient.auth.getSession
     if(pe) throw pe;
     const {data:s,error:se}=await supabaseClient.from('scrims').select('id,played_at,score_a,score_b,teams!scrims_team_a_id_fkey(name),opponent:teams!scrims_team_b_id_fkey(name)').order('played_at',{ascending:false}).limit(100);
     if(se) throw se;
+    const {data:ts,error:tse}=await supabaseClient.from('tournaments').select('id,slug,name,season,region,event_type,starts_on,ends_on').order('starts_on',{ascending:false});if(tse)throw tse;
+    const {data:ms,error:mse}=await supabaseClient.from('matches').select('id,played_at,score_a,score_b,stage,teams!matches_team_a_id_fkey(name),opponent:teams!matches_team_b_id_fkey(name)').order('played_at',{ascending:false}).limit(300);if(mse)throw mse;
     const {data:d,error:de}=await supabaseClient.from('draft_picks').select('brawler,pick_type').order('brawler');
     if(de) throw de;
     teams=(t||[]).map(x=>[x.name||x.slug,'—',x.region||'—','—']);
     players=(p||[]).map(x=>[x.nickname,x.teams?.name||'—','—',x.nationality||'—']);
-    dbScrims=s||[];
+    dbScrims=s||[];dbTournaments=ts||[];dbMatches=ms||[];
     const totals={};
     (d||[]).forEach(x=>{const k=x.brawler+'|'+x.pick_type;totals[k]=(totals[k]||0)+1});
     picks=Object.entries(totals).map(([k,total])=>{const [brawler,pick_type]=k.split('|');return {brawler,pick_type,total}}).sort((a,b)=>b.total-a.total);
