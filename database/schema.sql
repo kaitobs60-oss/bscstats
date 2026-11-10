@@ -222,3 +222,42 @@ grant select on public.teams, public.players, public.roster_history, public.tour
 grant select on public.prediction_entries, public.fantasy_rosters, public.fantasy_roster_players to authenticated;
 grant insert on public.prediction_entries to authenticated;
 grant select, insert, update, delete on public.fantasy_rosters, public.fantasy_roster_players to authenticated;
+
+
+-- Final hardening pass: remove permissive legacy policies and keep points server-controlled.
+drop policy if exists "users insert own prediction entries" on public.prediction_entries;
+drop policy if exists "users update own prediction entries" on public.prediction_entries;
+drop policy if exists "public read predictions" on public.predictions;
+drop policy if exists "users read own prediction entries" on public.prediction_entries;
+create policy "users read own prediction entries" on public.prediction_entries
+  for select to authenticated using ((select auth.uid()) = user_id);
+drop policy if exists "users submit own open prediction" on public.prediction_entries;
+create policy "users submit own open prediction" on public.prediction_entries
+  for insert to authenticated with check (
+    (select auth.uid()) = user_id and points = 0 and exists (
+      select 1 from public.predictions p join public.matches m on m.id = p.match_id
+      where p.id = prediction_id and m.verified = true
+        and (p.closes_at is null or p.closes_at > now())
+        and predicted_winner_team_id in (m.team_a_id, m.team_b_id)
+    )
+  );
+drop policy if exists "users manage own fantasy rosters" on public.fantasy_rosters;
+create policy "users manage own fantasy rosters" on public.fantasy_rosters for all to authenticated
+  using ((select auth.uid()) = user_id) with check ((select auth.uid()) = user_id);
+drop policy if exists "users manage own fantasy roster players" on public.fantasy_roster_players;
+create policy "users manage own fantasy roster players" on public.fantasy_roster_players for all to authenticated
+  using (exists (select 1 from public.fantasy_rosters r where r.id = roster_id and r.user_id = (select auth.uid())))
+  with check (exists (select 1 from public.fantasy_rosters r where r.id = roster_id and r.user_id = (select auth.uid())));
+
+create index if not exists draft_picks_set_id_idx on public.draft_picks(set_id);
+create index if not exists draft_picks_team_id_idx on public.draft_picks(team_id);
+create index if not exists draft_picks_player_id_idx on public.draft_picks(player_id);
+create index if not exists match_sets_map_id_idx on public.match_sets(map_id);
+create index if not exists match_sets_winner_team_id_idx on public.match_sets(winner_team_id);
+create index if not exists predictions_match_id_idx on public.predictions(match_id);
+create index if not exists transfers_player_id_idx on public.transfers(player_id);
+create index if not exists transfers_from_team_id_idx on public.transfers(from_team_id);
+create index if not exists transfers_to_team_id_idx on public.transfers(to_team_id);
+create index if not exists prediction_entries_winner_team_idx on public.prediction_entries(predicted_winner_team_id);
+create index if not exists fantasy_roster_players_player_idx on public.fantasy_roster_players(player_id);
+create index if not exists fantasy_rosters_tournament_idx on public.fantasy_rosters(tournament_id);
