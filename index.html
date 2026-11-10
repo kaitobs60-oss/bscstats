@@ -117,16 +117,29 @@ footer{border-top:1px solid #211b2b;padding-top:15px;letter-spacing:.5px}
  .hubLinks button{padding:9px}.notice{font-size:8px}
 }
 
+
+/* Corestats-inspired dashboard structure with original BSCSTATS black/purple identity */
+.csTopline{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:4px 0 22px}.csPageTitle{font-size:30px;letter-spacing:-.8px;margin:5px 0}.csMetrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0 20px}.csMetric{background:#12101b;border:1px solid #302440;border-radius:10px;padding:17px 18px;display:flex;flex-direction:column;gap:7px}.csMetric span{font-size:10px;letter-spacing:1.2px;color:#a69bb7;font-weight:800}.csMetric b{font-size:29px;line-height:1.1}.csMetric small{font-size:11px;color:#8e849e}.csDashGrid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.csPanel{background:#111019;border:1px solid #2d243b;border-radius:11px;padding:17px;min-width:0}.csPanelWide{grid-column:auto}.csPanelHead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.csPanelHead h2{font-size:17px;margin:4px 0 0}.csPanelHead p{font-size:11px;margin:5px 0 0}.csRecent{display:grid}.csRecentRow{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:16px;padding:13px 2px;border-bottom:1px solid #282233}.csRecentRow:last-child{border-bottom:0}.csMatchMeta{display:flex;align-items:center;gap:10px;min-width:0}.csMatchMeta b{font-size:12px}.csMatchMeta span,.csRecentRow small{font-size:10px;color:#8f849e}.csRecentRow strong{font-size:14px;color:#d7c1ff;white-space:nowrap}.csQuickLinks{display:grid;gap:7px}.csQuickLinks button{background:#171321;border:1px solid #302640;color:#e9e1f4;border-radius:7px;padding:11px 12px;text-align:left;display:flex;justify-content:space-between}.csQuickLinks button:hover{border-color:#8f5be2;background:#211630}.csQuickLinks span,.textAction{color:#b58bff}.csFootnote{font-size:10px;color:#80768e;margin-top:17px;padding:12px 2px;border-top:1px solid #282233}
+@media(max-width:950px){.csDashGrid{grid-template-columns:1fr}.csMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.csTopline{display:block}.csTopline .pill{display:inline-block;margin-top:10px}.csPageTitle{font-size:23px}.csMetrics{grid-template-columns:1fr 1fr;gap:7px}.csMetric{padding:12px}.csMetric b{font-size:22px}.csPanel{padding:11px}.csRecentRow{grid-template-columns:1fr auto;gap:8px}.csRecentRow small{grid-column:1/-1}.csMatchMeta{gap:6px}.csMatchMeta b{font-size:10px}}
 </style>
 </head>
 <body><div class="shell">
-<aside class="side"><div class="brand"><div class="logo">B</div><div><b>BSCSTATS</b><small>COMPETITIVE INTELLIGENCE</small></div></div>
-<div class="navlabel">OVERVIEW</div><nav id="nav">
-<a class="nav active" data-page="overview"><span class="ico">⌂</span> Home</a>
-<div class="navlabel">COMPETITIVE</div>
-<a class="nav" data-page="teams"><span class="ico">♜</span> Teams & Rankings</a><a class="nav" data-page="players"><span class="ico">♙</span> Players & Pro Profiles</a><a class="nav" data-page="scrims"><span class="ico">⚔</span> Scrims & Results</a><a class="nav" data-page="tournaments"><span class="ico">🏆</span> Tournaments</a><a class="nav" data-page="brackets"><span class="ico">▦</span> Brackets</a><a class="nav" data-page="leaderboards"><span class="ico">♛</span> Leaderboards</a><a class="nav" data-page="draft"><span class="ico">◈</span> Draft Statistics</a><a class="nav" data-page="meta"><span class="ico">✦</span> Meta Tracker</a>
-<div class="navlabel">ANALYTICS</div><a class="nav" data-page="analytics"><span class="ico">⌁</span> Analytics & Comparisons</a><a class="nav" data-page="maps"><span class="ico">▧</span> Map Analytics</a><a class="nav" data-page="mvp"><span class="ico">★</span> MVP Rankings</a>
-<div class="navlabel">COMMUNITY</div><a class="nav" data-page="news"><span class="ico">▤</span> News & Transfers</a><a class="nav" data-page="fantasy"><span class="ico">♧</span> Fantasy League</a><a class="nav" data-page="predictions"><span class="ico">◎</span> Community Predictions</a><a class="nav" data-page="draftbot"><span class="ico">⌘</span> Draft Bot</a>
+<aside class="side"><div class="brand"><div class="logo">B</div><div><b>BSCSTATS</b><small>COMPETITIVE BRAWL STARS</small></div></div>
+<div class="navlabel">MAIN</div><nav id="nav">
+<a class="nav active" data-page="overview"><span class="ico">⌂</span> Dashboard</a>
+<a class="nav" data-page="scrims"><span class="ico">⚔</span> Scrims</a>
+<a class="nav" data-page="draft"><span class="ico">◈</span> Draft</a>
+<a class="nav" data-page="tournaments"><span class="ico">🏆</span> Tournaments</a>
+<a class="nav" data-page="brackets"><span class="ico">▦</span> Brackets</a>
+<a class="nav" data-page="teams"><span class="ico">♜</span> Teams</a>
+<a class="nav" data-page="players"><span class="ico">♙</span> Players</a>
+<a class="nav" data-page="leaderboards"><span class="ico">♛</span> Leaderboards</a>
+<a class="nav" data-page="analytics"><span class="ico">⌁</span> Head to Head</a>
+<a class="nav" data-page="meta"><span class="ico">✦</span> Meta</a>
+<div class="navlabel">MORE STATS</div>
+<a class="nav" data-page="maps"><span class="ico">▧</span> Map Statistics</a>
+<a class="nav" data-page="mvp"><span class="ico">★</span> Player Statistics</a>
 </nav></aside>
 <main class="main"><div class="top"><div><div class="eyebrow">BRAWL STARS ESPORTS DATABASE</div><div class="title" id="pageTitle">Competitive Overview</div><div class="sub" id="pageSub">Tutto il competitivo, in un unico posto.</div></div><span class="pill">● DEMO PREVIEW</span></div><div id="content"></div><footer>BSCSTATS • Fan-made competitive analytics concept • Dati dimostrativi, non ufficiali.</footer></main></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -166,14 +179,24 @@ function render(page){currentPage=page;document.querySelectorAll('.nav[data-page
 const demo='<div class="notice">Anteprima con dati dimostrativi. Le statistiche reali richiedono l’inserimento o l’importazione di risultati verificati da tornei e scrim: non vengono inventate né presentate come ufficiali.</div>';
 if(page==='overview'){
  const totalSets=dbScrims.length, teamCount=teams.length, playerCount=players.length;
- const recent=dbScrims.slice(0,5).map(x=>[(x.played_at||'').slice(0,10),'<b>'+(x.teams?.name||'Team A')+'</b><span class="matchVs">vs</span><b>'+(x.opponent?.name||'Team B')+'</b>','<b class="scoreText">'+x.score_a+' – '+x.score_b+'</b>']);
- const featured=[['♜','Teams & Rankings','Rosters, risultati e confronti','teams'],['♙','Pro Profiles','Carriere e statistiche dei player','players'],['⚔','Scrims','Match history e team activity','scrims'],['◈','Draft Statistics','Pick, ban e FP / LP','draft'],['✦','Meta Tracker','Brawler e trend competitivi','meta'],['◎','Community Predictions','Pronostici gratuiti e punti','predictions']];
- c='<section class="dashboardHero"><div class="heroTexture"></div><div class="heroMain"><div class="liveEyebrow"><span class="livePulse"></span> BRAWL STARS COMPETITIVE DATABASE <span class="seasonChip">2026 SEASON</span></div><h1>THE HOME OF<br><span>COMPETITIVE BRAWL.</span></h1><p>Every team. Every player. Every draft. Un’unica piattaforma per seguire il competitivo di Brawl Stars.</p><div class="heroActions"><button class="btn primary" onclick="render(\'scrims\')">Explore scrims <span>↗</span></button><button class="btn ghost" onclick="render(\'brackets\')">View tournaments</button></div></div><div class="heroMark"><div class="heroMarkRing"></div><div class="heroMarkCore">B<span>S</span></div><small>COMPETITIVE<br>INTELLIGENCE</small></div><div class="heroBottom"><span>BUILT FOR THE COMPETITIVE COMMUNITY</span><span>DATA-DRIVEN · COMMUNITY-POWERED</span></div></section>'+
- '<div class="dashSectionHead"><div><div class="eyebrow">DATABASE OVERVIEW</div><h2>Competitive at a glance</h2><p class="muted">Numeri aggiornati dai record presenti nel database.</p></div><span class="tag liveTag">LIVE DATABASE</span></div>'+
- '<div class="metricGrid"><div class="metricCard"><div class="metricTop"><span>TRACKED TEAMS</span><i>♜</i></div><strong>'+teamCount+'</strong><small>Teams in database</small></div><div class="metricCard"><div class="metricTop"><span>PRO PLAYERS</span><i>♙</i></div><strong>'+playerCount+'</strong><small>Registered profiles</small></div><div class="metricCard"><div class="metricTop"><span>SCRIM RECORDS</span><i>⚔</i></div><strong>'+totalSets+'</strong><small>Verified results</small></div><div class="metricCard"><div class="metricTop"><span>DRAFT RECORDS</span><i>◈</i></div><strong>'+picks.length+'</strong><small>Pick & ban entries</small></div></div>'+
- '<div class="dashColumns"><section class="dashPanel"><div class="panelHeading"><div><span class="eyebrow">MATCH CENTER</span><h3>Latest scrim results</h3></div><button class="textAction" onclick="render(\'scrims\')">VIEW ALL ↗</button></div>'+(recent.length?'<div class="matchList">'+recent.map(r=>'<div class="matchRow"><span class="matchDate">'+r[0]+'</span><div class="matchTeams">'+r[1]+'</div>'+r[2]+'</div>').join('')+'</div>':'<div class="emptyState"><div class="emptyIcon">⚔</div><b>No scrim data yet</b><span>I risultati verificati appariranno qui quando il database riceverà i primi record.</span></div>')+'</section>'+
- '<section class="dashPanel"><div class="panelHeading"><div><span class="eyebrow">EXPLORE BSCSTATS</span><h3>Competitive hub</h3></div><span class="panelCount">06 MODULES</span></div><div class="moduleGrid">'+featured.map((x,i)=>'<button class="moduleTile" onclick="render(\''+x[3]+'\')"><span class="moduleIcon">'+x[0]+'</span><span class="moduleCopy"><b>'+x[1]+'</b><small>'+x[2]+'</small></span><span class="moduleArrow">↗</span></button>').join('')+'</div></section></div>'+
- '<div class="bottomStrip"><div><span class="eyebrow">DATA TRANSPARENCY</span><h3>Real data. No fabricated stats.</h3><p>Le classifiche e le percentuali vengono mostrate solo quando esistono dati verificati sufficienti. I campi non ancora disponibili restano vuoti.</p></div><div class="dataStatus"><span class="statusOrb"></span><div><b>Database connection</b><small>Lo stato è indicato nella barra superiore.</small></div></div></div>';
+ const recent=dbScrims.slice(0,6);
+ const topPicks=(picks||[]).slice(0,8);
+ const teamRows=(teams||[]).slice(0,8).map((x,i)=>[String(i+1),'<b>'+x[0]+'</b>',x[2]||'—',x[1]||'—',x[3]||'—']);
+ const pickRows=topPicks.map((x,i)=>[String(i+1),'<b>'+x.brawler+'</b>',String(x.total||0),x.pick_type||'—','—']);
+ c='<div class="csTopline"><div><div class="eyebrow">BRAWL STARS ESPORTS DATA</div><h1 class="csPageTitle">Dashboard</h1><p class="muted">Competitive statistics, scrims and tournament results.</p></div><span class="pill">● BSCSTATS DATABASE</span></div>'+
+ '<div class="csMetrics">'+
+ '<div class="csMetric"><span>TOTAL SETS</span><b>'+totalSets+'</b><small>Recorded scrim sets</small></div>'+
+ '<div class="csMetric"><span>TEAMS</span><b>'+teamCount+'</b><small>Tracked teams</small></div>'+
+ '<div class="csMetric"><span>PRO PLAYERS</span><b>'+playerCount+'</b><small>Player directory</small></div>'+
+ '<div class="csMetric"><span>BRAWLER ENTRIES</span><b>'+picks.length+'</b><small>Recorded draft picks</small></div></div>'+
+ '<div class="csDashGrid"><section class="csPanel csPanelWide"><div class="csPanelHead"><div><span class="eyebrow">COMPETITIVE META</span><h2>Top Brawlers</h2></div><button class="textAction" onclick="render(\'meta\')">VIEW META ↗</button></div>'+
+ (pickRows.length?table(['#','Brawler','Picks','Type','Win rate'],pickRows):'<div class="empty">No brawler statistics available yet.</div>')+'</section>'+
+ '<section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">TEAM DIRECTORY</span><h2>Teams</h2></div><button class="textAction" onclick="render(\'teams\')">VIEW ALL ↗</button></div>'+
+ (teamRows.length?table(['#','Team','Region','W-L','Win rate'],teamRows):'<div class="empty">No teams have been added yet.</div>')+'</section>'+
+ '<section class="csPanel csPanelWide"><div class="csPanelHead"><div><span class="eyebrow">MATCH CENTER</span><h2>Recent Scrims</h2><p class="muted">Latest completed competitive sets.</p></div><button class="textAction" onclick="render(\'scrims\')">VIEW ALL ↗</button></div>'+
+ (recent.length?'<div class="csRecent">'+recent.map(x=>'<div class="csRecentRow"><div class="csMatchMeta"><b>'+(x.teams?.name||'Team A')+'</b><span>vs</span><b>'+(x.opponent?.name||'Team B')+'</b></div><strong>'+(x.score_a??'—')+' – '+(x.score_b??'—')+'</strong><small>'+((x.played_at||'').slice(0,10)||'—')+'</small></div>').join('')+'</div>':'<div class="empty">No scrim results recorded yet.</div>')+'</section>'+
+ '<section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">COMPETITIONS</span><h2>Explore</h2></div></div><div class="csQuickLinks"><button onclick="render(\'tournaments\')">Tournaments <span>↗</span></button><button onclick="render(\'brackets\')">Championship Brackets <span>↗</span></button><button onclick="render(\'leaderboards\')">Leaderboards <span>↗</span></button><button onclick="render(\'analytics\')">Head to Head <span>↗</span></button></div></section></div>'+
+ '<div class="csFootnote">Statistics are shown only when supported by records in the BSCSTATS database. Missing values are not estimated.</div>';
 }
 if(page==='teams'){
  const ranked=teams.map(t=>({name:t[0],roster:t[1],region:t[2],sets:dbScrims.filter(s=>(s.teams?.name||'')===t[0]||(s.opponent?.name||'')===t[0]).length})).sort((a,b)=>b.sets-a.sets);
