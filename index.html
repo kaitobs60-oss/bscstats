@@ -151,6 +151,13 @@ footer{border-top:1px solid #211b2b;padding-top:15px;letter-spacing:.5px}
 .csEventStrip b{font-size:8px;color:#c6a8ef;letter-spacing:1.2px}.csLiveDot{width:6px;height:6px;border-radius:50%;background:#9b62ff;box-shadow:0 0 8px #9b62ff}.csStripRight{margin-left:auto}.csStripRight strong{color:#ddd3e8;font-weight:600}
 .csNavGroup{padding:10px 12px}.csNavGroup>span{white-space:nowrap}.csDropdown{z-index:100;top:calc(100% + 5px);left:0;right:auto;min-width:190px}.csDropdown .nav{padding:10px 12px}
 @media(max-width:700px){.csEventStrip{padding:0 12px;font-size:8px}.csStripRight{display:none}.csNavGroup{padding:9px 10px}}
+
+/* Scrims module: denser competitive dashboard layout */
+.csRecentRow{grid-template-columns:minmax(0,1fr) auto 86px}
+.csRecentRow small{text-align:right;white-space:nowrap}
+.csPanel .bars{margin-top:10px}
+.csPanel .tablewrap{margin-top:8px}
+@media(max-width:700px){.csRecentRow{grid-template-columns:minmax(0,1fr) auto}.csRecentRow small{grid-column:1/-1;text-align:left}.csPanel .csPanelHead h2{font-size:15px}}
 </style>
 </head>
 <body><div class="shell">
@@ -222,14 +229,26 @@ if(page==='players'){
  '<div class="card"><div class="sectionhead"><h3>Professional player directory</h3><span class="tag">Verified roster data</span></div>'+(players.length?table(['PLAYER','CURRENT TEAM','NATIONALITY','PLAYER ELO','PROFILE'],players.map(p=>['<b>'+p[0]+'</b>',p[1],p[3]||'—','<span class="muted">—</span>','<button class="btn" onclick="openPlayer(\''+String(p[0]).replace(/'/g,"\\'")+'\')">View profile ↗</button>'])):'<div class="empty">No player profiles have been imported yet.</div>')+'</div>';
 }
 if(page==='scrims'){
- const allScrims=dbScrims.map(x=>({date:(x.played_at||'').slice(0,10),a:x.teams?.name||'Team A',b:x.opponent?.name||'Team B',sa:x.score_a,sb:x.score_b,verified:true}));
- const activity={};allScrims.forEach(x=>{activity[x.a]=(activity[x.a]||0)+1;activity[x.b]=(activity[x.b]||0)+1});
+ const allScrims=dbScrims.map(x=>({id:x.id,date:(x.played_at||'').slice(0,10),a:x.teams?.name||'Team A',b:x.opponent?.name||'Team B',sa:Number(x.score_a),sb:Number(x.score_b),played:x.played_at||''}));
+ const activity={};const matchups={};
+ allScrims.forEach(x=>{activity[x.a]=(activity[x.a]||0)+1;activity[x.b]=(activity[x.b]||0)+1;const key=[x.a,x.b].sort().join('::');matchups[key]=(matchups[key]||0)+1});
  const active=Object.entries(activity).sort((a,b)=>b[1]-a[1])[0];
- c='<div class="filters"><input class="field" id="scrimSearch" placeholder="Search team..."><select class="field"><option>All regions</option><option>EMEA</option><option>North America</option><option>South America</option><option>APAC</option></select><select class="field"><option>All time</option><option>Last 30 days</option><option>Last 7 days</option></select></div>'+
- '<div class="grid">'+card('RECORDED SETS',allScrims.length,'Verified database records')+card('ACTIVE TEAMS',Object.keys(activity).length,'Teams with scrims')+card('MOST ACTIVE',active?active[0]:'—',active?active[1]+' recorded sets':'No data')+card('LAST UPDATE',allScrims[0]?.date||'—','Latest recorded result')+'</div>'+
- '<div class="two"><div class="card"><div class="sectionhead"><h3>Recent scrims</h3><span class="tag">Verified only</span></div>'+(allScrims.length?table(['DATE','MATCH','RESULT'],allScrims.map(x=>[x.date,'<b>'+x.a+'</b> vs <b>'+x.b+'</b>','<b>'+x.sa+' – '+x.sb+'</b>'])):'<div class="empty">No verified scrims in Supabase yet. The collector still needs to send records to the database.</div>')+'</div>'+
- '<div class="card"><div class="sectionhead"><h3>Most active teams</h3></div>'+(active?bars(Object.entries(activity).sort((a,b)=>b[1]-a[1]).slice(0,8).map(x=>[x[0],Math.round(x[1]/active[1]*100)])):'<div class="empty">Activity rankings will appear after the first verified scrim.</div>')+'</div></div>'+
- '<div class="card" style="margin-top:14px"><h3>Scrim ingestion</h3><p class="muted">The collector should submit each set once, map both teams and retain the source battle-log reference. Local-only entries are not included in public statistics.</p></div>';
+ const totalWins=allScrims.filter(x=>Number.isFinite(x.sa)&&Number.isFinite(x.sb)&&x.sa!==x.sb).length;
+ const recent=allScrims.slice(0,20);
+ c='<div class="filters"><input class="field" id="scrimSearch" placeholder="Search team or opponent..."><select class="field" id="scrimPeriod"><option value="all">All time</option><option value="30">Last 30 days</option><option value="7">Last 7 days</option></select><select class="field" id="scrimRegion"><option value="">All regions</option><option>EMEA</option><option>North America</option><option>South America</option><option>APAC</option></select></div>'+
+ '<div class="csMetrics">'+
+ '<div class="csMetric"><span>RECORDED SETS</span><b>'+allScrims.length+'</b><small>Verified database records</small></div>'+
+ '<div class="csMetric"><span>ACTIVE TEAMS</span><b>'+Object.keys(activity).length+'</b><small>Teams with recorded sets</small></div>'+
+ '<div class="csMetric"><span>MOST ACTIVE TEAM</span><b style="font-size:22px">'+(active?active[0]:'—')+'</b><small>'+(active?active[1]+' recorded sets':'No data yet')+'</small></div>'+
+ '<div class="csMetric"><span>RECENT SETS</span><b>'+recent.length+'</b><small>Latest records shown below</small></div></div>'+
+ '<div class="csDashGrid"><section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">LIVE DATABASE</span><h2>Recent scrims</h2><p class="muted">Practice sets recorded from verified team battle logs</p></div><span class="tag">Latest '+recent.length+'</span></div>'+
+ '<div class="csRecent" id="scrimRows">'+(recent.length?recent.map(x=>'<div class="csRecentRow"><div class="csMatchMeta"><b>'+x.a+'</b><span>vs</span><b>'+x.b+'</b></div><strong>'+(Number.isFinite(x.sa)&&Number.isFinite(x.sb)?x.sa+' – '+x.sb:'—')+'</strong><small>'+x.date+'</small></div>').join(''):'<div class="empty">No verified scrims in Supabase yet. Once the collector sends verified sets, they will appear here.</div>')+'</div></section>'+
+ '<section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">ACTIVITY</span><h2>Most active teams</h2><p class="muted">Ranked by recorded sets</p></div></div>'+
+ (active?bars(Object.entries(activity).sort((a,b)=>b[1]-a[1]).slice(0,10).map(x=>[x[0],Math.round(x[1]/active[1]*100)])):'<div class="empty">Activity rankings will appear after the first verified scrim.</div>')+
+ '<div class="csFootnote">Only records stored in the BSCSTATS database are counted. Missing results are not estimated.</div></section></div>'+
+ '<div class="csDashGrid" style="margin-top:14px"><section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">HEAD TO HEAD</span><h2>Team matchups</h2><p class="muted">Most frequently recorded pairings</p></div></div>'+
+ (Object.keys(matchups).length?table(['MATCHUP','RECORDED SETS'],Object.entries(matchups).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([k,v])=>['<b>'+k.split('::').join(' vs ')+'</b>',v])):'<div class="empty">Team matchup records will appear when scrims are imported.</div>')+'</section>'+
+ '<section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">DATA PIPELINE</span><h2>Scrim collection</h2></div></div><p class="muted">BSCSTATS displays recorded practice sets after they are received, checked and matched to known team rosters. Unverified or local-only entries are excluded from public statistics.</p><div class="notice">No invented scores, team Elo or win rates. Those metrics will be calculated only when the required verified history is available.</div></section></div>';
 }
 if(page==='tournaments'){
  c='<div class="filters"><select class="field"><option>All seasons</option><option>2026</option><option>2025</option></select><select class="field"><option>All regions</option><option>EMEA</option><option>North America</option><option>South America</option><option>APAC</option></select><select class="field"><option>All event types</option><option>Monthly Finals</option><option>Brawl Cup</option><option>LCQ</option><option>World Finals</option></select></div>'+
