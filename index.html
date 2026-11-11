@@ -198,7 +198,7 @@ body{background:#050505;color:#f5f5f5;background-image:none}.side{background:#05
 
 /* Scrims page — compact Corestats-style results feed */
 .csScrimToolbar{display:flex;align-items:end;gap:10px;padding:0 0 18px;margin:0 0 18px;border-bottom:1px solid #242424;background:transparent;border-radius:0}
-.csScrimFilters{display:grid;grid-template-columns:1.05fr .8fr 1fr 1.5fr;gap:10px;width:100%}
+.csScrimFilters{display:grid;grid-template-columns:1fr 1fr 1.5fr;gap:10px;width:100%}
 .csScrimFilters label{display:grid;gap:7px;color:#929292;font-size:10px;font-weight:750;letter-spacing:.7px}
 .csScrimFilters .field{width:100%;min-width:0;height:42px;font-size:12px;background:#0c0c0c;border:1px solid #292929;border-radius:9px;color:#eee;padding:0 12px}
 .csScrimFeedHead{display:flex;align-items:center;justify-content:space-between;margin:2px 0 12px}
@@ -331,11 +331,9 @@ if(page==='scrims'){
  const recent=allScrims.slice().sort((a,b)=>b.played.localeCompare(a.played));
  const qs=new URLSearchParams(location.search);
  const selectedDate=qs.get('date')||'';
- const selectedTier=qs.get('tier')||'';
  const teamOptions=[...new Set(allScrims.flatMap(x=>[x.a,x.b]))].sort();
  c='<div class="csScrimToolbar"><div class="csScrimFilters">'+
  '<label>DATE<input class="field" type="date" id="scrimDateFilter" value="'+selectedDate+'" onchange="applyScrimFilters()"></label>'+
- '<label>TIER<select class="field" id="scrimTierFilter" onchange="applyScrimFilters()"><option value="">All tiers</option><option value="S" '+(selectedTier==='S'?'selected':'')+'>S</option><option value="A" '+(selectedTier==='A'?'selected':'')+'>A</option><option value="B" '+(selectedTier==='B'?'selected':'')+'>B</option></select></label>'+
  '<label>REGION<select class="field" id="scrimRegion" onchange="applyScrimFilters()"><option value="">All regions</option><option>EMEA</option><option>North America</option><option>South America</option><option>EA</option><option>CINA</option></select></label>'+
  '<label>SEARCH<input class="field" id="scrimSearch" placeholder="Search teams..." oninput="applyScrimFilters()"></label></div></div>'+
  '<div class="csScrimFeedHead"><h2>Recent Scrims</h2><small id="scrimCount">'+recent.length+' RESULTS</small></div>'+
