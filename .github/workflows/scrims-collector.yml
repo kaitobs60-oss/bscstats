@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: "*/5 * * * *"
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/scrims-collector.yml"
+      - "scripts/collect-scrims.mjs"
 
 permissions:
   contents: read
