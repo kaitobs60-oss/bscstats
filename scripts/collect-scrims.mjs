@@ -25,6 +25,12 @@ const roster = [
   { team: "TH", nickname: "Marco", tag: "#Q22ULY99J" },
   { team: "TH", nickname: "iKaoss", tag: "#PCPRPJV" },
   { team: "TH", nickname: "Subeme", tag: "#89VC2CGCJ" },
+  { team: "ZETA DIVISION", nickname: "Sitetampo", tag: "#8Y98Q8U" },
+  { team: "ZETA DIVISION", nickname: "Batman", tag: "#P0Y8JGL0U" },
+  { team: "ZETA DIVISION", nickname: "Sizuku", tag: "#P90RJQ8C" },
+  { team: "Team Elektros", nickname: "Memen", tag: "#PJPPY9LRC" },
+  { team: "Team Elektros", nickname: "Snoyi", tag: "#YUJ8PJ0LR" },
+  { team: "Team Elektros", nickname: "Doin", tag: "#8CRU0PQRQ" },
 ];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
