@@ -10,27 +10,54 @@ if (!API_KEY || !SUPABASE_URL || !SERVICE_KEY) {
 }
 
 const roster = [
+  // World Finals 2026 — Corestats pro team roster tags
   { team: "FUT", nickname: "Angelboy", tag: "#9PCV9L982" },
-  { team: "FUT", nickname: "Guesti", tag: "#2R0J1LJ9PP" },
+  { team: "FUT", nickname: "Guesti", tag: "#2R0JLJJ9PP" },
   { team: "FUT", nickname: "Nob", tag: "#P2808PRC" },
-  { team: "HMBLE", nickname: "Luki", tag: "#8V92UYCJ" },
-  { team: "HMBLE", nickname: "Boss", tag: "#V89Y2GP0" },
+
+  { team: "HMBLE", nickname: "Lukii", tag: "#8V92UYCJ" },
+  { team: "HMBLE", nickname: "BosS", tag: "#V89Y2GP0" },
   { team: "HMBLE", nickname: "Symantec", tag: "#YQUCCJ2" },
-  { team: "Jyro team", nickname: "Xenoxz", tag: "#Y28PL2Q0V" },
-  { team: "Jyro team", nickname: "Fade", tag: "#2RCR2GJCL2" },
-  { team: "Jyro team", nickname: "Jyro", tag: "#P90GVUV80" },
-  { team: "Reason Esports", nickname: "Ducky", tag: "#20P2GP99" },
-  { team: "Reason Esports", nickname: "Swarm", tag: "#R0PRVCUL" },
-  { team: "Reason Esports", nickname: "David", tag: "#88PL8L2JC" },
-  { team: "TH", nickname: "Marco", tag: "#Q22ULY99J" },
-  { team: "TH", nickname: "iKaoss", tag: "#PCPRPJV" },
-  { team: "TH", nickname: "Subeme", tag: "#89VC2CGCJ" },
+
+  { team: "Team Heretics", nickname: "Marco", tag: "#Q22ULY9JY" },
+  { team: "Team Heretics", nickname: "iKaoss", tag: "#PCPRPJV" },
+  { team: "Team Heretics", nickname: "Subeme", tag: "#89VC2CGCJ" },
+
   { team: "ZETA DIVISION", nickname: "Sitetampo", tag: "#8Y98Q8U" },
   { team: "ZETA DIVISION", nickname: "Batman", tag: "#P0Y8JGL0U" },
   { team: "ZETA DIVISION", nickname: "Sizuku", tag: "#P90RJQ8C" },
-  { team: "Team Elektros", nickname: "Memen", tag: "#PJPPY9LRC" },
-  { team: "Team Elektros", nickname: "Snoyi", tag: "#YUJ8PJ0LR" },
+
+  { team: "Team Elektros", nickname: "Memxn", tag: "#PJPPY9LRC" },
+  { team: "Team Elektros", nickname: "Snoiy", tag: "#YUJ8PJ0LR" },
   { team: "Team Elektros", nickname: "Doin", tag: "#8CRU0PQRQ" },
+
+  { team: "Tribe Gaming", nickname: "Lxffy", tag: "#82RCQCVG" },
+  { team: "Tribe Gaming", nickname: "Diegogamer", tag: "#QLCJGQUP" },
+  { team: "Tribe Gaming", nickname: "R B M", tag: "#U9GC8G02" },
+
+  { team: "Bounty Hunters Allu", nickname: "Prozy", tag: "#GYCYCLRJL" },
+  { team: "Bounty Hunters Allu", nickname: "Portox", tag: "#YGQYGCR" },
+  { team: "Bounty Hunters Allu", nickname: "Wesley", tag: "#PLLRJC2V" },
+
+  { team: "RED Canids", nickname: "Jubileubr", tag: "#GVYLVUGR" },
+  { team: "RED Canids", nickname: "Cauebr", tag: "#JQ8L0YYL" },
+  { team: "RED Canids", nickname: "Mohtep", tag: "#R2LR2QLG" },
+
+  { team: "Crazy Raccoon", nickname: "Tensai", tag: "#9ULYPV8" },
+  { team: "Crazy Raccoon", nickname: "Moya", tag: "#UR2UL8YR" },
+  { team: "Crazy Raccoon", nickname: "Milkreo", tag: "#20C0LL00" },
+
+  { team: "Reply Totem", nickname: "Maru", tag: "#2Q892QVU" },
+  { team: "Reply Totem", nickname: "Maury", tag: "#82RGU8PR" },
+  { team: "Reply Totem", nickname: "Joker", tag: "#9JCG0VY8U" },
+
+  { team: "NOVO Esports", nickname: "MeOw", tag: "#90JCYPQU" },
+  { team: "NOVO Esports", nickname: "Filippo", tag: "#9PQQ8GQQ" },
+  { team: "NOVO Esports", nickname: "Jus", tag: "#JJ92RGPL" },
+
+  { team: "Natus Vincere", nickname: "GeRo", tag: "#2VJCCCQGP" },
+  { team: "Natus Vincere", nickname: "Enraged", tag: "#80PVPCC29" },
+  { team: "Natus Vincere", nickname: "Nowy297", tag: "#22CL00PG0" },
 ];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
