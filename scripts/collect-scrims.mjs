@@ -14,7 +14,7 @@ const roster = [
   { team: "FUT", nickname: "Guesti", tag: "#2ROJ1LJ9PP" },
   { team: "FUT", nickname: "Nob", tag: "#P2808PRC" },
   { team: "HMBLE", nickname: "Luki", tag: "#8V92UYCJ" },
-  { team: "HMBLE", nickname: "Boss", tag: "#V89Y2GP0" },
+  { team: "HMBLE", nickname: "Boss", tagCandidates: ["#V89Y2GP0", "#V89Y2GPO"] },
   { team: "HMBLE", nickname: "Symantec", tag: "#YQUCCJ2" },
 ];
 
@@ -50,22 +50,51 @@ function fingerprint(item, players) {
   return crypto.createHash("sha256").update(seed).digest("hex");
 }
 
-async function getBattleLog(player) {
-  const url = `${API_BASE}/players/${encodeURIComponent(player.tag)}/battlelog`;
-  const response = await fetch(url, {
+async function apiGet(path) {
+  return fetch(`${API_BASE}${path}`, {
     headers: { Authorization: `Bearer ${API_KEY}`, Accept: "application/json" },
     signal: AbortSignal.timeout(20000),
   });
+}
 
+async function resolvePlayerTag(player) {
+  if (!player.tagCandidates) return player;
+  const valid = [];
+  for (const tag of player.tagCandidates) {
+    const response = await apiGet(`/players/${encodeURIComponent(tag)}`);
+    if (response.ok) {
+      const profile = await response.json();
+      valid.push({ tag, name: profile.name || "" });
+    } else if (response.status !== 404) {
+      const body = (await response.text()).slice(0, 400);
+      throw new Error(`Player lookup failed for ${player.nickname}: HTTP ${response.status} ${body}`);
+    }
+  }
+  const named = valid.filter((entry) => entry.name.toLowerCase().includes(player.nickname.toLowerCase()));
+  const chosen = named.length === 1 ? named[0] : (valid.length === 1 ? valid[0] : null);
+  if (!chosen) {
+    throw new Error(`Could not uniquely verify Boss tag: tested zero and letter O; API matches: ${valid.map(v => `${v.tag}=${v.name}`).join(", ") || "none"}`);
+  }
+  console.log(`Verified Boss tag as ${chosen.tag} (API name: ${chosen.name}).`);
+  return { ...player, tag: chosen.tag };
+}
+
+async function getBattleLog(player) {
+  const response = await apiGet(`/players/${encodeURIComponent(player.tag)}/battlelog`);
   if (!response.ok) {
     const body = (await response.text()).slice(0, 400);
-    throw new Error(`Battle Log request failed for ${player.nickname}: HTTP ${response.status} ${body}`);
+    const error = new Error(`Battle Log request failed for ${player.nickname}: HTTP ${response.status} ${body}`);
+    error.status = response.status;
+    throw error;
   }
   return response.json();
 }
 
-for (const player of roster) {
-  const log = await getBattleLog(player);
+for (const rosterEntry of roster) {
+  let player;
+  try {
+    player = await resolvePlayerTag(rosterEntry);
+    const log = await getBattleLog(player);
   for (const item of (log.items || [])) {
     const battle = item.battle || {};
     // Friendly battles are the public Battle Log category used for practice/scrim candidates.
@@ -100,6 +129,13 @@ for (const player of roster) {
     const teams = [...new Set(row.tracked_players.map((p) => p.team))].sort();
     row.tracked_team = teams.join(" vs ");
     battleRows.set(id, row);
+    }
+  } catch (error) {
+    if (error.status === 404) {
+      console.warn(`Skipping ${rosterEntry.nickname}: player tag not found by the official API.`);
+    } else {
+      throw error;
+    }
   }
   await sleep(350);
 }
