@@ -418,7 +418,7 @@ supabaseClient.auth.onAuthStateChange((_event,session)=>{window.bscSession=sessi
 async function loadBscStatsData(){
   const badge=document.querySelector('.top .pill');
   try{
-    const {data:t,error:te}=await supabaseClient.from('teams').select('id,slug,name,region').neq('region','SCRIMS_ONLY').order('name');
+    const {data:t,error:te}=await supabaseClient.from('teams').select('id,slug,name,region').or('region.is.null,region.neq.SCRIMS_ONLY').order('name');
     if(te) throw te;
     const {data:p,error:pe}=await supabaseClient.from('players').select('id,nickname,nationality,current_team_id,teams(name)').order('nickname');
     if(pe) throw pe;
