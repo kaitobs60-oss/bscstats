@@ -11,10 +11,10 @@ if (!API_KEY || !SUPABASE_URL || !SERVICE_KEY) {
 
 const roster = [
   { team: "FUT", nickname: "Angelboy", tag: "#9PCV9L982" },
-  { team: "FUT", nickname: "Guesti", tag: "#2ROJ1LJ9PP" },
+  { team: "FUT", nickname: "Guesti", tag: "#2R0J1LJ9PP" },
   { team: "FUT", nickname: "Nob", tag: "#P2808PRC" },
   { team: "HMBLE", nickname: "Luki", tag: "#8V92UYCJ" },
-  { team: "HMBLE", nickname: "Boss", tagCandidates: ["#V89Y2GP0", "#V89Y2GPO"] },
+  { team: "HMBLE", nickname: "Boss", tag: "#V89Y2GP0" },
   { team: "HMBLE", nickname: "Symantec", tag: "#YQUCCJ2" },
 ];
 
@@ -58,25 +58,19 @@ async function apiGet(path) {
 }
 
 async function resolvePlayerTag(player) {
-  if (!player.tagCandidates) return player;
-  const valid = [];
-  for (const tag of player.tagCandidates) {
-    const response = await apiGet(`/players/${encodeURIComponent(tag)}`);
-    if (response.ok) {
-      const profile = await response.json();
-      valid.push({ tag, name: profile.name || "" });
-    } else if (response.status !== 404) {
-      const body = (await response.text()).slice(0, 400);
-      throw new Error(`Player lookup failed for ${player.nickname}: HTTP ${response.status} ${body}`);
-    }
+  // Supercell player tags use 0, never the letter O. Normalize common O/0 typing mistakes.
+  const tag = player.tag.toUpperCase().replace(/^#/, "").replace(/O/g, "0");
+  const normalizedTag = `#${tag}`;
+  const response = await apiGet(`/players/${encodeURIComponent(normalizedTag)}`);
+  if (!response.ok) {
+    const body = (await response.text()).slice(0, 400);
+    const error = new Error(`Player lookup failed for ${player.nickname} (${normalizedTag}): HTTP ${response.status} ${body}`);
+    error.status = response.status;
+    throw error;
   }
-  const named = valid.filter((entry) => entry.name.toLowerCase().includes(player.nickname.toLowerCase()));
-  const chosen = named.length === 1 ? named[0] : (valid.length === 1 ? valid[0] : null);
-  if (!chosen) {
-    throw new Error(`Could not uniquely verify Boss tag: tested zero and letter O; API matches: ${valid.map(v => `${v.tag}=${v.name}`).join(", ") || "none"}`);
-  }
-  console.log(`Verified Boss tag as ${chosen.tag} (API name: ${chosen.name}).`);
-  return { ...player, tag: chosen.tag };
+  const profile = await response.json();
+  console.log(`Verified ${player.nickname} as ${normalizedTag} (API name: ${profile.name || "unknown"}).`);
+  return { ...player, tag: normalizedTag };
 }
 
 async function getBattleLog(player) {
