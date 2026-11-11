@@ -263,6 +263,7 @@ for (const row of stored) {
   const firstTracked = (row.tracked_players || [])[0];
   if (!firstTracked) continue;
   const trackedSide = participants.find((p) => canonicalTag(p.tag || "") === canonicalTag(firstTracked.tag || ""))?.teamIndex;
+  if (trackedSide === undefined || ![sideA.side, sideB.side].includes(Number(trackedSide))) continue;
   const result = String(row.battle_data?.battle?.result || firstTracked.result || "").toLowerCase();
   if (!["victory", "defeat", "draw"].includes(result)) continue;
   let winnerTeam = null;
