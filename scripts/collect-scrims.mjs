@@ -265,14 +265,19 @@ for (const row of stored) {
   const trackedSide = participants.find((p) => canonicalTag(p.tag || "") === canonicalTag(firstTracked.tag || ""))?.teamIndex;
   const result = String(row.battle_data?.battle?.result || firstTracked.result || "").toLowerCase();
   if (!["victory", "defeat", "draw"].includes(result)) continue;
-  let winner = null;
-  if (result !== "draw") winner = result === "victory" ? Number(trackedSide) : (Number(trackedSide) === sideA.side ? sideB.side : sideA.side);
+  let winnerTeam = null;
+  if (result !== "draw") {
+    const winningSide = result === "victory"
+      ? Number(trackedSide)
+      : (Number(trackedSide) === sideA.side ? sideB.side : sideA.side);
+    winnerTeam = winningSide === sideA.side ? sideA.names[0] : sideB.names[0];
+  }
   candidates.push({
     battle_id: row.battle_id,
     played_at: row.battle_time,
     team_a: sideA.names[0],
     team_b: sideB.names[0],
-    winner,
+    winner_team: winnerTeam,
   });
 }
 candidates.sort((a, b) => new Date(a.played_at) - new Date(b.played_at));
@@ -285,8 +290,8 @@ for (const battle of candidates) {
   if (!previous || previous.pair_key !== pairKey || gap > 30) {
     series.push({
       pair_key: pairKey,
-      team_a: battle.team_a,
-      team_b: battle.team_b,
+      team_a: names[0],
+      team_b: names[1],
       first_played_at: battle.played_at,
       last_played_at: battle.played_at,
       score_a: 0,
@@ -297,18 +302,13 @@ for (const battle of candidates) {
   const current = series[series.length - 1];
   current.last_played_at = battle.played_at;
   current.battle_ids.push(battle.battle_id);
-  if (battle.winner !== null) {
-    if (battle.winner === 0 && battle.team_a === current.team_a) current.score_a++;
-    else if (battle.winner === 1 && battle.team_b === current.team_b) current.score_b++;
-    else if (battle.winner === 0 && battle.team_a === current.team_b) current.score_b++;
-    else if (battle.winner === 1 && battle.team_b === current.team_a) current.score_a++;
-  }
+  if (battle.winner_team === current.team_a) current.score_a++;
+  else if (battle.winner_team === current.team_b) current.score_b++;
 }
 const scrimRows = series.filter((s) => s.score_a + s.score_b > 0).map((s) => {
-  const ordered = [s.team_a, s.team_b].sort();
-  const teamA = ordered[0], teamB = ordered[1];
-  const scoreA = teamA === s.team_a ? s.score_a : s.score_b;
-  const scoreB = teamB === s.team_b ? s.score_b : s.score_a;
+  const teamA = s.team_a, teamB = s.team_b;
+  const scoreA = s.score_a;
+  const scoreB = s.score_b;
   return {
     source: `battlelog:${s.pair_key}:${s.first_played_at}`,
     played_at: s.first_played_at,
