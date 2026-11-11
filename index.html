@@ -337,34 +337,21 @@ if(page==='leaderboards'){
  const data={
  EMEA:[
   {n:'FUT Esports',p:766},{n:'HMBLE',p:594},{n:'Totem Esports',p:413},{n:'NOVO Esports',p:388},
-  {n:'Team Heretics',p:367},{n:'Natus Vincere',p:351},{n:'Kumalazawesta',p:337},{n:'BIG',p:336}
+  {n:'Team Heretics',p:367},{n:'Natus Vincere',p:351},{n:'Kumalazawesta',p:337},{n:'BIG',p:336},
+  {n:'Kebap',p:261},{n:'Fenris Gaming',p:245},{n:'Metizport',p:243},{n:'Reverso Hive',p:241},
+  {n:'FUT Esports Academy',p:240},{n:'SK Gaming',p:233},{n:'Madrid',p:231},{n:'Togrubi',p:213}
  ],
- NA:[
-  {n:'Tribe Gaming',p:584},{n:'Team Elektros',p:566},{n:'KDS Esports',p:414},{n:'Vatic Esports',p:402},
-  {n:'F/A Homeless',p:308},{n:'Legacy Esports',p:280},{n:'Utopia',p:254},{n:'Vic Day',p:241}
- ],
- SA:[
-  {n:'Bounty Hunters',p:573},{n:'RED Canids',p:518},{n:'LOUD',p:466},{n:'Olimpo Squad',p:375},
-  {n:'SKCalalas',p:342},{n:'OCX Division',p:315},{n:'Ninguem Segura',p:258},{n:'QuieroQueQue',p:235}
- ],
- EA:[
-  {n:'ZETA DIVISION',p:616},{n:'Crazy Raccoon',p:559},{n:'SKCalalas EA',p:352},{n:'Rival Esports',p:347},
-  {n:'FENNEL',p:293},{n:'IGNUM',p:253},{n:'INSOMNIA',p:230},{n:'Frenzy Esports',p:221}
- ],
- CHIN:[
-  {n:'Ace Xero',p:240},{n:'Toxic Lotus',p:240},{n:'Last Hope Fire',p:140},{n:'TOC',p:135},
-  {n:'TIG Revival',p:125},{n:'SMDY',p:75},{n:'IrisOut',p:65},{n:'Dark Spirit',p:30}
- ]
+ NA:[],SA:[],EA:[],CHIN:[]
  };
  const regions=['EMEA','NA','SA','EA','CHIN'];
  const rows=(data[leaderboardRegion]||[]).slice().sort((a,b)=>b.p-a.p);
  const stat=(v)=>v?'<b>'+v[0].toFixed(1)+'%</b><small>'+v[1]+'</small>':'<span class="lbNoData">—</span>';
  const regionButtons=regions.map(r=>'<button class="lbRegionBtn '+(leaderboardRegion===r?'active':'')+'" onclick="setLeaderboardRegion(\''+r+'\')">'+(r==='CHIN'?'CINA':r)+'</button>').join('');
- c='<div class="lbNativeHeader"><div><div class="lbEyebrow">BSCSTATS · 2026 CHAMPIONSHIP</div><h2>Regional Leaderboards</h2><p>Regional team ranking · Championship points from Liquipedia</p></div><span class="lbLive">LIQUIPEDIA DATA</span></div>'+
+ c='<div class="lbNativeHeader"><div><div class="lbEyebrow">BSCSTATS · 2026 CHAMPIONSHIP</div><h2>Regional Leaderboards</h2><p>2026 EMEA Top 16 · Position, team and total BSC Points</p></div><span class="lbLive">LIQUIPEDIA DATA</span></div>'+
  '<div class="lbTopbar"><div class="lbRegions">'+regionButtons+'</div><div class="lbSearchWrap"><input class="field" id="lbSearch" placeholder="Search teams..." oninput="filterLeaderboardRows(this.value)"></div></div>'+
- '<div class="lbTable card"><div class="lbTableHead"><span>#</span><span>Team</span><span>Points</span><span>Match</span><span>Set</span><span>Game</span></div>'+
- (rows.length?rows.map((r,i)=>'<div class="lbRow" data-search="'+r.n.toLowerCase().replace(/["<>]/g,'')+'"><span class="lbRank">'+(i+1)+'</span><span class="lbTeam">'+teamLogo(r.n)+'<b>'+r.n+'</b></span><span class="lbPoints">'+r.p+'</span><span class="lbStat">'+stat(r.m)+'</span><span class="lbStat">'+stat(r.s)+'</span><span class="lbStat">'+stat(r.g)+'</span></div>').join(''):'<div class="empty">No verified regional records are available yet.</div>')+
- '</div><div class="lbFootnote">2026 Brawl Stars Championship regional points sourced from Liquipedia. Match / Set / Game statistics are not included in this source. Teams without a verified logo use their initials.</div>';
+ '<div class="lbTable card"><div class="lbTableHead"><span>#</span><span>Team</span><span>BSC Points</span></div>'+
+ (rows.length?rows.map((r,i)=>'<div class="lbRow" data-search="'+r.n.toLowerCase().replace(/["<>]/g,'')+'"><span class="lbRank">'+(i+1)+'</span><span class="lbTeam">'+teamLogo(r.n)+'<b>'+r.n+'</b></span><span class="lbPoints">'+r.p+'</span></div>').join(''):'<div class="empty">No verified regional records are available yet.</div>')+
+ '</div><div class="lbFootnote">EMEA ranking and total BSC Points entered from the leaderboard data provided. Other regional lists will appear when their verified rankings are supplied. Teams without a verified logo use their initials.</div>';
 }
 if(page==='draft'){
  const pickRows=picks.filter(x=>x.pick_type==='pick'),banRows=picks.filter(x=>x.pick_type==='ban');
