@@ -22,6 +22,9 @@ const roster = [
   { team: "Reason Esports", nickname: "Ducky", tag: "#20P2GP99" },
   { team: "Reason Esports", nickname: "Swarm", tag: "#R0PRVCUL" },
   { team: "Reason Esports", nickname: "David", tag: "#88PL8L2JC" },
+  { team: "TH", nickname: "Marco", tag: "#Q22ULY99J" },
+  { team: "TH", nickname: "iKaoss", tag: "#PCPRPJV" },
+  { team: "TH", nickname: "Subeme", tag: "#89VC2CGCJ" },
 ];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
