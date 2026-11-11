@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   collect:
-    # Collector v3: battle logs -> map/mode sets -> scrim match scores
+    # Collector v4: best-of-three games -> sets -> 90-minute scrim sessions
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
