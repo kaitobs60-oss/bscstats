@@ -230,6 +230,7 @@ let players=[];
 let picks=[];
 let bans=[];
 let dbScrims=[];
+let dbScrimBattles=[];
 let dbTournaments=[];
 let dbMatches=[];
 let currentPage='overview';
@@ -311,6 +312,7 @@ if(page==='scrims'){
  '<div class="csSubPanel"><div class="csPanelHead"><div><span class="eyebrow">GAME MODES</span><h2>Modes played</h2></div></div>'+(Object.keys(modes).length?bars(Object.entries(modes).sort((a,b)=>b[1]-a[1]).map(x=>[x[0],Math.round(x[1]/Math.max(...Object.values(modes))*100)])):'<div class="empty">Mode breakdown will appear when mode data is included in scrim records.</div>')+'</div></section></div>'+
  '<div class="csScrimGrid lower"><section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">HEAD TO HEAD</span><h2>Team matchups</h2><p class="muted">Most frequently recorded opponents</p></div><span class="tag">MATCHUP MATRIX</span></div>'+(Object.keys(matchups).length?matchupMatrix:'<div class="empty">Matchup matrix will populate when team scrims are imported.</div>')+'</section>'+
  '<section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">DRAFT DATA</span><h2>Picks & bans</h2><p class="muted">Draft details attached to each scrim</p></div></div><div class="empty">Pick and ban details will appear when draft records are supplied for a scrim. They are not inferred from the Battle Log.</div></section></div>'+
+ '<section class="csPanel" style="margin-top:14px"><div class="csPanelHead"><div><span class="eyebrow">LIVE COLLECTION</span><h2>Recent friendly Battle Log captures</h2><p class="muted">Public Battle Log entries found on the tracked FUT and HMBLE players. Friendly matches are candidates, not automatically confirmed scrim sets.</p></div><span class="tag">'+dbScrimBattles.length+' CAPTURES</span></div>'+(dbScrimBattles.length?'<div class="tablewrap"><table><thead><tr><th>DATE / TIME</th><th>TRACKED TEAM</th><th>PLAYERS FOUND</th><th>MAP</th><th>MODE</th><th>PLAYERS / BRAWLERS</th></tr></thead><tbody>'+dbScrimBattles.slice(0,40).map(x=>'<tr><td>'+new Date(x.battle_time).toLocaleString('it-IT')+'</td><td><b>'+x.tracked_team+'</b></td><td>'+((x.tracked_players||[]).map(p=>p.nickname+' · '+p.team).join('<br>')||'—')+'</td><td>'+(x.map_name||'—')+'</td><td>'+(x.mode||'—')+'</td><td>'+((x.players||[]).map(p=>(p.name||p.tag||'Player')+(p.brawler?.name?' · '+p.brawler.name:'')).join('<br>')||'—')+'</td></tr>').join('')+'</tbody></table></div>':'<div class="empty">No friendly Battle Log entries collected yet. The collector will populate this feed after its first successful run.</div>')+'</section>'+
  '<div class="csFootnote">Filters only use fields currently stored in BSCSTATS. Tier, region, player and mode filters will become fully active as those fields are added to the scrim dataset. No picks, bans or scores are fabricated.</div>';
 }
 if(page==='tournaments'){
@@ -428,13 +430,15 @@ async function loadBscStatsData(){
     if(pe) throw pe;
     const {data:s,error:se}=await supabaseClient.from('scrims').select('id,played_at,score_a,score_b,teams!scrims_team_a_id_fkey(name),opponent:teams!scrims_team_b_id_fkey(name)').order('played_at',{ascending:false}).limit(100);
     if(se) throw se;
+    const {data:sb,error:sbe}=await supabaseClient.from('scrim_battles').select('battle_id,battle_time,map_name,mode,battle_type,tracked_team,tracked_players,players').order('battle_time',{ascending:false}).limit(100);
+    if(sbe) throw sbe;
     const {data:ts,error:tse}=await supabaseClient.from('tournaments').select('id,slug,name,season,region,event_type,starts_on,ends_on').order('starts_on',{ascending:false});if(tse)throw tse;
     const {data:ms,error:mse}=await supabaseClient.from('matches').select('id,played_at,score_a,score_b,stage,teams!matches_team_a_id_fkey(name),opponent:teams!matches_team_b_id_fkey(name)').order('played_at',{ascending:false}).limit(300);if(mse)throw mse;
     const {data:d,error:de}=await supabaseClient.from('draft_picks').select('brawler,pick_type').order('brawler');
     if(de) throw de;
     teams=(t||[]).map(x=>[x.name||x.slug,'—',x.region||'—','—']);
     players=(p||[]).map(x=>[x.nickname,x.teams?.name||'—','—',x.nationality||'—']);
-    dbScrims=s||[];dbTournaments=ts||[];dbMatches=ms||[];
+    dbScrims=s||[];dbScrimBattles=sb||[];dbTournaments=ts||[];dbMatches=ms||[];
     const totals={};
     (d||[]).forEach(x=>{const k=x.brawler+'|'+x.pick_type;totals[k]=(totals[k]||0)+1});
     picks=Object.entries(totals).map(([k,total])=>{const [brawler,pick_type]=k.split('|');return {brawler,pick_type,total}}).sort((a,b)=>b.total-a.total);
