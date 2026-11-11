@@ -464,7 +464,7 @@ function wirePlayerFilters(){const el=document.getElementById('playerSearch');el
 function applyScrimFilters(){
  const date=document.getElementById('scrimDateFilter')?.value||'',tier=document.getElementById('scrimTierFilter')?.value.toUpperCase()||'',region=document.getElementById('scrimRegion')?.value.toLowerCase()||'',q=document.getElementById('scrimSearch')?.value.toLowerCase()||'';
  const params=new URLSearchParams(location.search);if(date)params.set('date',date);else params.delete('date');const query=params.toString();history.replaceState(null,'',location.pathname+(query?'?'+query:''));
- let visible=0;document.querySelectorAll('#scrimRows .csScrimRow').forEach(row=>{const tierMatch=!tier||!row.dataset.tier||row.dataset.tier===tier;const ok=(!date||row.dataset.date===date)&&tierMatch&&(!region||(row.dataset.region||'').includes(region))&&(!q||row.dataset.teams.includes(q));row.style.display=ok?'':'none';if(ok)visible++});
+ let visible=0;document.querySelectorAll('#scrimRows .csScrimRow').forEach(row=>{const ok=(!date||row.dataset.date===date)&&(!region||(row.dataset.region||'').includes(region))&&(!q||row.dataset.teams.includes(q));row.style.display=ok?'':'none';if(ok)visible++});
  const count=document.getElementById('scrimCount');if(count)count.textContent=visible+' RESULTS';
 }
 function openScrimDetail(id){
