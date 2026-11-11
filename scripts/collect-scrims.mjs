@@ -67,6 +67,43 @@ const roster = [
 ];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function supabaseRest(path, options = {}) {
+  const response = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    ...options,
+    headers: {
+      apikey: SERVICE_KEY,
+      Authorization: `Bearer ${SERVICE_KEY}`,
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+    },
+    signal: AbortSignal.timeout(30000),
+  });
+  if (!response.ok) throw new Error(`Supabase ${path} failed: HTTP ${response.status} ${(await response.text()).slice(0, 700)}`);
+  const text = await response.text();
+  return text ? JSON.parse(text) : [];
+}
+
+const canonicalTag = (tag) => `#${tag.toUpperCase().replace(/^#/, "").replace(/O/g, "0")}`;
+const slugify = (name) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const teamNames = [...new Set(roster.map((p) => p.team))];
+const teamRows = await supabaseRest("teams?on_conflict=slug", {
+  method: "POST",
+  headers: { Prefer: "resolution=merge-duplicates,return=representation" },
+  body: JSON.stringify(teamNames.map((name) => ({ slug: slugify(name), name }))),
+});
+const teamIdByName = new Map(teamRows.map((team) => [team.name, team.id]));
+const playerRows = roster.map((player) => ({
+  tag: canonicalTag(player.tag),
+  nickname: player.nickname,
+  current_team_id: teamIdByName.get(player.team),
+}));
+await supabaseRest("players?on_conflict=tag", {
+  method: "POST",
+  headers: { Prefer: "resolution=merge-duplicates,return=minimal" },
+  body: JSON.stringify(playerRows),
+});
+
 const battleRows = new Map();
 
 function playersForBattle(battle) {
@@ -202,4 +239,91 @@ if (rows.length) {
   }
 }
 
-console.log(`Checked ${roster.length} players; upserted ${rows.length} unique friendly-battle records.`);
+// Rebuild team-vs-team scrim series from the captured friendly battles.
+const stored = await supabaseRest("scrim_battles?select=battle_id,battle_time,players,tracked_players,battle_data&order=battle_time.asc&limit=10000", {
+  headers: { Accept: "application/json" },
+});
+const teamByTag = new Map(roster.map((p) => [canonicalTag(p.tag), p.team]));
+const candidates = [];
+for (const row of stored) {
+  const participants = Array.isArray(row.players) ? row.players : [];
+  const groups = new Map();
+  for (const player of participants) {
+    const team = teamByTag.get(canonicalTag(player.tag || ""));
+    if (!team) continue;
+    const side = Number(player.teamIndex);
+    if (!groups.has(side)) groups.set(side, new Set());
+    groups.get(side).add(team);
+  }
+  if (groups.size !== 2) continue;
+  const sides = [...groups.entries()].map(([side, names]) => ({ side, names: [...names] }));
+  if (sides.some((side) => side.names.length !== 1)) continue;
+  const [sideA, sideB] = sides;
+  if (sideA.names[0] === sideB.names[0]) continue;
+  const firstTracked = (row.tracked_players || [])[0];
+  if (!firstTracked) continue;
+  const trackedSide = participants.find((p) => canonicalTag(p.tag || "") === canonicalTag(firstTracked.tag || ""))?.teamIndex;
+  const result = String(row.battle_data?.battle?.result || firstTracked.result || "").toLowerCase();
+  if (!["victory", "defeat", "draw"].includes(result)) continue;
+  let winner = null;
+  if (result !== "draw") winner = result === "victory" ? Number(trackedSide) : (Number(trackedSide) === sideA.side ? sideB.side : sideA.side);
+  candidates.push({
+    battle_id: row.battle_id,
+    played_at: row.battle_time,
+    team_a: sideA.names[0],
+    team_b: sideB.names[0],
+    winner,
+  });
+}
+candidates.sort((a, b) => new Date(a.played_at) - new Date(b.played_at));
+const series = [];
+for (const battle of candidates) {
+  const names = [battle.team_a, battle.team_b].sort();
+  const pairKey = names.join("::");
+  const previous = series[series.length - 1];
+  const gap = previous ? (new Date(battle.played_at) - new Date(previous.last_played_at)) / 60000 : Infinity;
+  if (!previous || previous.pair_key !== pairKey || gap > 30) {
+    series.push({
+      pair_key: pairKey,
+      team_a: battle.team_a,
+      team_b: battle.team_b,
+      first_played_at: battle.played_at,
+      last_played_at: battle.played_at,
+      score_a: 0,
+      score_b: 0,
+      battle_ids: [],
+    });
+  }
+  const current = series[series.length - 1];
+  current.last_played_at = battle.played_at;
+  current.battle_ids.push(battle.battle_id);
+  if (battle.winner !== null) {
+    if (battle.winner === 0 && battle.team_a === current.team_a) current.score_a++;
+    else if (battle.winner === 1 && battle.team_b === current.team_b) current.score_b++;
+    else if (battle.winner === 0 && battle.team_a === current.team_b) current.score_b++;
+    else if (battle.winner === 1 && battle.team_b === current.team_a) current.score_a++;
+  }
+}
+const scrimRows = series.filter((s) => s.score_a + s.score_b > 0).map((s) => {
+  const ordered = [s.team_a, s.team_b].sort();
+  const teamA = ordered[0], teamB = ordered[1];
+  const scoreA = teamA === s.team_a ? s.score_a : s.score_b;
+  const scoreB = teamB === s.team_b ? s.score_b : s.score_a;
+  return {
+    source: `battlelog:${s.pair_key}:${s.first_played_at}`,
+    played_at: s.first_played_at,
+    team_a_id: teamIdByName.get(teamA),
+    team_b_id: teamIdByName.get(teamB),
+    score_a: scoreA,
+    score_b: scoreB,
+    verified: false,
+  };
+}).filter((s) => s.team_a_id && s.team_b_id);
+if (scrimRows.length) {
+  await supabaseRest("scrims?on_conflict=source", {
+    method: "POST",
+    headers: { Prefer: "resolution=merge-duplicates,return=minimal" },
+    body: JSON.stringify(scrimRows),
+  });
+}
+console.log(`Checked ${roster.length} players; upserted ${rows.length} friendly battles; built ${scrimRows.length} team scrim series from captured results.`);
