@@ -91,6 +91,25 @@ create table if not exists public.scrims (
   verified boolean not null default false,
   created_at timestamptz not null default now()
 );
+
+-- Raw friendly Battle Log entries collected for tracked pro rosters.
+-- These are individual battle records, not verified set-level scrim scores.
+create table if not exists public.scrim_battles (
+  battle_id text primary key,
+  battle_time timestamptz not null,
+  event_id bigint,
+  map_name text,
+  mode text,
+  battle_type text not null,
+  tracked_team text not null,
+  tracked_players jsonb not null default '[]'::jsonb,
+  players jsonb not null default '[]'::jsonb,
+  battle_data jsonb not null default '{}'::jsonb,
+  source text not null default 'supercell_battlelog',
+  created_at timestamptz not null default now()
+);
+create index if not exists scrim_battles_battle_time_idx on public.scrim_battles (battle_time desc);
+create index if not exists scrim_battles_team_time_idx on public.scrim_battles (tracked_team, battle_time desc);
 create table if not exists public.transfers (
   id uuid primary key default gen_random_uuid(),
   player_id uuid not null references public.players(id),
@@ -152,6 +171,7 @@ alter table public.matches enable row level security;
 alter table public.match_sets enable row level security;
 alter table public.draft_picks enable row level security;
 alter table public.scrims enable row level security;
+alter table public.scrim_battles enable row level security;
 alter table public.transfers enable row level security;
 alter table public.news enable row level security;
 alter table public.predictions enable row level security;
@@ -178,6 +198,8 @@ drop policy if exists "public read verified matches" on public.matches;
 create policy "public read verified matches" on public.matches for select to anon, authenticated using (verified = true);
 drop policy if exists "public read verified scrims" on public.scrims;
 create policy "public read verified scrims" on public.scrims for select to anon, authenticated using (verified = true);
+drop policy if exists "public read scrim battle logs" on public.scrim_battles;
+create policy "public read scrim battle logs" on public.scrim_battles for select to anon, authenticated using (true);
 drop policy if exists "public read verified transfers" on public.transfers;
 create policy "public read verified transfers" on public.transfers for select to anon, authenticated using (verified = true);
 drop policy if exists "public read verified news" on public.news;
