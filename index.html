@@ -341,7 +341,17 @@ if(page==='leaderboards'){
   {n:'Kebap',p:261},{n:'Fenris Gaming',p:245},{n:'Metizport',p:243},{n:'Reverso Hive',p:241},
   {n:'FUT Esports Academy',p:240},{n:'SK Gaming',p:233},{n:'Madrid',p:231},{n:'Togrubi',p:213}
  ],
- NA:[],SA:[],EA:[],CHIN:[
+ NA:[],SA:[],EA:[
+  {n:'ZETA DIVISION',p:616,rank:1},{n:'Crazy Raccoon',p:559,rank:2},
+  {n:'SKCalalas EA',p:352,rank:3},{n:'Rival Esports',p:347,rank:4},
+  {n:'FENNEL',p:293,rank:5},{n:'IGNUM',p:253,rank:6},
+  {n:'INSOMNIA',p:230,rank:7},{n:'Frenzy Esports',p:221,rank:8},
+  {n:'REJECT',p:219,rank:9},{n:'AXIS e-Sports',p:199,rank:10},
+  {n:'Not Easy',p:159,rank:11},{n:'Team Falcons',p:144,rank:12},
+  {n:'モーティス絶対使わないです',p:140,rank:13},
+  {n:'モングラール建築',p:139,rank:14},{n:'Be Humble',p:138,rank:15},
+  {n:'私達の腰は相手が泣き出すまで止まりません',p:136,rank:16}
+ ],CHIN:[
   {n:'Ace Xero',p:240,rank:1},{n:'Toxic Lotus',p:240,rank:1},
   {n:'Last Hope Fire',p:140,rank:3},{n:'TOC',p:135,rank:4},
   {n:'TIG Revival',p:125,rank:5},{n:'SMDY',p:75,rank:6},
@@ -359,7 +369,7 @@ if(page==='leaderboards'){
  '<div class="lbTopbar"><div class="lbRegions">'+regionButtons+'</div><div class="lbSearchWrap"><input class="field" id="lbSearch" placeholder="Search teams..." oninput="filterLeaderboardRows(this.value)"></div></div>'+
  '<div class="lbTable card"><div class="lbTableHead"><span>#</span><span>Team</span><span>BSC Points</span></div>'+
  (rows.length?rows.map((r,i)=>'<div class="lbRow" data-search="'+r.n.toLowerCase().replace(/["<>]/g,'')+'"><span class="lbRank">'+(i+1)+'</span><span class="lbTeam">'+teamLogo(r.n)+'<b>'+r.n+'</b></span><span class="lbPoints">'+r.p+'</span></div>').join(''):'<div class="empty">No verified regional records are available yet.</div>')+
- '</div><div class="lbFootnote">EMEA Top 16 and China Top 14 entered from the leaderboard data provided. Other regional lists will appear when their verified rankings are supplied. Teams without a verified logo use their initials.</div>';
+ '</div><div class="lbFootnote">EMEA Top 16, East Asia Top 16 and China Top 14 entered from the leaderboard data provided. Other regional lists will appear when their verified rankings are supplied. Teams without a verified logo use their initials.</div>';
 }
 if(page==='draft'){
  const pickRows=picks.filter(x=>x.pick_type==='pick'),banRows=picks.filter(x=>x.pick_type==='ban');
