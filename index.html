@@ -181,6 +181,21 @@ body{background:#050505;color:#f5f5f5;background-image:none}.side{background:#05
 .side .navlabel{display:block!important;padding:25px 15px 12px!important;margin:0!important;color:#626262!important;font-size:16px!important;font-weight:700!important;line-height:1.2!important;letter-spacing:-.25px!important;text-transform:none!important}
 .side .navlabel:first-of-type{padding-top:25px!important}
 @media(max-width:760px){.side{width:min(82vw,420px)!important;max-width:420px!important;padding:18px 18px 24px!important}.side .nav{height:58px;min-height:58px}.side .nav span{font-size:21px!important}.side .navlabel{font-size:16px!important;padding-top:25px!important;padding-bottom:12px!important}}
+
+/* Scrims page: dense CoreStats-inspired layout */
+.csScrimToolbar{padding:14px;background:#0b0b0b;border:1px solid #252525;border-radius:14px;margin:0 0 14px}
+.csScrimFilters{display:grid;grid-template-columns:repeat(6,minmax(110px,1fr));gap:9px}
+.csScrimFilters label{display:grid;gap:6px;color:#777;font-size:9px;font-weight:800;letter-spacing:1px}
+.csScrimFilters .field{width:100%;min-width:0;height:40px;font-size:11px}
+.csScrimGrid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.75fr);gap:14px;margin-top:14px}
+.csScrimGrid.lower{grid-template-columns:minmax(0,1fr) minmax(280px,.8fr)}
+.csScrimRow{width:100%;display:grid;grid-template-columns:minmax(0,1fr) 90px minmax(0,1fr) 100px;align-items:center;gap:12px;padding:14px 8px;border:0;border-bottom:1px solid #222;background:transparent;color:#eee;text-align:left;cursor:pointer}
+.csScrimRow:hover{background:#151515}.csScrimRow>strong{text-align:center;font-size:17px;font-variant-numeric:tabular-nums}
+.csScrimTeam{display:flex;flex-direction:column;gap:4px;min-width:0}.csScrimTeam b{font-size:13px;overflow:hidden;text-overflow:ellipsis}.csScrimTeam small,.csScrimDate{font-size:9px;color:#777}.csScrimTeam.right{text-align:right}.csScrimDate{text-align:right}
+.csSubPanel{border-top:1px solid #242424;margin-top:20px;padding-top:16px}
+.csMatrixWrap{overflow:auto}.csMatrix{border-collapse:collapse;width:100%;min-width:440px}.csMatrix th,.csMatrix td{padding:10px;text-align:center;border-bottom:1px solid #242424;font-size:10px}.csMatrix th{color:#aaa;background:#111}.csMatrix td{color:#ddd}.csMatrix .matrixSelf{color:#555;background:#111}
+@media(max-width:1050px){.csScrimFilters{grid-template-columns:repeat(3,minmax(0,1fr))}.csScrimGrid,.csScrimGrid.lower{grid-template-columns:1fr}}
+@media(max-width:700px){.csScrimFilters{grid-template-columns:1fr 1fr;gap:7px}.csScrimToolbar{padding:9px}.csScrimRow{grid-template-columns:minmax(0,1fr) 65px minmax(0,1fr);gap:6px;padding:12px 2px}.csScrimRow>strong{font-size:13px}.csScrimTeam b{font-size:10px}.csScrimDate{grid-column:1/-1;text-align:left}.csScrimTeam small{font-size:7px}}
 </style>
 </head>
 <body><div class="shell">
@@ -268,26 +283,35 @@ if(page==='players'){
  '<div class="card"><div class="sectionhead"><h3>Professional player directory</h3><span class="tag">Verified roster data</span></div>'+(players.length?table(['PLAYER','CURRENT TEAM','NATIONALITY','PLAYER ELO','PROFILE'],players.map(p=>['<b>'+p[0]+'</b>',p[1],p[3]||'—','<span class="muted">—</span>','<button class="btn" data-player="'+encodeURIComponent(p[0])+'" onclick="openPlayer(decodeURIComponent(this.dataset.player))">View profile ↗</button>'])):'<div class="empty">No player profiles have been imported yet.</div>')+'</div>';
 }
 if(page==='scrims'){
- const allScrims=dbScrims.map(x=>({id:x.id,date:(x.played_at||'').slice(0,10),a:x.teams?.name||'Team A',b:x.opponent?.name||'Team B',sa:Number(x.score_a),sb:Number(x.score_b),played:x.played_at||''}));
- const activity={};const matchups={};
- allScrims.forEach(x=>{activity[x.a]=(activity[x.a]||0)+1;activity[x.b]=(activity[x.b]||0)+1;const key=[x.a,x.b].sort().join('::');matchups[key]=(matchups[key]||0)+1});
+ const allScrims=dbScrims.map(x=>({id:x.id,date:(x.played_at||'').slice(0,10),a:x.teams?.name||'Team A',b:x.opponent?.name||'Team B',sa:Number(x.score_a),sb:Number(x.score_b),played:x.played_at||'',raw:x}));
+ const activity={};const matchups={};const modes={};
+ allScrims.forEach(x=>{activity[x.a]=(activity[x.a]||0)+1;activity[x.b]=(activity[x.b]||0)+1;const key=[x.a,x.b].sort().join('::');matchups[key]=(matchups[key]||0)+1;const mode=x.raw.game_mode||x.raw.mode||x.raw.mode_name;if(mode)modes[mode]=(modes[mode]||0)+1});
  const active=Object.entries(activity).sort((a,b)=>b[1]-a[1])[0];
- const totalWins=allScrims.filter(x=>Number.isFinite(x.sa)&&Number.isFinite(x.sb)&&x.sa!==x.sb).length;
- const recent=allScrims.slice(0,20);
- c='<div class="filters"><input class="field" id="scrimSearch" placeholder="Search team or opponent..."><select class="field" id="scrimPeriod"><option value="all">All time</option><option value="30">Last 30 days</option><option value="7">Last 7 days</option></select><select class="field" id="scrimRegion"><option value="">All regions</option><option>EMEA</option><option>North America</option><option>South America</option><option>APAC</option></select></div>'+
+ const recent=allScrims.slice(0,50);
+ const teamNames=[...new Set(allScrims.flatMap(x=>[x.a,x.b]))].sort();
+ const dates=[...new Set(allScrims.map(x=>x.date).filter(Boolean))].sort().reverse();
+ const matchupTeams=Object.keys(activity).sort();
+ const matchupMatrix='<div class="csMatrixWrap"><table class="csMatrix"><thead><tr><th>TEAM</th>'+matchupTeams.map(t=>'<th>'+t+'</th>').join('')+'</tr></thead><tbody>'+matchupTeams.map(a=>'<tr><th>'+a+'</th>'+matchupTeams.map(b=>{if(a===b)return '<td class="matrixSelf">—</td>';const k=[a,b].sort().join('::');return '<td>'+(matchups[k]||'—')+'</td>'}).join('')+'</tr>').join('')+'</tbody></table></div>';
+ c='<div class="csScrimToolbar"><div class="csScrimFilters">'+
+ '<label>DATE<input class="field" type="date" id="scrimDateFilter" value="'+(new URLSearchParams(location.search).get('date')||'')+'" onchange="applyScrimFilters()"></label>'+
+ '<label>TIER<select class="field" id="scrimTierFilter" onchange="applyScrimFilters()"><option value="">All tiers</option><option>A</option><option>S</option><option value="A,S">A + S</option></select></label>'+
+ '<label>REGION<select class="field" id="scrimRegion" onchange="applyScrimFilters()"><option value="">All regions</option><option>EMEA</option><option>North America</option><option>South America</option><option>APAC</option></select></label>'+
+ '<label>TEAM<select class="field" id="scrimTeamFilter" onchange="applyScrimFilters()"><option value="">All teams</option>'+teamNames.map(t=>'<option>'+t+'</option>').join('')+'</select></label>'+
+ '<label>PLAYER<input class="field" id="scrimPlayerFilter" placeholder="Search player..." oninput="applyScrimFilters()"></label>'+
+ '<label>SEARCH<input class="field" id="scrimSearch" placeholder="Team or opponent..." oninput="applyScrimFilters()"></label></div></div>'+
  '<div class="csMetrics">'+
- '<div class="csMetric"><span>RECORDED SETS</span><b>'+allScrims.length+'</b><small>Verified database records</small></div>'+
- '<div class="csMetric"><span>ACTIVE TEAMS</span><b>'+Object.keys(activity).length+'</b><small>Teams with recorded sets</small></div>'+
- '<div class="csMetric"><span>MOST ACTIVE TEAM</span><b style="font-size:22px">'+(active?active[0]:'—')+'</b><small>'+(active?active[1]+' recorded sets':'No data yet')+'</small></div>'+
- '<div class="csMetric"><span>RECENT SETS</span><b>'+recent.length+'</b><small>Latest records shown below</small></div></div>'+
- '<div class="csDashGrid"><section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">LIVE DATABASE</span><h2>Recent scrims</h2><p class="muted">Practice sets recorded from verified team battle logs</p></div><span class="tag">Latest '+recent.length+'</span></div>'+
- '<div class="csRecent" id="scrimRows">'+(recent.length?recent.map(x=>'<div class="csRecentRow"><div class="csMatchMeta"><b>'+x.a+'</b><span>vs</span><b>'+x.b+'</b></div><strong>'+(Number.isFinite(x.sa)&&Number.isFinite(x.sb)?x.sa+' – '+x.sb:'—')+'</strong><small>'+x.date+'</small></div>').join(''):'<div class="empty">No verified scrims in Supabase yet. Once the collector sends verified sets, they will appear here.</div>')+'</div></section>'+
- '<section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">ACTIVITY</span><h2>Most active teams</h2><p class="muted">Ranked by recorded sets</p></div></div>'+
- (active?bars(Object.entries(activity).sort((a,b)=>b[1]-a[1]).slice(0,10).map(x=>[x[0],Math.round(x[1]/active[1]*100)])):'<div class="empty">Activity rankings will appear after the first verified scrim.</div>')+
- '<div class="csFootnote">Only records stored in the BSCSTATS database are counted. Missing results are not estimated.</div></section></div>'+
- '<div class="csDashGrid" style="margin-top:14px"><section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">HEAD TO HEAD</span><h2>Team matchups</h2><p class="muted">Most frequently recorded pairings</p></div></div>'+
- (Object.keys(matchups).length?table(['MATCHUP','RECORDED SETS'],Object.entries(matchups).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([k,v])=>['<b>'+k.split('::').join(' vs ')+'</b>',v])):'<div class="empty">Team matchup records will appear when scrims are imported.</div>')+'</section>'+
- '<section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">DATA PIPELINE</span><h2>Scrim collection</h2></div></div><p class="muted">BSCSTATS displays recorded practice sets after they are received, checked and matched to known team rosters. Unverified or local-only entries are excluded from public statistics.</p><div class="notice">No invented scores, team Elo or win rates. Those metrics will be calculated only when the required verified history is available.</div></section></div>';
+ '<div class="csMetric"><span>TOTAL SETS</span><b id="scrimTotal">'+allScrims.length+'</b><small>Records in BSCSTATS</small></div>'+
+ '<div class="csMetric"><span>TEAMS TRACKED</span><b>'+Object.keys(activity).length+'</b><small>Teams with recorded sets</small></div>'+
+ '<div class="csMetric"><span>MOST ACTIVE</span><b style="font-size:22px">'+(active?active[0]:'—')+'</b><small>'+(active?active[1]+' recorded appearances':'No records yet')+'</small></div>'+
+ '<div class="csMetric"><span>DATE RANGE</span><b style="font-size:18px">'+(dates.length?dates[dates.length-1]+' — '+dates[0]:'—')+'</b><small>Based on stored scrims</small></div></div>'+
+ '<div class="csScrimGrid"><section class="csPanel csPanelWide"><div class="csPanelHead"><div><span class="eyebrow">PRO COMPETITIVE</span><h2>Recent scrims</h2><p class="muted">Scrim sets recorded in the BSCSTATS database</p></div><span class="tag">LATEST 50</span></div>'+
+ '<div class="csRecent" id="scrimRows">'+(recent.length?recent.map(x=>'<button class="csScrimRow" data-date="'+x.date+'" data-a="'+x.a.toLowerCase()+'" data-b="'+x.b.toLowerCase()+'" data-teams="'+(x.a+' '+x.b).toLowerCase()+'" onclick="openScrimDetail(\''+String(x.id).replace(/'/g,'')+'\')"><span class="csScrimTeam"><b>'+x.a+'</b><small>TEAM A</small></span><strong>'+(Number.isFinite(x.sa)&&Number.isFinite(x.sb)?x.sa+' : '+x.sb:'— : —')+'</strong><span class="csScrimTeam right"><b>'+x.b+'</b><small>TEAM B</small></span><small class="csScrimDate">'+(x.date||'Date unavailable')+'</small></button>').join(''):'<div class="empty">No verified scrims have been imported yet.</div>')+'</div></section>'+
+ '<section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">ACTIVITY</span><h2>Most active teams</h2><p class="muted">Appearances in recorded sets</p></div></div>'+
+ (active?bars(Object.entries(activity).sort((a,b)=>b[1]-a[1]).slice(0,10).map(x=>[x[0],Math.round(x[1]/active[1]*100)])):'<div class="empty">Activity appears after scrim records are imported.</div>')+
+ '<div class="csSubPanel"><div class="csPanelHead"><div><span class="eyebrow">GAME MODES</span><h2>Modes played</h2></div></div>'+(Object.keys(modes).length?bars(Object.entries(modes).sort((a,b)=>b[1]-a[1]).map(x=>[x[0],Math.round(x[1]/Math.max(...Object.values(modes))*100)])):'<div class="empty">Mode breakdown will appear when mode data is included in scrim records.</div>')+'</div></section></div>'+
+ '<div class="csScrimGrid lower"><section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">HEAD TO HEAD</span><h2>Team matchups</h2><p class="muted">Most frequently recorded opponents</p></div><span class="tag">MATCHUP MATRIX</span></div>'+(Object.keys(matchups).length?matchupMatrix:'<div class="empty">Matchup matrix will populate when team scrims are imported.</div>')+'</section>'+
+ '<section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">DRAFT DATA</span><h2>Picks & bans</h2><p class="muted">Draft details attached to each scrim</p></div></div><div class="empty">Pick and ban details will appear when draft records are supplied for a scrim. They are not inferred from the Battle Log.</div></section></div>'+
+ '<div class="csFootnote">Filters only use fields currently stored in BSCSTATS. Tier, region, player and mode filters will become fully active as those fields are added to the scrim dataset. No picks, bans or scores are fabricated.</div>';
 }
 if(page==='tournaments'){
  c='<div class="filters"><select class="field"><option>All seasons</option><option>2026</option><option>2025</option></select><select class="field"><option>All regions</option><option>EMEA</option><option>North America</option><option>South America</option><option>APAC</option></select><select class="field"><option>All event types</option><option>Monthly Finals</option><option>Brawl Cup</option><option>LCQ</option><option>World Finals</option></select></div>'+
@@ -360,6 +384,20 @@ function wireTeamFilters(){
  ['teamSearch','teamRegion','teamSort'].forEach(id=>document.getElementById(id)?.addEventListener('input',apply));apply();
 }
 function wirePlayerFilters(){const el=document.getElementById('playerSearch');el?.addEventListener('input',()=>{const q=el.value.toLowerCase();document.querySelectorAll('#content tbody tr').forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none')})}
+
+function applyScrimFilters(){
+ const date=document.getElementById('scrimDateFilter')?.value||'',team=document.getElementById('scrimTeamFilter')?.value.toLowerCase()||'',q=document.getElementById('scrimSearch')?.value.toLowerCase()||'';
+ let visible=0;document.querySelectorAll('#scrimRows .csScrimRow').forEach(row=>{const ok=(!date||row.dataset.date===date)&&(!team||row.dataset.a===team||row.dataset.b===team)&&(!q||row.dataset.teams.includes(q));row.style.display=ok?'':'none';if(ok)visible++});
+ const total=document.getElementById('scrimTotal');if(total)total.textContent=visible;
+}
+function openScrimDetail(id){
+ const x=dbScrims.find(s=>String(s.id)===String(id));if(!x)return;
+ const a=x.teams?.name||'Team A',b=x.opponent?.name||'Team B';
+ const date=(x.played_at||'').slice(0,10)||'Date unavailable';
+ document.getElementById('pageTitle').textContent=a+' vs '+b;document.getElementById('pageSub').textContent='Scrim details · '+date;
+ document.getElementById('content').innerHTML='<button class="btn" onclick="render(\'scrims\')">← Back to scrims</button><div class="csPanel" style="margin-top:14px"><div class="eyebrow">SCRIM RESULT</div><h2 style="text-align:center;font-size:26px;margin:18px 0">'+a+'　'+x.score_a+' : '+x.score_b+'　'+b+'</h2><p class="muted" style="text-align:center">'+date+'</p><div class="csScrimGrid lower"><section><h3>Rosters & sets</h3><div class="empty">Player lineups and individual game sets have not been imported for this scrim.</div></section><section><h3>Draft · Picks & bans</h3><div class="empty">No verified draft records are attached to this scrim.</div></section></div></div>';
+}
+
 function wireScrimFilters(){const el=document.getElementById('scrimSearch');el?.addEventListener('input',()=>{const q=el.value.toLowerCase();document.querySelectorAll('#content tbody tr').forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none')})}
 function goCompare(){const a=document.getElementById('homeTeamA')?.value,b=document.getElementById('homeTeamB')?.value;if(!a||!b||a===b){alert('Select two different teams.');return}render('analytics');const aa=document.getElementById('compareTeamA'),bb=document.getElementById('compareTeamB');if(aa)aa.value=a;if(bb)bb.value=b;compareTeams()}
 function compareTeams(){
