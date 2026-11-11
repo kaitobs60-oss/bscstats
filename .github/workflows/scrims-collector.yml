@@ -17,16 +17,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-      - name: Collect World Finals teams plus Jyro and Reason Esports friendly battles
+      - name: Trigger secure Supabase scrim collector
         env:
           SUPERCELL_API_KEY: ${{ secrets.SUPERCELL_API_KEY }}
-          SUPABASE_URL: https://xjncfrxsnriyikfkpkbs.supabase.co
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          BRAWL_API_BASE_URL: https://bsproxy.royaleapi.dev/v1
-        run: node scripts/collect-scrims.mjs
+        run: |
+          if [ -z "$SUPERCELL_API_KEY" ]; then
+            echo "Missing SUPERCELL_API_KEY repository secret."
+            exit 1
+          fi
+          curl --fail-with-body --silent --show-error \
+            --request POST \
+            --header "x-supercell-api-key: $SUPERCELL_API_KEY" \
+            --header "Content-Type: application/json" \
+            --data '{}' \
+            "https://xjncfrxsnriyikfkpkbs.supabase.co/functions/v1/collect-scrims"
