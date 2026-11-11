@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Collect FUT, HMBLE and Jyro team friendly battles
+      - name: Collect FUT, HMBLE, Jyro team and Reason Esports friendly battles
         env:
           SUPERCELL_API_KEY: ${{ secrets.SUPERCELL_API_KEY }}
           SUPABASE_URL: https://xjncfrxsnriyikfkpkbs.supabase.co
