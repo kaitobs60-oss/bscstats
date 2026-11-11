@@ -172,7 +172,7 @@ async function getBattleLog(player) {
 for (const rosterEntry of roster) {
   let player;
   try {
-    player = await resolvePlayerTag(rosterEntry);
+    player = { ...rosterEntry, tag: canonicalTag(rosterEntry.tag) };
     const log = await getBattleLog(player);
   for (const item of (log.items || [])) {
     const battle = item.battle || {};
@@ -280,30 +280,39 @@ for (const row of stored) {
     winner_team: winnerTeam,
   });
 }
-candidates.sort((a, b) => new Date(a.played_at) - new Date(b.played_at));
-const series = [];
+const byPair = new Map();
 for (const battle of candidates) {
-  const names = [battle.team_a, battle.team_b].sort();
-  const pairKey = names.join("::");
-  const previous = series[series.length - 1];
-  const gap = previous ? (new Date(battle.played_at) - new Date(previous.last_played_at)) / 60000 : Infinity;
-  if (!previous || previous.pair_key !== pairKey || gap > 30) {
-    series.push({
-      pair_key: pairKey,
-      team_a: names[0],
-      team_b: names[1],
-      first_played_at: battle.played_at,
-      last_played_at: battle.played_at,
-      score_a: 0,
-      score_b: 0,
-      battle_ids: [],
-    });
+  const pairKey = [battle.team_a, battle.team_b].sort().join("::");
+  if (!byPair.has(pairKey)) byPair.set(pairKey, []);
+  byPair.get(pairKey).push(battle);
+}
+const series = [];
+for (const [pairKey, pairBattles] of byPair) {
+  pairBattles.sort((a, b) => new Date(a.played_at) - new Date(b.played_at));
+  for (const battle of pairBattles) {
+    const previous = series[series.length - 1];
+    const gap = previous && previous.pair_key === pairKey
+      ? (new Date(battle.played_at) - new Date(previous.last_played_at)) / 60000
+      : Infinity;
+    if (!previous || previous.pair_key !== pairKey || gap > 30) {
+      const names = [battle.team_a, battle.team_b].sort();
+      series.push({
+        pair_key: pairKey,
+        team_a: names[0],
+        team_b: names[1],
+        first_played_at: battle.played_at,
+        last_played_at: battle.played_at,
+        score_a: 0,
+        score_b: 0,
+        battle_ids: [],
+      });
+    }
+    const current = series[series.length - 1];
+    current.last_played_at = battle.played_at;
+    current.battle_ids.push(battle.battle_id);
+    if (battle.winner_team === current.team_a) current.score_a++;
+    else if (battle.winner_team === current.team_b) current.score_b++;
   }
-  const current = series[series.length - 1];
-  current.last_played_at = battle.played_at;
-  current.battle_ids.push(battle.battle_id);
-  if (battle.winner_team === current.team_a) current.score_a++;
-  else if (battle.winner_team === current.team_b) current.score_b++;
 }
 const scrimRows = series.filter((s) => s.score_a + s.score_b > 0).map((s) => {
   const teamA = s.team_a, teamB = s.team_b;
