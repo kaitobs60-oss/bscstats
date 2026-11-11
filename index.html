@@ -341,17 +341,25 @@ if(page==='leaderboards'){
   {n:'Kebap',p:261},{n:'Fenris Gaming',p:245},{n:'Metizport',p:243},{n:'Reverso Hive',p:241},
   {n:'FUT Esports Academy',p:240},{n:'SK Gaming',p:233},{n:'Madrid',p:231},{n:'Togrubi',p:213}
  ],
- NA:[],SA:[],EA:[],CHIN:[]
+ NA:[],SA:[],EA:[],CHIN:[
+  {n:'Ace Xero',p:240,rank:1},{n:'Toxic Lotus',p:240,rank:1},
+  {n:'Last Hope Fire',p:140,rank:3},{n:'TOC',p:135,rank:4},
+  {n:'TIG Revival',p:125,rank:5},{n:'SMDY',p:75,rank:6},
+  {n:'IrisOut',p:65,rank:7},{n:'Dark Spirit',p:30,rank:8},
+  {n:'olds bed early',p:30,rank:8},{n:'吴水水俱乐部',p:20,rank:10},
+  {n:'AWSL',p:15,rank:11},{n:'Mimimi',p:15,rank:11},
+  {n:'WID',p:15,rank:11},{n:'遥想公瑾当年',p:10,rank:14}
+ ]
  };
  const regions=['EMEA','NA','SA','EA','CHIN'];
  const rows=(data[leaderboardRegion]||[]).slice().sort((a,b)=>b.p-a.p);
  const stat=(v)=>v?'<b>'+v[0].toFixed(1)+'%</b><small>'+v[1]+'</small>':'<span class="lbNoData">—</span>';
  const regionButtons=regions.map(r=>'<button class="lbRegionBtn '+(leaderboardRegion===r?'active':'')+'" onclick="setLeaderboardRegion(\''+r+'\')">'+(r==='CHIN'?'CINA':r)+'</button>').join('');
- c='<div class="lbNativeHeader"><div><div class="lbEyebrow">BSCSTATS · 2026 CHAMPIONSHIP</div><h2>Regional Leaderboards</h2><p>2026 EMEA Top 16 · Position, team and total BSC Points</p></div><span class="lbLive">LIQUIPEDIA DATA</span></div>'+
+ c='<div class="lbNativeHeader"><div><div class="lbEyebrow">BSCSTATS · 2026 CHAMPIONSHIP</div><h2>Regional Leaderboards</h2><p>2026 Regional Top 16 · Position, team and total BSC Points</p></div><span class="lbLive">LIQUIPEDIA DATA</span></div>'+
  '<div class="lbTopbar"><div class="lbRegions">'+regionButtons+'</div><div class="lbSearchWrap"><input class="field" id="lbSearch" placeholder="Search teams..." oninput="filterLeaderboardRows(this.value)"></div></div>'+
  '<div class="lbTable card"><div class="lbTableHead"><span>#</span><span>Team</span><span>BSC Points</span></div>'+
  (rows.length?rows.map((r,i)=>'<div class="lbRow" data-search="'+r.n.toLowerCase().replace(/["<>]/g,'')+'"><span class="lbRank">'+(i+1)+'</span><span class="lbTeam">'+teamLogo(r.n)+'<b>'+r.n+'</b></span><span class="lbPoints">'+r.p+'</span></div>').join(''):'<div class="empty">No verified regional records are available yet.</div>')+
- '</div><div class="lbFootnote">EMEA ranking and total BSC Points entered from the leaderboard data provided. Other regional lists will appear when their verified rankings are supplied. Teams without a verified logo use their initials.</div>';
+ '</div><div class="lbFootnote">EMEA Top 16 and China Top 14 entered from the leaderboard data provided. Other regional lists will appear when their verified rankings are supplied. Teams without a verified logo use their initials.</div>';
 }
 if(page==='draft'){
  const pickRows=picks.filter(x=>x.pick_type==='pick'),banRows=picks.filter(x=>x.pick_type==='ban');
