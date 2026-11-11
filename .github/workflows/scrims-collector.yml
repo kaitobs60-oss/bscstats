@@ -28,5 +28,5 @@ jobs:
           SUPERCELL_API_KEY: ${{ secrets.SUPERCELL_API_KEY }}
           SUPABASE_URL: https://xjncfrxsnriyikfkpkbs.supabase.co
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          BRAWL_API_BASE_URL: ${{ vars.BRAWL_API_BASE_URL }}
+          BRAWL_API_BASE_URL: https://bsproxy.royaleapi.dev/v1
         run: node scripts/collect-scrims.mjs
