@@ -331,32 +331,9 @@ if(page==='brackets'){
  '<div class="notice">No team names or match outcomes are fabricated. Bracket connectors and standings populate from verified event sources.</div>';
 }
 if(page==='leaderboards'){
- const regions=['EMEA','North America','South America','EA'];
- const regionKey=v=>{const x=String(v||'').toLowerCase().replace(/[^a-z]/g,'');if(x==='na'||x==='northamerica')return 'North America';if(x==='sa'||x==='southamerica')return 'South America';if(x==='ea'||x==='eastasia'||x==='apac'||x==='asia')return 'EA';if(x==='emea'||x==='europe')return 'EMEA';return ''};
- const regionMatches=(a,b)=>regionKey(a)===b;
- const stats={};
- const add=(name)=>{if(name&&!stats[name])stats[name]={matchW:0,matchL:0,setW:0,setL:0,matches:0}};
- dbMatches.forEach(m=>{
-   const a=m.teams?.name||'',b=m.opponent?.name||'',ra=m.teams?.region||'',rb=m.opponent?.region||'';
-   const aIn=regionMatches(ra,leaderboardRegion),bIn=regionMatches(rb,leaderboardRegion);
-   if(!aIn&&!bIn)return;
-   if(aIn)add(a);if(bIn)add(b);
-   const sa=Number(m.score_a)||0,sb=Number(m.score_b)||0;
-   if(aIn){stats[a].matches++;stats[a].setW+=sa;stats[a].setL+=sb}
-   if(bIn){stats[b].matches++;stats[b].setW+=sb;stats[b].setL+=sa}
-   if(sa>sb){if(aIn)stats[a].matchW++;if(bIn)stats[b].matchL++}
-   else if(sb>sa){if(bIn)stats[b].matchW++;if(aIn)stats[a].matchL++}
- });
- let rows=Object.entries(stats).map(([name,r])=>({name,...r,points:leaderboardMode==='Match'?r.matchW:leaderboardMode==='Set'?r.setW:0})).sort((a,b)=>b.points-a.points||(leaderboardMode==='Match'?b.matches-a.matches:b.setW-b.setL)||a.name.localeCompare(b.name));
- const regionButtons=regions.map(r=>'<button class="lbRegionBtn '+(leaderboardRegion===r?'active':'')+'" onclick="setLeaderboardRegion(\''+r+'\')">'+r+'</button>').join('');
- const modeButtons=['Match','Set','Game'].map(m=>'<button class="lbModeBtn '+(leaderboardMode===m?'active':'')+'" onclick="setLeaderboardMode(\''+m+'\')">'+m+'</button>').join('');
- const gameUnavailable=leaderboardMode==='Game';
- const visible=gameUnavailable?[]:rows;
- c='<div class="lbTopbar"><div class="lbRegions">'+regionButtons+'</div><div class="lbModes">'+modeButtons+'</div></div>'+
-   '<div class="lbSearchWrap"><input class="field" id="lbSearch" placeholder="Search teams/players" oninput="filterLeaderboardRows(this.value)"></div>'+
-   '<div class="lbTable card"><div class="lbTableHead"><span>#</span><span>Team</span><span>Pts</span></div>'+
-   (visible.length?visible.map((r,i)=>'<div class="lbRow" data-search="'+r.name.toLowerCase().replace(/["<>]/g,'')+'"><span class="lbRank">'+(i+1)+'</span><span class="lbTeam">'+teamLogo(r.name)+'<b>'+r.name+'</b></span><span class="lbPoints">'+r.points+'</span></div>').join(''):'<div class="empty">'+(gameUnavailable?'Game-level official results are not imported yet.':'No verified official results for '+leaderboardRegion+'.')+'</div>')+
-   '</div><div class="lbFootnote">'+(leaderboardMode==='Match'?'Points = official match wins.':leaderboardMode==='Set'?'Points = sets won in official matches.':'Game-level points will appear when official game results are available.')+' Only official match records are used; scrims are excluded.</div>';
+ c='<div class="lbTopbar"><div><div style="font-size:11px;font-weight:850;letter-spacing:1.2px;color:#a98bd8">OFFICIAL BSC DATA</div><h2 style="margin:5px 0 4px">Regional Leaderboards</h2><div class="muted" style="font-size:12px">Live leaderboard powered by Corestats · Match / Set / Game · BSC Points</div></div><a class="btn" href="https://corestats.pro/leaderboards" target="_blank" rel="noopener">Open Corestats ↗</a></div>'+
+ '<div class="card" style="padding:0;overflow:hidden"><iframe title="Corestats Brawl Stars regional leaderboards" src="https://corestats.pro/leaderboards" loading="eager" referrerpolicy="strict-origin-when-cross-origin" style="display:block;width:100%;height:calc(100vh - 230px);min-height:820px;border:0;background:#09080f"></iframe></div>'+
+ '<div class="lbFootnote">The embedded Corestats page provides its own region selector, Match / Set / Game filters, search and pagination. If the embedded view is blocked by the source website, use “Open Corestats” to access the live leaderboard directly.</div>';
 }
 if(page==='draft'){
  const pickRows=picks.filter(x=>x.pick_type==='pick'),banRows=picks.filter(x=>x.pick_type==='ban');
