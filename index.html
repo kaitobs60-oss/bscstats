@@ -208,6 +208,9 @@ body{background:#050505;color:#f5f5f5;background-image:none}.side{background:#05
 /* Regional CoreStats-style leaderboards */
 .lbTopbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:4px 0 16px;flex-wrap:wrap}.lbRegions,.lbModes{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.lbRegionBtn,.lbModeBtn{border:1px solid #29233b;background:#100e18;color:#aaa1b8;border-radius:8px;padding:9px 13px;font-size:12px;font-weight:750}.lbRegionBtn.active,.lbModeBtn.active{background:#2a1b40;border-color:#8052b5;color:#fff;box-shadow:inset 0 0 0 1px #8052b544}.lbModes{padding:4px;border:1px solid #29233b;border-radius:10px;background:#0d0b14}.lbModeBtn{border:0;background:transparent}.lbModeBtn.active{background:#302044}.lbSearchWrap{margin:0 0 13px}.lbSearchWrap .field{width:100%;max-width:100%;height:42px}.lbTable{padding:0;overflow:hidden}.lbTableHead,.lbRow{display:grid;grid-template-columns:58px minmax(0,1fr) 90px;align-items:center;gap:12px;padding:13px 18px}.lbTableHead{background:#0d0b14;color:#948aa4;font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:850;border-bottom:1px solid #29233b}.lbTableHead span:last-child,.lbPoints{text-align:right}.lbRow{min-height:64px;border-bottom:1px solid #252031}.lbRow:last-child{border-bottom:0}.lbRank{color:#9a90a8;font-weight:800;font-variant-numeric:tabular-nums}.lbTeam{display:flex;align-items:center;gap:12px;min-width:0}.lbTeam b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lbTeam .csTeamLogoImg,.lbTeam .csTeamLogo{width:32px;height:32px;flex:0 0 32px}.lbPoints{font-size:17px;font-weight:900;font-variant-numeric:tabular-nums}.lbFootnote{margin:11px 2px 0;color:#777080;font-size:10px;line-height:1.5}
 @media(max-width:700px){.lbTopbar{align-items:stretch;gap:9px}.lbRegions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}.lbRegionBtn{padding:9px 6px;font-size:10px}.lbModes{width:max-content}.lbTableHead,.lbRow{grid-template-columns:30px minmax(0,1fr) 48px;padding:11px 9px;gap:7px}.lbTeam{gap:7px}.lbTeam b{font-size:10px}.lbTeam .csTeamLogoImg,.lbTeam .csTeamLogo{width:27px;height:27px;flex-basis:27px}.lbPoints{font-size:14px}}
+
+/* Native regional leaderboard */
+.lbNativeHeader{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:2px 0 18px}.lbNativeHeader h2{margin:5px 0;font-size:23px}.lbNativeHeader p{margin:0;color:#9b94ad;font-size:12px}.lbEyebrow{font-size:10px;letter-spacing:1.4px;font-weight:900;color:#b58aff}.lbLive{border:1px solid #553c79;background:#211632;color:#c6a8ff;padding:7px 10px;border-radius:8px;font-size:9px;font-weight:900;letter-spacing:.8px}.lbTopbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 14px;flex-wrap:wrap}.lbRegions{display:flex;gap:6px;flex-wrap:wrap}.lbRegionBtn{border:1px solid #29233b;background:#100e18;color:#aaa1b8;border-radius:8px;padding:9px 15px;font-size:12px;font-weight:800}.lbRegionBtn.active{background:#2a1b40;border-color:#8052b5;color:#fff}.lbSearchWrap{margin:0;min-width:220px;flex:1;max-width:340px}.lbSearchWrap .field{width:100%;max-width:100%;height:40px}.lbTable{padding:0;overflow:hidden}.lbTableHead,.lbRow{display:grid;grid-template-columns:42px minmax(150px,1.6fr) 76px repeat(3,minmax(100px,1fr));align-items:center;gap:10px;padding:12px 14px}.lbTableHead{background:#0d0b14;color:#948aa4;font-size:9px;text-transform:uppercase;letter-spacing:.9px;font-weight:900;border-bottom:1px solid #29233b}.lbTableHead span:nth-child(n+3){text-align:center}.lbRow{min-height:65px;border-bottom:1px solid #252031}.lbRow:last-child{border-bottom:0}.lbRank{color:#9a90a8;font-weight:800;font-variant-numeric:tabular-nums}.lbTeam{display:flex;align-items:center;gap:9px;min-width:0}.lbTeam b{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lbTeam .csTeamLogoImg,.lbTeam .csTeamLogo{width:30px;height:30px;flex:0 0 30px}.lbPoints{text-align:center;font-size:15px;font-weight:900;font-variant-numeric:tabular-nums}.lbStat{text-align:center;display:flex;flex-direction:column;gap:3px;font-variant-numeric:tabular-nums}.lbStat b{font-size:13px;color:#e8dcff}.lbStat small{font-size:9px;color:#938aa2}.lbNoData{color:#6e6679}.lbFootnote{margin:10px 2px 0;color:#777080;font-size:10px;line-height:1.5}@media(max-width:760px){.lbNativeHeader{align-items:flex-start}.lbNativeHeader h2{font-size:19px}.lbTopbar{align-items:stretch}.lbRegions{display:grid;grid-template-columns:repeat(4,1fr);width:100%}.lbRegionBtn{padding:9px 4px;font-size:10px}.lbSearchWrap{max-width:none;min-width:0}.lbTable{overflow-x:auto}.lbTableHead,.lbRow{min-width:680px;grid-template-columns:34px minmax(150px,1.5fr) 70px repeat(3,105px);padding:10px 9px;gap:6px}.lbTeam b{font-size:11px}.lbTeam .csTeamLogoImg,.lbTeam .csTeamLogo{width:26px;height:26px;flex-basis:26px}.lbStat b{font-size:12px}}
 </style>
 </head>
 <body><div class="shell">
@@ -331,9 +334,44 @@ if(page==='brackets'){
  '<div class="notice">No team names or match outcomes are fabricated. Bracket connectors and standings populate from verified event sources.</div>';
 }
 if(page==='leaderboards'){
- c='<div class="lbTopbar"><div><div style="font-size:11px;font-weight:850;letter-spacing:1.2px;color:#a98bd8">OFFICIAL BSC DATA</div><h2 style="margin:5px 0 4px">Regional Leaderboards</h2><div class="muted" style="font-size:12px">Live leaderboard powered by Corestats · Match / Set / Game · BSC Points</div></div><a class="btn" href="https://corestats.pro/leaderboards" target="_blank" rel="noopener">Open Corestats ↗</a></div>'+
- '<div class="card" style="padding:0;overflow:hidden"><iframe title="Corestats Brawl Stars regional leaderboards" src="https://corestats.pro/leaderboards" loading="eager" referrerpolicy="strict-origin-when-cross-origin" style="display:block;width:100%;height:calc(100vh - 230px);min-height:820px;border:0;background:#09080f"></iframe></div>'+
- '<div class="lbFootnote">The embedded Corestats page provides its own region selector, Match / Set / Game filters, search and pagination. If the embedded view is blocked by the source website, use “Open Corestats” to access the live leaderboard directly.</div>';
+ const data={
+ EMEA:[
+  {n:'FUT',p:766,m:[89.7,'35W–4L'],s:[82.8,'111W–23L'],g:[75.2,'231W–76L']},
+  {n:'HMB',p:594,m:[84.4,'27W–5L'],s:[70.7,'82W–34L'],g:[67.0,'183W–90L']},
+  {n:'Reply Totem',p:413,m:[69.0,'20W–9L'],s:[63.9,'69W–39L'],g:[59.8,'156W–105L']},
+  {n:'NOVO',p:388,m:[68.8,'22W–10L'],s:[62.6,'77W–46L'],g:[59.8,'174W–117L']},
+  {n:'Team Heretics',p:367,m:[67.9,'19W–9L'],s:[64.1,'66W–37L'],g:[62.4,'151W–91L']},
+  {n:'NAVI',p:351,m:[65.5,'19W–10L'],s:[61.5,'64W–40L'],g:[58.9,'149W–104L']},
+  {n:'F/A Kumalazawesta',p:337,m:[61.3,'19W–12L'],s:[61.4,'70W–44L'],g:[58.6,'154W–109L']},
+  {n:'BIG',p:336,m:[64.3,'18W–10L'],s:[59.2,'58W–40L'],g:[57.7,'131W–96L']},
+  {n:'F/A KEBAP',p:261,m:[52.0,'13W–12L'],s:[50.5,'48W–47L'],g:[50.4,'115W–113L']},
+  {n:'Fenris Gaming',p:245,m:[47.8,'11W–12L'],s:[47.6,'39W–43L'],g:[48.5,'94W–100L']},
+  {n:'Reverso Hive',p:241,m:[50.0,'10W–10L'],s:[53.8,'43W–37L'],g:[52.6,'101W–91L']},
+  {n:'FUT ACADEMY',p:240,m:[58.3,'14W–10L'],s:[55.3,'47W–38L'],g:[54.0,'107W–91L']},
+  {n:'SK GAMING',p:233,m:[57.1,'12W–9L'],s:[59.1,'52W–36L'],g:[57.3,'118W–88L']},
+  {n:'Togrubi',p:213,m:[33.3,'5W–10L'],s:[35.2,'19W–35L'],g:[39.4,'50W–77L']},
+  {n:'WW',p:190,m:[41.2,'7W–10L'],s:[42.2,'27W–37L'],g:[45.2,'71W–86L']},
+  {n:'Slice Esport',p:190,m:[9.1,'1W–10L'],s:[23.1,'9W–30L'],g:[31.5,'29W–63L']}
+ ],
+ NA:[
+  {n:'Team Elektros',p:506},{n:'Tribe Gaming',p:494},{n:'KDS',p:384}
+ ],
+ SA:[
+  {n:'Bounty Hunters Allu',p:513},{n:'RED Canids',p:488}
+ ],
+ EA:[
+  {n:'ZETA DIVISION',p:616},{n:'Crazy Raccoon',p:559}
+ ]
+ };
+ const regions=['EMEA','NA','SA','EA'];
+ const rows=(data[leaderboardRegion]||[]).slice().sort((a,b)=>b.p-a.p);
+ const stat=(v)=>v?'<b>'+v[0].toFixed(1)+'%</b><small>'+v[1]+'</small>':'<span class="lbNoData">—</span>';
+ const regionButtons=regions.map(r=>'<button class="lbRegionBtn '+(leaderboardRegion===r?'active':'')+'" onclick="setLeaderboardRegion(\''+r+'\')">'+r+'</button>').join('');
+ c='<div class="lbNativeHeader"><div><div class="lbEyebrow">BSCSTATS · OFFICIAL RESULTS</div><h2>Regional Leaderboards</h2><p>Team ranking by BSC Points · Match, Set and Game win rates</p></div><span class="lbLive">CORESTATS DATA</span></div>'+
+ '<div class="lbTopbar"><div class="lbRegions">'+regionButtons+'</div><div class="lbSearchWrap"><input class="field" id="lbSearch" placeholder="Search teams..." oninput="filterLeaderboardRows(this.value)"></div></div>'+
+ '<div class="lbTable card"><div class="lbTableHead"><span>#</span><span>Team</span><span>BSC Pts</span><span>Match</span><span>Set</span><span>Game</span></div>'+
+ (rows.length?rows.map((r,i)=>'<div class="lbRow" data-search="'+r.n.toLowerCase().replace(/["<>]/g,'')+'"><span class="lbRank">'+(i+1)+'</span><span class="lbTeam">'+teamLogo(r.n)+'<b>'+r.n+'</b></span><span class="lbPoints">'+r.p+'</span><span class="lbStat">'+stat(r.m)+'</span><span class="lbStat">'+stat(r.s)+'</span><span class="lbStat">'+stat(r.g)+'</span></div>').join(''):'<div class="empty">No verified regional records are available yet.</div>')+
+ '</div><div class="lbFootnote">BSC Points and Match / Set / Game values are taken from Corestats. A dash means that the detailed rate has not yet been imported; no values are estimated. This view is built directly in BSCSTATS.</div>';
 }
 if(page==='draft'){
  const pickRows=picks.filter(x=>x.pick_type==='pick'),banRows=picks.filter(x=>x.pick_type==='ban');
