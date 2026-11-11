@@ -529,6 +529,7 @@ function saveFantasy(){const squad=['fantasy1','fantasy2','fantasy3'].map(id=>do
 function generateDraft(){const mode=document.getElementById('dbMode').value,map=document.getElementById('dbMap').value,pos=document.getElementById('dbPosition').value;if(!mode||!map||!pos){alert('Seleziona modalità, mappa e posizione.');return}const suggestions=map==='Undermine'?['Gus','Edgar','Mortis','Max','Rico']:map==='Dueling Beetles'?['Lou','Colette','Stu','Byron','Belle']:map==='Kaboom Canyon'?['Piper','Belle','Colt','Griff','Gus']:map==='Dry Season'?['Mortis','Gray','Belle','Brock','Max']:['Carl','Ruffs','Piper','Colette','Spike'];document.getElementById('draftOutput').innerHTML='<div class="notice"><b>'+map+' · '+mode+' · '+pos+'</b><p>Possibili brawler da valutare: '+suggestions.join(' · ')+'</p><small>Spunti dimostrativi da verificare in base a patch, matchup e draft avversario. Non sono raccomandazioni statistiche ufficiali.</small></div>'}
 function vote(btn){const row=btn.closest('.prediction');row.querySelectorAll('button').forEach(b=>{b.classList.remove('primary');b.disabled=false});btn.classList.add('primary');const picks=JSON.parse(localStorage.getItem('bsc_predictions')||'{}');picks[row.querySelector('b').textContent]=btn.textContent;localStorage.setItem('bsc_predictions',JSON.stringify(picks));btn.parentElement.insertAdjacentHTML('afterend','<small class="muted">Prediction saved on this device</small>');row.querySelectorAll('button').forEach(b=>b.disabled=true)}
 document.addEventListener('input',e=>{if(e.target.id==='search'){const q=e.target.value.toLowerCase();document.querySelectorAll('#content tbody tr').forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none')}});
+</script>
 <script>
 window.gtranslateSettings = {
   "default_language": "it",
@@ -538,5 +539,4 @@ window.gtranslateSettings = {
   "wrapper_selector": ".gtranslate_wrapper"
 };
 </script>
-<script src="https://cdn.gtranslate.net/widgets/latest/dropdown.js" defer></script>
-</script></body></html>
+<script src="https://cdn.gtranslate.net/widgets/latest/dropdown.js" defer></script></body></html>
