@@ -58,6 +58,12 @@ const roster = [
   { team: "Natus Vincere", nickname: "GeRo", tag: "#2VJCCCQGP" },
   { team: "Natus Vincere", nickname: "Enraged", tag: "#80PVPCC29" },
   { team: "Natus Vincere", nickname: "Nowy297", tag: "#22CL00PG0" },
+  { team: "Jyro team", nickname: "Xenoxz", tag: "#Y28PL2Q0V" },
+  { team: "Jyro team", nickname: "Fade", tag: "#2RCR2GJCL2" },
+  { team: "Jyro team", nickname: "Jyro", tag: "#P90GVUV80" },
+  { team: "Reason Esports", nickname: "Ducky", tag: "#20P2GP99" },
+  { team: "Reason Esports", nickname: "Swarm", tag: "#R0PRVCUL" },
+  { team: "Reason Esports", nickname: "David", tag: "#88PL8L2JC" },
 ];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
