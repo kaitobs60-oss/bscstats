@@ -46,3 +46,21 @@ Il frontend statico è distribuito tramite GitHub Pages. Le modifiche a `main` a
 
 ## Principio sui dati
 Nessuna statistica dimostrativa deve essere confusa con risultati verificati. Le metriche competitive devono essere calcolate da match e draft documentati e tracciabili.
+
+## Automatic scrim Battle Log collector
+
+GitHub Actions runs `.github/workflows/scrims-collector.yml` every 5 minutes and collects recent **friendly Battle Log entries** for FUT (Angelboy, Guesti, Nob) and HMBLE (Luki, Boss, Symantec). The collector stores individual battle records in Supabase `public.scrim_battles`, deduplicated by battle fingerprint. The Scrims page displays these captures separately from verified set scores.
+
+### Required GitHub Actions secrets
+
+In **Settings → Secrets and variables → Actions**, add:
+
+- `SUPERCELL_API_KEY`: the Brawl Stars Developer API token.
+- `SUPABASE_SERVICE_ROLE_KEY`: the server-side Supabase service-role key. Never use the publishable/anon key here and never place this key in frontend code.
+
+The Supabase project URL is already configured in the workflow. Do not commit either secret to the repository.
+
+Optional repository variable:
+- `BRAWL_API_BASE_URL`: only if the official API key is configured for an approved proxy/base URL; otherwise leave unset.
+
+The official Battle Log exposes only recent battles and may take up to about 30 minutes to show a new battle. This collector records friendly battles as **scrim candidates**; it cannot infer set scores, draft bans, or confirm that every friendly match was a scrim.
