@@ -1,0 +1,32 @@
+name: BSCSTATS Scrims Collector
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bscstats-scrims-collector
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Collect FUT and HMBLE friendly battles
+        env:
+          SUPERCELL_API_KEY: ${{ secrets.SUPERCELL_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          BRAWL_API_BASE_URL: ${{ vars.BRAWL_API_BASE_URL }}
+        run: node scripts/collect-scrims.mjs
