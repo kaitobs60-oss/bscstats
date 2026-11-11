@@ -350,7 +350,16 @@ if(page==='leaderboards'){
   {n:'Nameless',p:182,rank:11},{n:'PCIFIC Forza Esports',p:176,rank:12},
   {n:'Lime',p:170,rank:13},{n:'Legacy Academy',p:165,rank:14},
   {n:'Momo',p:162,rank:15},{n:'MX Team',p:159,rank:16}
- ],SA:[],EA:[
+ ],SA:[
+  {n:'Bounty Hunters',p:573,rank:1},{n:'RED Canids',p:518,rank:2},
+  {n:'LOUD',p:466,rank:3},{n:'Olimpo Squad',p:375,rank:4},
+  {n:'SKCalalas',p:342,rank:5},{n:'OCX Division',p:315,rank:6},
+  {n:'Topa Tudo Por Dinheiro',p:263,rank:7},{n:'Ninguem Segura',p:258,rank:8},
+  {n:'QuieroQueQue',p:235,rank:9},{n:'Six Seven',p:200,rank:10},
+  {n:'Dropeados 2026',p:160,rank:11},{n:'Goats',p:156,rank:12},
+  {n:'Skibidi Sigmas',p:146,rank:13},{n:'Pernambuco Lovers',p:139,rank:14},
+  {n:'Energy Station',p:131,rank:15},{n:'Japão FC E-Sports',p:130,rank:16}
+ ],EA:[
   {n:'ZETA DIVISION',p:616,rank:1},{n:'Crazy Raccoon',p:559,rank:2},
   {n:'SKCalalas EA',p:352,rank:3},{n:'Rival Esports',p:347,rank:4},
   {n:'FENNEL',p:293,rank:5},{n:'IGNUM',p:253,rank:6},
@@ -378,7 +387,7 @@ if(page==='leaderboards'){
  '<div class="lbTopbar"><div class="lbRegions">'+regionButtons+'</div><div class="lbSearchWrap"><input class="field" id="lbSearch" placeholder="Search teams..." oninput="filterLeaderboardRows(this.value)"></div></div>'+
  '<div class="lbTable card"><div class="lbTableHead"><span>#</span><span>Team</span><span>BSC Points</span></div>'+
  (rows.length?rows.map((r,i)=>'<div class="lbRow" data-search="'+r.n.toLowerCase().replace(/["<>]/g,'')+'"><span class="lbRank">'+(i+1)+'</span><span class="lbTeam">'+teamLogo(r.n)+'<b>'+r.n+'</b></span><span class="lbPoints">'+r.p+'</span></div>').join(''):'<div class="empty">No verified regional records are available yet.</div>')+
- '</div><div class="lbFootnote">EMEA Top 16, NA Top 16, East Asia Top 16 and China Top 14 entered from the leaderboard data provided. South America will appear when its verified ranking is supplied. Teams without a verified logo use their initials.</div>';
+ '</div><div class="lbFootnote">EMEA, NA, SA and East Asia Top 16, plus China Top 14, entered from the leaderboard data provided. Rankings show total BSC Points only. Teams without a verified logo use their initials.</div>';
 }
 if(page==='draft'){
  const pickRows=picks.filter(x=>x.pick_type==='pick'),banRows=picks.filter(x=>x.pick_type==='ban');
