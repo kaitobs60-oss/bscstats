@@ -26,7 +26,7 @@ jobs:
       - name: Collect FUT and HMBLE friendly battles
         env:
           SUPERCELL_API_KEY: ${{ secrets.SUPERCELL_API_KEY }}
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_URL: https://xjncfrxsnriyikfkpkbs.supabase.co
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           BRAWL_API_BASE_URL: ${{ vars.BRAWL_API_BASE_URL }}
         run: node scripts/collect-scrims.mjs
