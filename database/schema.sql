@@ -239,7 +239,7 @@ create policy "users manage own fantasy roster players" on public.fantasy_roster
 -- Explicit API grants; RLS remains the row-level security boundary.
 grant usage on schema public to anon, authenticated;
 grant select on public.teams, public.players, public.roster_history, public.tournaments, public.maps,
-  public.matches, public.match_sets, public.draft_picks, public.scrims, public.transfers, public.news,
+  public.matches, public.match_sets, public.draft_picks, public.scrims, public.scrim_battles, public.transfers, public.news,
   public.predictions to anon, authenticated;
 grant select on public.prediction_entries, public.fantasy_rosters, public.fantasy_roster_players to authenticated;
 grant insert on public.prediction_entries to authenticated;
