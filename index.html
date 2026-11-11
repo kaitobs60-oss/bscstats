@@ -182,15 +182,28 @@ body{background:#050505;color:#f5f5f5;background-image:none}.side{background:#05
 .side .navlabel:first-of-type{padding-top:25px!important}
 @media(max-width:760px){.side{width:min(82vw,420px)!important;max-width:420px!important;padding:18px 18px 24px!important}.side .nav{height:58px;min-height:58px}.side .nav span{font-size:21px!important}.side .navlabel{font-size:16px!important;padding-top:25px!important;padding-bottom:12px!important}}
 
-/* Scrims page: dense CoreStats-inspired layout */
-.csScrimToolbar{padding:14px;background:#0b0b0b;border:1px solid #252525;border-radius:14px;margin:0 0 14px}
-.csScrimFilters{display:grid;grid-template-columns:repeat(6,minmax(110px,1fr));gap:9px}
-.csScrimFilters label{display:grid;gap:6px;color:#777;font-size:9px;font-weight:800;letter-spacing:1px}
-.csScrimFilters .field{width:100%;min-width:0;height:40px;font-size:11px}
-.csScrimGrid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.75fr);gap:14px;margin-top:14px}
-.csScrimGrid.lower{grid-template-columns:minmax(0,1fr) minmax(280px,.8fr)}
-.csTeamLogoImg{width:50px;height:50px;flex:0 0 50px;object-fit:contain;border-radius:10px;background:transparent;display:block}.csScrimTeam.right .csTeamLogoImg{order:2}@media(max-width:700px){.csTeamLogoImg{width:36px;height:36px;flex-basis:36px}}.csScrimRow{width:100%;display:grid;grid-template-columns:minmax(0,1fr) 130px minmax(0,1fr) 20px;align-items:center;gap:14px;min-height:112px;padding:16px 22px;margin:0 0 12px;border:1px solid #242424;border-radius:25px;background:#080808;color:#eee;text-align:left;cursor:pointer;transition:border-color .18s,background .18s}.csScrimRow:hover{background:#101010;border-color:#444}.csScrimTeam{display:flex;align-items:center;gap:13px;min-width:0}.csScrimTeam b{font-size:clamp(14px,1.5vw,23px);font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.csScrimTeam.right{justify-content:flex-end;text-align:right}.csTeamLogo{width:48px;height:48px;flex:0 0 48px;border:2px solid #eee;border-radius:13px;display:grid;place-items:center;color:#fff;font-size:14px;font-weight:950;letter-spacing:-1px;background:linear-gradient(145deg,#252525,#080808)}.csScrimScore{display:flex;align-items:center;justify-content:center;gap:14px;font-size:clamp(23px,2.4vw,34px);font-weight:900;font-variant-numeric:tabular-nums;white-space:nowrap}.csScrimScore i{font-style:normal;color:#eee}.csScrimScore i.winner{color:#50d98d}.csScrimScore em{font-style:normal;color:#555;font-size:.8em}.csScrimArrow{color:#555;font-size:28px;text-align:right}.csScrimDate{grid-column:1/-2;color:#777;font-size:10px;margin-top:-8px}@media(max-width:1050px){.csScrimFilters{grid-template-columns:repeat(3,minmax(0,1fr))}.csScrimGrid,.csScrimGrid.lower{grid-template-columns:1fr}}
-@media(max-width:700px){.csScrimFilters{grid-template-columns:1fr 1fr;gap:7px}.csScrimToolbar{padding:9px}.csScrimRow{grid-template-columns:minmax(0,1fr) 82px minmax(0,1fr) 12px;gap:6px;min-height:88px;padding:12px 10px;border-radius:20px;margin-bottom:10px}.csTeamLogo{width:34px;height:34px;flex-basis:34px;border-radius:10px;font-size:10px}.csScrimTeam{gap:7px}.csScrimTeam b{font-size:clamp(10px,3vw,15px)}.csScrimScore{gap:7px;font-size:21px}.csScrimArrow{font-size:22px}.csScrimDate{font-size:8px;margin-top:-5px}}
+/* Scrims page — compact Corestats-style results feed */
+.csScrimToolbar{display:flex;align-items:end;gap:10px;padding:0 0 18px;margin:0 0 18px;border-bottom:1px solid #242424;background:transparent;border-radius:0}
+.csScrimFilters{display:grid;grid-template-columns:1.05fr .8fr 1fr 1.5fr;gap:10px;width:100%}
+.csScrimFilters label{display:grid;gap:7px;color:#929292;font-size:10px;font-weight:750;letter-spacing:.7px}
+.csScrimFilters .field{width:100%;min-width:0;height:42px;font-size:12px;background:#0c0c0c;border:1px solid #292929;border-radius:9px;color:#eee;padding:0 12px}
+.csScrimFeedHead{display:flex;align-items:center;justify-content:space-between;margin:2px 0 12px}
+.csScrimFeedHead h2{font-size:19px;margin:0;font-weight:800;letter-spacing:-.4px}
+.csScrimFeedHead small{color:#777;font-size:10px;letter-spacing:.6px}
+.csScrimRow{width:100%;display:grid;grid-template-columns:minmax(0,1fr) 150px minmax(0,1fr) 18px;align-items:center;gap:16px;min-height:94px;padding:14px 20px;margin:0 0 9px;border:1px solid #252525;border-radius:13px;background:#0a0a0a;color:#eee;text-align:left;cursor:pointer;transition:border-color .16s,background .16s}
+.csScrimRow:hover{background:#101010;border-color:#555}
+.csScrimTeam{display:flex;align-items:center;gap:13px;min-width:0}
+.csScrimTeam b{font-size:clamp(14px,1.35vw,19px);font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.csScrimTeam.right{justify-content:flex-end;text-align:right}
+.csTeamLogoImg{width:42px;height:42px;flex:0 0 42px;object-fit:contain;border-radius:8px;background:transparent;display:block}
+.csScrimTeam.right .csTeamLogoImg{order:2}
+.csTeamLogo{width:42px;height:42px;flex:0 0 42px;border:1px solid #333;border-radius:9px;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:900;background:#171717}
+.csScrimScore{display:flex;align-items:center;justify-content:center;gap:13px;font-size:29px;font-weight:900;font-variant-numeric:tabular-nums;white-space:nowrap}
+.csScrimScore i{font-style:normal;color:#eee}.csScrimScore i.winner{color:#54d58b}.csScrimScore em{font-style:normal;color:#666;font-size:.8em}
+.csScrimMeta{grid-column:1/-2;display:flex;align-items:center;gap:8px;margin-top:-7px;color:#777;font-size:10px}
+.csScrimArrow{color:#777;font-size:22px;text-align:right}
+.csScrimEmpty{padding:28px 14px;border:1px solid #242424;border-radius:12px;color:#888;text-align:center;background:#0a0a0a}
+@media(max-width:760px){.csScrimToolbar{padding-bottom:13px;margin-bottom:15px}.csScrimFilters{grid-template-columns:1fr 1fr;gap:8px}.csScrimFilters label{font-size:9px}.csScrimFilters .field{height:39px;font-size:11px}.csScrimFeedHead h2{font-size:17px}.csScrimRow{grid-template-columns:minmax(0,1fr) 82px minmax(0,1fr) 10px;gap:6px;min-height:76px;padding:10px 9px;border-radius:11px;margin-bottom:8px}.csScrimTeam{gap:6px}.csScrimTeam b{font-size:clamp(9px,2.8vw,13px)}.csTeamLogoImg,.csTeamLogo{width:30px;height:30px;flex-basis:30px;border-radius:7px;font-size:9px}.csScrimScore{gap:6px;font-size:21px}.csScrimMeta{font-size:8px;margin-top:-4px}.csScrimArrow{font-size:19px}}
 </style>
 </head>
 <body><div class="shell">
@@ -281,33 +294,19 @@ if(page==='players'){
  '<div class="card"><div class="sectionhead"><h3>Professional player directory</h3><span class="tag">Verified roster data</span></div>'+(players.length?table(['PLAYER','CURRENT TEAM','NATIONALITY','PLAYER ELO','PROFILE'],players.map(p=>['<b>'+p[0]+'</b>',p[1],p[3]||'—','<span class="muted">—</span>','<button class="btn" data-player="'+encodeURIComponent(p[0])+'" onclick="openPlayer(decodeURIComponent(this.dataset.player))">View profile ↗</button>'])):'<div class="empty">No player profiles have been imported yet.</div>')+'</div>';
 }
 if(page==='scrims'){
- const allScrims=dbScrims.map(x=>({id:x.id,date:(x.played_at||'').slice(0,10),a:x.teams?.name||'Team A',b:x.opponent?.name||'Team B',sa:Number(x.score_a),sb:Number(x.score_b),played:x.played_at||'',raw:x}));
- const activity={};const matchups={};const modes={};
- allScrims.forEach(x=>{activity[x.a]=(activity[x.a]||0)+1;activity[x.b]=(activity[x.b]||0)+1;const key=[x.a,x.b].sort().join('::');matchups[key]=(matchups[key]||0)+1;const mode=x.raw.game_mode||x.raw.mode||x.raw.mode_name;if(mode)modes[mode]=(modes[mode]||0)+1});
- const active=Object.entries(activity).sort((a,b)=>b[1]-a[1])[0];
- const recent=allScrims.slice(0,50);
- const teamNames=[...new Set(allScrims.flatMap(x=>[x.a,x.b]))].sort();
- const dates=[...new Set(allScrims.map(x=>x.date).filter(Boolean))].sort().reverse();
- const matchupTeams=Object.keys(activity).sort();
- const matchupMatrix='<div class="csMatrixWrap"><table class="csMatrix"><thead><tr><th>TEAM</th>'+matchupTeams.map(t=>'<th>'+t+'</th>').join('')+'</tr></thead><tbody>'+matchupTeams.map(a=>'<tr><th>'+a+'</th>'+matchupTeams.map(b=>{if(a===b)return '<td class="matrixSelf">—</td>';const k=[a,b].sort().join('::');return '<td>'+(matchups[k]||'—')+'</td>'}).join('')+'</tr>').join('')+'</tbody></table></div>';
+ const allScrims=dbScrims.map(x=>({id:x.id,date:(x.played_at||'').slice(0,10),a:x.teams?.name||'Team A',b:x.opponent?.name||'Team B',sa:Number(x.score_a),sb:Number(x.score_b),played:x.played_at||'',tier:x.tier||x.raw?.tier||'',raw:x}));
+ const recent=allScrims.slice().sort((a,b)=>b.played.localeCompare(a.played));
+ const qs=new URLSearchParams(location.search);
+ const selectedDate=qs.get('date')||'';
+ const selectedTier=qs.get('tier')||'';
+ const teamOptions=[...new Set(allScrims.flatMap(x=>[x.a,x.b]))].sort();
  c='<div class="csScrimToolbar"><div class="csScrimFilters">'+
- '<label>DATE<input class="field" type="date" id="scrimDateFilter" value="'+(new URLSearchParams(location.search).get('date')||'')+'" onchange="applyScrimFilters()"></label>'+
+ '<label>DATE<input class="field" type="date" id="scrimDateFilter" value="'+selectedDate+'" onchange="applyScrimFilters()"></label>'+
+ '<label>TIER<select class="field" id="scrimTierFilter" onchange="applyScrimFilters()"><option value="">All tiers</option><option value="S" '+(selectedTier==='S'?'selected':'')+'>S</option><option value="A" '+(selectedTier==='A'?'selected':'')+'>A</option><option value="B" '+(selectedTier==='B'?'selected':'')+'>B</option></select></label>'+
  '<label>REGION<select class="field" id="scrimRegion" onchange="applyScrimFilters()"><option value="">All regions</option><option>EMEA</option><option>North America</option><option>South America</option><option>APAC</option></select></label>'+
- '<label>SEARCH<input class="field" id="scrimSearch" placeholder="Team or opponent..." oninput="applyScrimFilters()"></label></div></div>'+
- '<div class="csMetrics">'+
- '<div class="csMetric"><span>TOTAL SETS</span><b id="scrimTotal">'+allScrims.length+'</b><small>Records in BSCSTATS</small></div>'+
- '<div class="csMetric"><span>TEAMS TRACKED</span><b>'+teams.length+'</b><small>Teams in the monitored roster</small></div>'+
- '<div class="csMetric"><span>MOST ACTIVE</span><b style="font-size:22px">'+(active?active[0]:'—')+'</b><small>'+(active?active[1]+' recorded appearances':'No records yet')+'</small></div>'+
- '<div class="csMetric"><span>DATE RANGE</span><b style="font-size:18px">'+(dates.length?dates[dates.length-1]+' — '+dates[0]:'—')+'</b><small>Based on stored scrims</small></div></div>'+
- '<div class="csScrimGrid"><section class="csPanel csPanelWide"><div class="csPanelHead"><div><span class="eyebrow">PRO COMPETITIVE</span><h2>Recent scrims</h2><p class="muted">Scrim sets recorded in the BSCSTATS database</p></div><span class="tag">LATEST 50</span></div>'+
- '<div class="csRecent" id="scrimRows">'+(recent.length?recent.map(x=>'<button class="csScrimRow" data-date="'+x.date+'" data-a="'+x.a.toLowerCase()+'" data-b="'+x.b.toLowerCase()+'" data-region="'+((teams.find(t=>t[0]===x.a)?.[2]||'')+' '+(teams.find(t=>t[0]===x.b)?.[2]||'')).toLowerCase()+'" data-teams="'+(x.a+' '+x.b).toLowerCase()+'" onclick="openScrimDetail(\''+String(x.id).replace(/'/g,'')+'\')"><span class="csScrimTeam">'+teamLogo(x.a)+'<b>'+x.a+'</b></span><strong class="csScrimScore"><i class="'+(x.sa>x.sb?'winner':'')+'">'+(Number.isFinite(x.sa)?x.sa:'—')+'</i><em>–</em><i class="'+(x.sb>x.sa?'winner':'')+'">'+(Number.isFinite(x.sb)?x.sb:'—')+'</i></strong><span class="csScrimTeam right"><b>'+x.b+'</b>'+teamLogo(x.b)+'</span><small class="csScrimDate">'+(x.date||'Date unavailable')+'</small><span class="csScrimArrow">›</span></button>').join(''):'<div class="empty">No verified scrims have been imported yet.</div>')+'</div></section>'+
- '<section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">ACTIVITY</span><h2>Most active teams</h2><p class="muted">Appearances in recorded sets</p></div></div>'+
- (active?bars(Object.entries(activity).sort((a,b)=>b[1]-a[1]).slice(0,10).map(x=>[x[0],Math.round(x[1]/active[1]*100)])):'<div class="empty">Activity appears after scrim records are imported.</div>')+
- '<div class="csSubPanel"><div class="csPanelHead"><div><span class="eyebrow">GAME MODES</span><h2>Modes played</h2></div></div>'+(Object.keys(modes).length?bars(Object.entries(modes).sort((a,b)=>b[1]-a[1]).map(x=>[x[0],Math.round(x[1]/Math.max(...Object.values(modes))*100)])):'<div class="empty">Mode breakdown will appear when mode data is included in scrim records.</div>')+'</div></section></div>'+
- '<div class="csScrimGrid lower"><section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">HEAD TO HEAD</span><h2>Team matchups</h2><p class="muted">Most frequently recorded opponents</p></div><span class="tag">MATCHUP MATRIX</span></div>'+(Object.keys(matchups).length?matchupMatrix:'<div class="empty">Matchup matrix will populate when team scrims are imported.</div>')+'</section>'+
- '<section class="csPanel"><div class="csPanelHead"><div><span class="eyebrow">DRAFT DATA</span><h2>Picks & bans</h2><p class="muted">Draft details attached to each scrim</p></div></div><div class="empty">Pick and ban details will appear when draft records are supplied for a scrim. They are not inferred from the Battle Log.</div></section></div>'+
- '<section class="csPanel" style="margin-top:14px"><div class="csPanelHead"><div><span class="eyebrow">LIVE COLLECTION</span><h2>Recent friendly Battle Log captures</h2><p class="muted">Public Battle Log entries found on the tracked FUT and HMBLE players. Friendly matches are candidates, not automatically confirmed scrim sets.</p></div><span class="tag">'+dbScrimBattles.length+' CAPTURES</span></div>'+(dbScrimBattles.length?'<div class="tablewrap"><table><thead><tr><th>DATE / TIME</th><th>TRACKED TEAM</th><th>PLAYERS FOUND</th><th>MAP</th><th>MODE</th><th>PLAYERS / BRAWLERS</th></tr></thead><tbody>'+dbScrimBattles.slice(0,40).map(x=>'<tr><td>'+new Date(x.battle_time).toLocaleString('it-IT')+'</td><td><b>'+x.tracked_team+'</b></td><td>'+((x.tracked_players||[]).map(p=>p.nickname+' · '+p.team).join('<br>')||'—')+'</td><td>'+(x.map_name||'—')+'</td><td>'+(x.mode||'—')+'</td><td>'+((x.players||[]).map(p=>(p.name||p.tag||'Player')+(p.brawler?.name?' · '+p.brawler.name:'')).join('<br>')||'—')+'</td></tr>').join('')+'</tbody></table></div>':'<div class="empty">No friendly Battle Log entries collected yet. The collector will populate this feed after its first successful run.</div>')+'</section>'+
- '<div class="csFootnote">Filters only use fields currently stored in BSCSTATS. Tier, region, player and mode filters will become fully active as those fields are added to the scrim dataset. No picks, bans or scores are fabricated.</div>';
+ '<label>SEARCH<input class="field" id="scrimSearch" placeholder="Search teams..." oninput="applyScrimFilters()"></label></div></div>'+
+ '<div class="csScrimFeedHead"><h2>Recent Scrims</h2><small id="scrimCount">'+recent.length+' RESULTS</small></div>'+
+ '<div class="csRecent" id="scrimRows">'+(recent.length?recent.map(x=>'<button class="csScrimRow" data-date="'+x.date+'" data-tier="'+String(x.tier).toUpperCase()+'" data-region="'+((teams.find(t=>t[0]===x.a)?.[2]||'')+' '+(teams.find(t=>t[0]===x.b)?.[2]||'')).toLowerCase()+'" data-teams="'+(x.a+' '+x.b).toLowerCase()+'" onclick="openScrimDetail(\''+String(x.id).replace(/'/g,'')+'\')"><span class="csScrimTeam">'+teamLogo(x.a)+'<b>'+x.a+'</b></span><strong class="csScrimScore"><i class="'+(x.sa>x.sb?'winner':'')+'">'+(Number.isFinite(x.sa)?x.sa:'—')+'</i><em>–</em><i class="'+(x.sb>x.sa?'winner':'')+'">'+(Number.isFinite(x.sb)?x.sb:'—')+'</i></strong><span class="csScrimTeam right"><b>'+x.b+'</b>'+teamLogo(x.b)+'</span><span class="csScrimMeta">'+(x.date||'Date unavailable')+(x.tier?' · TIER '+x.tier.toUpperCase():'')+'</span><span class="csScrimArrow">›</span></button>').join(''):'<div class="csScrimEmpty">No scrim results recorded yet.</div>')+'</div>';
 }
 if(page==='tournaments'){
  c='<div class="filters"><select class="field"><option>All seasons</option><option>2026</option><option>2025</option></select><select class="field"><option>All regions</option><option>EMEA</option><option>North America</option><option>South America</option><option>APAC</option></select><select class="field"><option>All event types</option><option>Monthly Finals</option><option>Brawl Cup</option><option>LCQ</option><option>World Finals</option></select></div>'+
@@ -382,9 +381,10 @@ function wireTeamFilters(){
 function wirePlayerFilters(){const el=document.getElementById('playerSearch');el?.addEventListener('input',()=>{const q=el.value.toLowerCase();document.querySelectorAll('#content tbody tr').forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none')})}
 
 function applyScrimFilters(){
- const date=document.getElementById('scrimDateFilter')?.value||'',region=document.getElementById('scrimRegion')?.value.toLowerCase()||'',q=document.getElementById('scrimSearch')?.value.toLowerCase()||'';
- let visible=0;document.querySelectorAll('#scrimRows .csScrimRow').forEach(row=>{const ok=(!date||row.dataset.date===date)&&(!region||(row.dataset.region||'').includes(region))&&(!q||row.dataset.teams.includes(q));row.style.display=ok?'':'none';if(ok)visible++});
- const total=document.getElementById('scrimTotal');if(total)total.textContent=visible;
+ const date=document.getElementById('scrimDateFilter')?.value||'',tier=document.getElementById('scrimTierFilter')?.value.toUpperCase()||'',region=document.getElementById('scrimRegion')?.value.toLowerCase()||'',q=document.getElementById('scrimSearch')?.value.toLowerCase()||'';
+ const params=new URLSearchParams(location.search);if(date)params.set('date',date);else params.delete('date');if(tier)params.set('tier',tier);else params.delete('tier');const query=params.toString();history.replaceState(null,'',location.pathname+(query?'?'+query:''));
+ let visible=0;document.querySelectorAll('#scrimRows .csScrimRow').forEach(row=>{const tierMatch=!tier||!row.dataset.tier||row.dataset.tier===tier;const ok=(!date||row.dataset.date===date)&&tierMatch&&(!region||(row.dataset.region||'').includes(region))&&(!q||row.dataset.teams.includes(q));row.style.display=ok?'':'none';if(ok)visible++});
+ const count=document.getElementById('scrimCount');if(count)count.textContent=visible+' RESULTS';
 }
 function openScrimDetail(id){
  const x=dbScrims.find(s=>String(s.id)===String(id));if(!x)return;
