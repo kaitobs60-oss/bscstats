@@ -331,8 +331,8 @@ if(page==='brackets'){
  '<div class="notice">No team names or match outcomes are fabricated. Bracket connectors and standings populate from verified event sources.</div>';
 }
 if(page==='leaderboards'){
- const regions=['EMEA','North America','South America','APAC'];
- const regionKey=v=>{const x=String(v||'').toLowerCase().replace(/[^a-z]/g,'');if(x==='na'||x==='northamerica')return 'North America';if(x==='sa'||x==='southamerica')return 'South America';if(x==='apac'||x==='asia')return 'APAC';if(x==='emea'||x==='europe')return 'EMEA';return ''};
+ const regions=['EMEA','North America','South America','EA'];
+ const regionKey=v=>{const x=String(v||'').toLowerCase().replace(/[^a-z]/g,'');if(x==='na'||x==='northamerica')return 'North America';if(x==='sa'||x==='southamerica')return 'South America';if(x==='ea'||x==='eastasia'||x==='apac'||x==='asia')return 'EA';if(x==='emea'||x==='europe')return 'EMEA';return ''};
  const regionMatches=(a,b)=>regionKey(a)===b;
  const stats={};
  const add=(name)=>{if(name&&!stats[name])stats[name]={matchW:0,matchL:0,setW:0,setL:0,matches:0}};
