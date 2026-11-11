@@ -16,6 +16,9 @@ const roster = [
   { team: "HMBLE", nickname: "Luki", tag: "#8V92UYCJ" },
   { team: "HMBLE", nickname: "Boss", tag: "#V89Y2GP0" },
   { team: "HMBLE", nickname: "Symantec", tag: "#YQUCCJ2" },
+  { team: "Jyro team", nickname: "Xenoxz", tag: "#Y28PL2Q0V" },
+  { team: "Jyro team", nickname: "Fade", tag: "#2RCR2GJCL2" },
+  { team: "Jyro team", nickname: "Jyro", tag: "#P90GVUV80" },
 ];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
