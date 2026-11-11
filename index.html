@@ -204,6 +204,10 @@ body{background:#050505;color:#f5f5f5;background-image:none}.side{background:#05
 .csScrimArrow{color:#777;font-size:22px;text-align:right}
 .csScrimEmpty{padding:28px 14px;border:1px solid #242424;border-radius:12px;color:#888;text-align:center;background:#0a0a0a}
 @media(max-width:760px){.csScrimToolbar{padding-bottom:13px;margin-bottom:15px}.csScrimFilters{grid-template-columns:1fr 1fr;gap:8px}.csScrimFilters label{font-size:9px}.csScrimFilters .field{height:39px;font-size:11px}.csScrimFeedHead h2{font-size:17px}.csScrimRow{grid-template-columns:minmax(0,1fr) 82px minmax(0,1fr) 10px;gap:6px;min-height:76px;padding:10px 9px;border-radius:11px;margin-bottom:8px}.csScrimTeam{gap:6px}.csScrimTeam b{font-size:clamp(9px,2.8vw,13px)}.csTeamLogoImg,.csTeamLogo{width:30px;height:30px;flex-basis:30px;border-radius:7px;font-size:9px}.csScrimScore{gap:6px;font-size:21px}.csScrimMeta{font-size:8px;margin-top:-4px}.csScrimArrow{font-size:19px}}
+
+/* Regional CoreStats-style leaderboards */
+.lbTopbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:4px 0 16px;flex-wrap:wrap}.lbRegions,.lbModes{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.lbRegionBtn,.lbModeBtn{border:1px solid #29233b;background:#100e18;color:#aaa1b8;border-radius:8px;padding:9px 13px;font-size:12px;font-weight:750}.lbRegionBtn.active,.lbModeBtn.active{background:#2a1b40;border-color:#8052b5;color:#fff;box-shadow:inset 0 0 0 1px #8052b544}.lbModes{padding:4px;border:1px solid #29233b;border-radius:10px;background:#0d0b14}.lbModeBtn{border:0;background:transparent}.lbModeBtn.active{background:#302044}.lbSearchWrap{margin:0 0 13px}.lbSearchWrap .field{width:100%;max-width:100%;height:42px}.lbTable{padding:0;overflow:hidden}.lbTableHead,.lbRow{display:grid;grid-template-columns:58px minmax(0,1fr) 90px;align-items:center;gap:12px;padding:13px 18px}.lbTableHead{background:#0d0b14;color:#948aa4;font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:850;border-bottom:1px solid #29233b}.lbTableHead span:last-child,.lbPoints{text-align:right}.lbRow{min-height:64px;border-bottom:1px solid #252031}.lbRow:last-child{border-bottom:0}.lbRank{color:#9a90a8;font-weight:800;font-variant-numeric:tabular-nums}.lbTeam{display:flex;align-items:center;gap:12px;min-width:0}.lbTeam b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lbTeam .csTeamLogoImg,.lbTeam .csTeamLogo{width:32px;height:32px;flex:0 0 32px}.lbPoints{font-size:17px;font-weight:900;font-variant-numeric:tabular-nums}.lbFootnote{margin:11px 2px 0;color:#777080;font-size:10px;line-height:1.5}
+@media(max-width:700px){.lbTopbar{align-items:stretch;gap:9px}.lbRegions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}.lbRegionBtn{padding:9px 6px;font-size:10px}.lbModes{width:max-content}.lbTableHead,.lbRow{grid-template-columns:30px minmax(0,1fr) 48px;padding:11px 9px;gap:7px}.lbTeam{gap:7px}.lbTeam b{font-size:10px}.lbTeam .csTeamLogoImg,.lbTeam .csTeamLogo{width:27px;height:27px;flex-basis:27px}.lbPoints{font-size:14px}}
 </style>
 </head>
 <body><div class="shell">
@@ -242,6 +246,8 @@ let dbScrimBattles=[];
 let dbTournaments=[];
 let dbMatches=[];
 let currentPage='overview';
+let leaderboardRegion='EMEA';
+let leaderboardMode='Match';
 const pages={
 overview:['Brawl Stars stats and esports','Competitive data, pro scrims, teams and tournaments.'],
 teams:['Teams','Rosters, regional standings and recorded results.'],
@@ -268,6 +274,9 @@ function toggleMenu(){document.getElementById('sideNav')?.classList.toggle('open
 function closeMenu(){document.getElementById('sideNav')?.classList.remove('open');document.getElementById('drawerShade')?.classList.remove('show')}
 function teamLogo(name){const n=String(name||"").toLowerCase().replace(/[^a-z0-9]/g,"");const logos={"fut":"https://images.seeklogo.com/logo-png/50/1/fut-esports-logo-png_seeklogo-509813.png","futesports":"https://images.seeklogo.com/logo-png/50/1/fut-esports-logo-png_seeklogo-509813.png","hmb":"https://liquipedia.net/commons/images/0/0b/HMBLE_2024_lightmode.png","hmble":"https://liquipedia.net/commons/images/0/0b/HMBLE_2024_lightmode.png","th":"https://brawlstars.inbox.supercell.com/xdjcscmv3zo3/4j2rurMvMh0nnFoCtLkSsc/2b846b4d552151aea6585889c02699ef/player_icon_heretics.png","teamheretics":"https://brawlstars.inbox.supercell.com/xdjcscmv3zo3/4j2rurMvMh0nnFoCtLkSsc/2b846b4d552151aea6585889c02699ef/player_icon_heretics.png","zeta":"https://liquipedia.net/brawlstars/Special:FilePath/ZETA_DIVISION_darkmode.png","zetadivision":"https://liquipedia.net/brawlstars/Special:FilePath/ZETA_DIVISION_darkmode.png","te":"https://liquipedia.net/commons/images/4/48/ElektrosJP_lightmode.png","teamelektros":"https://liquipedia.net/commons/images/4/48/ElektrosJP_lightmode.png","tribe":"https://cdn.brawlfind.com/teams/2024/tribe-gaming.png?v=2","tribegaming":"https://cdn.brawlfind.com/teams/2024/tribe-gaming.png?v=2","bh":"https://liquipedia.net/commons/images/thumb/1/1d/Bounty_Hunters_Esports_full_lightmode.png/600px-Bounty_Hunters_Esports_full_lightmode.png","bountyhunters":"https://liquipedia.net/commons/images/thumb/1/1d/Bounty_Hunters_Esports_full_lightmode.png/600px-Bounty_Hunters_Esports_full_lightmode.png","bountyhuntersallu":"https://liquipedia.net/commons/images/thumb/1/1d/Bounty_Hunters_Esports_full_lightmode.png/600px-Bounty_Hunters_Esports_full_lightmode.png","red":"https://liquipedia.net/commons/images/thumb/3/3b/Red_Canids_allmode.png/600px-Red_Canids_allmode.png","redcanids":"https://liquipedia.net/commons/images/thumb/3/3b/Red_Canids_allmode.png/600px-Red_Canids_allmode.png","cr":"https://cdn.brawlfind.com/teams/2024/crazy-raccoon.webp","crazyraccoon":"https://cdn.brawlfind.com/teams/2024/crazy-raccoon.webp","novo":"https://taiyoro.gg/_next/image?q=75&url=https%3A%2F%2Ftaiyoro-prod-media.s3.amazonaws.com%2Fteam%2FewynTmwYpE.png&w=3840","novoesports":"https://taiyoro.gg/_next/image?q=75&url=https%3A%2F%2Ftaiyoro-prod-media.s3.amazonaws.com%2Fteam%2FewynTmwYpE.png&w=3840","ttm":"https://cdn.brawlfind.com/teams/2025/reply-totem.webp","replytotem":"https://cdn.brawlfind.com/teams/2025/reply-totem.webp","navi":"https://cdn.brawlfind.com/teams/2024/navi.png","natusvincere":"https://cdn.brawlfind.com/teams/2024/navi.png"};const url=logos[n];return url?'<img class="csTeamLogoImg" src="'+url+'" alt="'+String(name).replace(/["<>]/g,"")+' logo" loading="lazy" onerror="this.style.display=\'none\'">':'<span class="csTeamLogo">'+teamInitials(name)+'</span>';}
 function teamInitials(name){return String(name||"?").split(/\\s+/).filter(Boolean).slice(0,2).map(x=>x.slice(0,1)).join("").toUpperCase()||"?";}
+function setLeaderboardRegion(region){leaderboardRegion=region;render('leaderboards')}
+function setLeaderboardMode(mode){leaderboardMode=mode;render('leaderboards')}
+function filterLeaderboardRows(value){const q=String(value||'').toLowerCase();document.querySelectorAll('.lbRow').forEach(row=>row.style.display=row.dataset.search.includes(q)?'':'none')}
 function render(page){currentPage=page;document.querySelectorAll('.nav[data-page]').forEach(n=>n.classList.toggle('active',n.dataset.page===page));document.getElementById('pageTitle').textContent=pages[page][0];document.getElementById('pageSub').textContent=pages[page][1];const crumb=document.getElementById('crumb');if(crumb)crumb.textContent='BSCSTATS / '+pages[page][0].toUpperCase();const mobilePage=document.getElementById('mobilePage');if(mobilePage)mobilePage.textContent=pages[page][0].toUpperCase();closeMenu();let c='';
 const demo='<div class="notice">Anteprima con dati dimostrativi. Le statistiche reali richiedono l’inserimento o l’importazione di risultati verificati da tornei e scrim: non vengono inventate né presentate come ufficiali.</div>';
 if(page==='overview'){
@@ -322,12 +331,32 @@ if(page==='brackets'){
  '<div class="notice">No team names or match outcomes are fabricated. Bracket connectors and standings populate from verified event sources.</div>';
 }
 if(page==='leaderboards'){
- const records={};dbScrims.forEach(s=>{const a=s.teams?.name||'Team A',b=s.opponent?.name||'Team B';if(!records[a])records[a]={w:0,l:0};if(!records[b])records[b]={w:0,l:0};if(s.score_a>s.score_b){records[a].w++;records[b].l++}else if(s.score_b>s.score_a){records[b].w++;records[a].l++}});
- const rows=Object.entries(records).map(([name,r])=>({name,w:r.w,l:r.l,sets:r.w+r.l,wr:r.w+r.l?100*r.w/(r.w+r.l):0})).sort((a,b)=>b.wr-a.wr||b.sets-a.sets);
- c='<div class="filters"><select class="field"><option>All time</option><option>Last 30 days</option><option>Last 14 days</option></select><select class="field"><option>Scrim leaderboard</option><option>Official tournament leaderboard</option><option>Player leaderboard</option></select><select class="field"><option>All regions</option><option>EMEA</option><option>North America</option><option>South America</option><option>APAC</option></select></div>'+
- '<div class="grid">'+card('RANKED TEAMS',rows.length,'Teams with verified sets')+card('TOTAL SETS',dbScrims.length,'Recorded scrim sets')+card('TOP TEAM',rows[0]?.name||'—',rows[0]?rows[0].wr.toFixed(1)+'% win rate':'No results')+card('PLAYER RANKING','—','Requires official player performance data')+'</div>'+
- '<div class="card"><div class="sectionhead"><h3>Team scrim leaderboard</h3><span class="tag">Calculated from verified sets</span></div>'+(rows.length?table(['RANK','TEAM','WINS','LOSSES','SETS','WIN RATE'],rows.map((r,i)=>['#'+(i+1),'<b>'+r.name+'</b>',r.w,r.l,r.sets,r.wr.toFixed(1)+'%'])):'<div class="empty">No verified scrim sets available to calculate rankings.</div>')+'</div>'+
- '<div class="card" style="margin-top:14px"><h3>Official player rankings</h3><p class="muted">MVP, K/D, damage, kill share and performance score will appear when per-game official BSC statistics are imported.</p><div class="empty">No official player-stat dataset imported.</div></div>';
+ const regions=['EMEA','North America','South America','APAC'];
+ const regionKey=v=>{const x=String(v||'').toLowerCase().replace(/[^a-z]/g,'');if(x==='na'||x==='northamerica')return 'North America';if(x==='sa'||x==='southamerica')return 'South America';if(x==='apac'||x==='asia')return 'APAC';if(x==='emea'||x==='europe')return 'EMEA';return ''};
+ const regionMatches=(a,b)=>regionKey(a)===b;
+ const stats={};
+ const add=(name)=>{if(name&&!stats[name])stats[name]={matchW:0,matchL:0,setW:0,setL:0,matches:0}};
+ dbMatches.forEach(m=>{
+   const a=m.teams?.name||'',b=m.opponent?.name||'',ra=m.teams?.region||'',rb=m.opponent?.region||'';
+   const aIn=regionMatches(ra,leaderboardRegion),bIn=regionMatches(rb,leaderboardRegion);
+   if(!aIn&&!bIn)return;
+   if(aIn)add(a);if(bIn)add(b);
+   const sa=Number(m.score_a)||0,sb=Number(m.score_b)||0;
+   if(aIn){stats[a].matches++;stats[a].setW+=sa;stats[a].setL+=sb}
+   if(bIn){stats[b].matches++;stats[b].setW+=sb;stats[b].setL+=sa}
+   if(sa>sb){if(aIn)stats[a].matchW++;if(bIn)stats[b].matchL++}
+   else if(sb>sa){if(bIn)stats[b].matchW++;if(aIn)stats[a].matchL++}
+ });
+ let rows=Object.entries(stats).map(([name,r])=>({name,...r,points:leaderboardMode==='Match'?r.matchW:leaderboardMode==='Set'?r.setW:0})).sort((a,b)=>b.points-a.points||(leaderboardMode==='Match'?b.matches-a.matches:b.setW-b.setL)||a.name.localeCompare(b.name));
+ const regionButtons=regions.map(r=>'<button class="lbRegionBtn '+(leaderboardRegion===r?'active':'')+'" onclick="setLeaderboardRegion(\''+r+'\')">'+r+'</button>').join('');
+ const modeButtons=['Match','Set','Game'].map(m=>'<button class="lbModeBtn '+(leaderboardMode===m?'active':'')+'" onclick="setLeaderboardMode(\''+m+'\')">'+m+'</button>').join('');
+ const gameUnavailable=leaderboardMode==='Game';
+ const visible=gameUnavailable?[]:rows;
+ c='<div class="lbTopbar"><div class="lbRegions">'+regionButtons+'</div><div class="lbModes">'+modeButtons+'</div></div>'+
+   '<div class="lbSearchWrap"><input class="field" id="lbSearch" placeholder="Search teams/players" oninput="filterLeaderboardRows(this.value)"></div>'+
+   '<div class="lbTable card"><div class="lbTableHead"><span>#</span><span>Team</span><span>Pts</span></div>'+
+   (visible.length?visible.map((r,i)=>'<div class="lbRow" data-search="'+r.name.toLowerCase().replace(/["<>]/g,'')+'"><span class="lbRank">'+(i+1)+'</span><span class="lbTeam">'+teamLogo(r.name)+'<b>'+r.name+'</b></span><span class="lbPoints">'+r.points+'</span></div>').join(''):'<div class="empty">'+(gameUnavailable?'Game-level official results are not imported yet.':'No verified official results for '+leaderboardRegion+'.')+'</div>')+
+   '</div><div class="lbFootnote">'+(leaderboardMode==='Match'?'Points = official match wins.':leaderboardMode==='Set'?'Points = sets won in official matches.':'Game-level points will appear when official game results are available.')+' Only official match records are used; scrims are excluded.</div>';
 }
 if(page==='draft'){
  const pickRows=picks.filter(x=>x.pick_type==='pick'),banRows=picks.filter(x=>x.pick_type==='ban');
@@ -427,7 +456,7 @@ async function loadBscStatsData(){
     const {data:sb,error:sbe}=await supabaseClient.from('scrim_battles').select('battle_id,battle_time,map_name,mode,battle_type,tracked_team,tracked_players,players').order('battle_time',{ascending:false}).limit(100);
     if(sbe) throw sbe;
     const {data:ts,error:tse}=await supabaseClient.from('tournaments').select('id,slug,name,season,region,event_type,starts_on,ends_on').order('starts_on',{ascending:false});if(tse)throw tse;
-    const {data:ms,error:mse}=await supabaseClient.from('matches').select('id,played_at,score_a,score_b,stage,teams!matches_team_a_id_fkey(name),opponent:teams!matches_team_b_id_fkey(name)').order('played_at',{ascending:false}).limit(300);if(mse)throw mse;
+    const {data:ms,error:mse}=await supabaseClient.from('matches').select('id,played_at,score_a,score_b,stage,teams!matches_team_a_id_fkey(name,region),opponent:teams!matches_team_b_id_fkey(name,region)').order('played_at',{ascending:false}).limit(300);if(mse)throw mse;
     const {data:d,error:de}=await supabaseClient.from('draft_picks').select('brawler,pick_type').order('brawler');
     if(de) throw de;
     teams=(t||[]).map(x=>[x.name||x.slug,'—',x.region||'—','—']);
