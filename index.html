@@ -251,6 +251,25 @@ body{background:#050505;color:#f5f5f5;background-image:none}.side{background:#05
  .csScrimFilters label:nth-child(3){grid-column:auto}
  .csScrimFilters .field{height:52px!important;font-size:15px!important}
 }
+/* 11 November CoreStats-style match feed proportions */
+@media(max-width:900px){
+ .csScrimRow{grid-template-columns:minmax(0,1fr) 150px minmax(0,1fr) 18px;gap:10px;min-height:118px;padding:15px 22px;margin-bottom:10px;border:2px solid #222;border-radius:32px;background:#080808}
+ .csScrimTeam{gap:12px}
+ .csScrimTeam b{font-size:clamp(17px,2.6vw,25px);font-weight:850;letter-spacing:-.3px}
+ .csTeamLogoImg,.csTeamLogo{width:54px;height:54px;flex:0 0 54px;border-radius:9px}
+ .csTeamLogo{font-size:15px}
+ .csScrimScore{gap:12px;font-size:38px;letter-spacing:-.7px}
+ .csScrimArrow{font-size:28px;color:#999}
+}
+@media(max-width:600px){
+ .csScrimRow{grid-template-columns:minmax(0,1fr) 92px minmax(0,1fr) 12px;gap:5px;min-height:88px;padding:11px 9px;border-radius:23px}
+ .csScrimTeam{gap:6px}
+ .csScrimTeam b{font-size:clamp(11px,3.2vw,15px);letter-spacing:0}
+ .csTeamLogoImg,.csTeamLogo{width:34px;height:34px;flex-basis:34px}
+ .csTeamLogo{font-size:10px}
+ .csScrimScore{gap:5px;font-size:24px}
+ .csScrimArrow{font-size:20px}
+}
 /* Regional CoreStats-style leaderboards */
 .lbTopbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:4px 0 16px;flex-wrap:wrap}.lbRegions,.lbModes{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.lbRegionBtn,.lbModeBtn{border:1px solid #29233b;background:#100e18;color:#aaa1b8;border-radius:8px;padding:9px 13px;font-size:12px;font-weight:750}.lbRegionBtn.active,.lbModeBtn.active{background:#2a1b40;border-color:#8052b5;color:#fff;box-shadow:inset 0 0 0 1px #8052b544}.lbModes{padding:4px;border:1px solid #29233b;border-radius:10px;background:#0d0b14}.lbModeBtn{border:0;background:transparent}.lbModeBtn.active{background:#302044}.lbSearchWrap{margin:0 0 13px}.lbSearchWrap .field{width:100%;max-width:100%;height:42px}.lbTable{padding:0;overflow:hidden}.lbTableHead,.lbRow{display:grid;grid-template-columns:58px minmax(0,1fr) 90px;align-items:center;gap:12px;padding:13px 18px}.lbTableHead{background:#0d0b14;color:#948aa4;font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:850;border-bottom:1px solid #29233b}.lbTableHead span:last-child,.lbPoints{text-align:right}.lbRow{min-height:64px;border-bottom:1px solid #252031}.lbRow:last-child{border-bottom:0}.lbRank{color:#9a90a8;font-weight:800;font-variant-numeric:tabular-nums}.lbTeam{display:flex;align-items:center;gap:12px;min-width:0}.lbTeam b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lbTeam .csTeamLogoImg,.lbTeam .csTeamLogo{width:32px;height:32px;flex:0 0 32px}.lbPoints{font-size:17px;font-weight:900;font-variant-numeric:tabular-nums}.lbFootnote{margin:11px 2px 0;color:#777080;font-size:10px;line-height:1.5}
 @media(max-width:700px){.lbTopbar{align-items:stretch;gap:9px}.lbRegions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}.lbRegionBtn{padding:9px 6px;font-size:10px}.lbModes{width:max-content}.lbTableHead,.lbRow{grid-template-columns:30px minmax(0,1fr) 48px;padding:11px 9px;gap:7px}.lbTeam{gap:7px}.lbTeam b{font-size:10px}.lbTeam .csTeamLogoImg,.lbTeam .csTeamLogo{width:27px;height:27px;flex-basis:27px}.lbPoints{font-size:14px}}
@@ -662,6 +681,10 @@ if(page==='players'){
 }
 if(page==='scrims'){
  const allScrims=dbScrims.map(x=>({id:x.id,date:(x.played_at||'').slice(0,10),a:x.teams?.name||'Team A',b:x.opponent?.name||'Team B',sa:Number(x.score_a),sb:Number(x.score_b),played:x.played_at||'',raw:x}));
+ const manualNov11=[
+ ['TE','ZETA',9,4],['SKCEA','TE',0,10],['CR','FUT',3,7],['BH','ZETA',1,7],['FUT','TE',6,4],
+ ['NOVO','ZETA',2,4],['BH','NOVO',4,2],['FUT','ZETA',7,1],['BH','CR',4,9],['FUT','RED',11,1]
+ ].map((m,i)=>({id:'manual-nov11-'+i,date:'2026-11-11',a:m[0],b:m[1],sa:m[2],sb:m[3],played:'2026-11-11T23:'+String(59-i).padStart(2,'0')+':00',manual:true}));
  const manualNov12=[
  ['FUT','ZETA',10,9],['TE','TH',9,1],['FUT','NOVO',9,1],['BH','HMB',5,5],['TTM','ZETA',1,7],['BH','CR',6,6],['TH','TTM',8,2],['RED','ZETA',2,8],['FUT','TRB',9,1],
  ['CR','TRB',9,3],['SKCEA','TTM',6,4],['FUT','HMB',7,3],['NAVI','ZETA',2,8],['RED','TE',4,4],['BH','TTM',1,7],['NAVI','TRB',4,6],['CR','HMB',7,3],['NOVO','TE',2,8],['CR','NAVI',3,9],['FUT','TE',7,3],
@@ -669,7 +692,8 @@ if(page==='scrims'){
  ].map((m,i)=>({id:'manual-nov12-'+i,date:'2026-11-12',a:m[0],b:m[1],sa:m[2],sb:m[3],played:'2026-11-12T'+String(23-i).padStart(2,'0')+':00:00',manual:true}));
  const qs=new URLSearchParams(location.search);
  const selectedDate=qs.get('date')||'2026-11-12';
- const recent=[...allScrims,...manualNov12.filter(m=>!allScrims.some(x=>x.date===m.date&&scrimTeamLabel(x.a)===scrimTeamLabel(m.a)&&scrimTeamLabel(x.b)===scrimTeamLabel(m.b)&&x.sa===m.sa&&x.sb===m.sb))].sort((a,b)=>b.played.localeCompare(a.played));
+ const manualScrims=[...manualNov11,...manualNov12];
+ const recent=[...allScrims,...manualScrims.filter(m=>!allScrims.some(x=>x.date===m.date&&scrimTeamLabel(x.a)===scrimTeamLabel(m.a)&&scrimTeamLabel(x.b)===scrimTeamLabel(m.b)&&x.sa===m.sa&&x.sb===m.sb))].sort((a,b)=>b.played.localeCompare(a.played));
  c='<div class="csScrimToolbar"><div class="csScrimFilters">'+
  '<label>DATE<input class="field" type="date" id="scrimDateFilter" value="'+selectedDate+'" onchange="changeScrimDate()" oninput="changeScrimDate()"></label>'+
  '<label>REGION<select class="field" id="scrimRegion" onchange="applyScrimFilters()"><option value="">All regions</option><option>EMEA</option><option>NA</option><option>SA</option><option>EA</option><option>CINA</option></select></label>'+
@@ -855,9 +879,10 @@ function applyScrimFilters(){
 }
 function openManualScrimDetail(index){
  const row=document.querySelectorAll('#scrimRows .csScrimRow')[index];if(!row)return;
- const a=row.dataset.teamA||'Team A',b=row.dataset.teamB||'Team B',sa=row.dataset.sa||'0',sb=row.dataset.sb||'0';
- document.getElementById('pageTitle').textContent=scrimTeamLabel(a)+' vs '+scrimTeamLabel(b);document.getElementById('pageSub').textContent='Scrim details · 12 Nov 2026';
- document.getElementById('content').innerHTML='<button class="btn" onclick="render(\\'scrims\\')">← Back to scrims</button><div class="csPanel" style="margin-top:14px"><div class="eyebrow">SCRIM RESULT</div><h2 style="text-align:center;font-size:26px;margin:18px 0">'+scrimTeamLabel(a)+'　'+sa+' : '+sb+'　'+scrimTeamLabel(b)+'</h2><p class="muted" style="text-align:center">12 Nov 2026</p><div class="empty">Individual set and draft details were not provided.</div></div>';
+ const a=row.dataset.teamA||'Team A',b=row.dataset.teamB||'Team B',sa=row.dataset.sa||'0',sb=row.dataset.sb||'0',date=row.dataset.date||'';
+ const dateLabel=date==='2026-11-11'?'11 Nov 2026':date==='2026-11-12'?'12 Nov 2026':date;
+ document.getElementById('pageTitle').textContent=scrimTeamLabel(a)+' vs '+scrimTeamLabel(b);document.getElementById('pageSub').textContent='Scrim details · '+dateLabel;
+ document.getElementById('content').innerHTML='<button class="btn" onclick="render(\\'scrims\\')">← Back to scrims</button><div class="csPanel" style="margin-top:14px"><div class="eyebrow">SCRIM RESULT</div><h2 style="text-align:center;font-size:26px;margin:18px 0">'+scrimTeamLabel(a)+'　'+sa+' : '+sb+'　'+scrimTeamLabel(b)+'</h2><p class="muted" style="text-align:center">'+dateLabel+'</p><div class="empty">Individual set and draft details were not provided.</div></div>';
 }
 function openScrimDetail(id){
  const x=dbScrims.find(s=>String(s.id)===String(id));if(!x)return;
