@@ -671,7 +671,7 @@ if(page==='scrims'){
  const selectedDate=qs.get('date')||'2026-11-12';
  const recent=[...allScrims,...manualNov12.filter(m=>!allScrims.some(x=>x.date===m.date&&x.a===m.a&&x.b===m.b&&x.sa===m.sa&&x.sb===m.sb))].filter(x=>!selectedDate||x.date===selectedDate).sort((a,b)=>b.played.localeCompare(a.played));
  c='<div class="csScrimToolbar"><div class="csScrimFilters">'+
- '<label>DATE<input class="field" type="date" id="scrimDateFilter" value="'+selectedDate+'" onchange="applyScrimFilters()"></label>'+
+ '<label>DATE<input class="field" type="date" id="scrimDateFilter" value="'+selectedDate+'" onchange="changeScrimDate()"></label>'+
  '<label>REGION<select class="field" id="scrimRegion" onchange="applyScrimFilters()"><option value="">All regions</option><option>EMEA</option><option>NA</option><option>SA</option><option>EA</option><option>CINA</option></select></label>'+
  '</div><input class="field csScrimSearch" id="scrimSearch" placeholder="Search teams or players" oninput="applyScrimFilters()" autocomplete="off"></div>'+
  '<div class="csScrimStats" id="scrimStats"><span><b id="scrimSets">'+recent.reduce((n,x)=>n+(Number.isFinite(x.sa)?x.sa:0)+(Number.isFinite(x.sb)?x.sb:0),0)+'</b> sets</span><i>•</i><span><b id="scrimProTeams">'+new Set(recent.flatMap(x=>[x.a,x.b])).size+'</b> pro teams</span><i>•</i><span><b id="scrimMatchups">'+recent.length+'</b> matchups</span></div>'+
@@ -827,7 +827,7 @@ function wirePlayerFilters(){const el=document.getElementById('playerSearch');el
 
 function scrimTeamLabel(name){
  const n=String(name||'').toLowerCase().replace(/[^a-z0-9]/g,'');
- const aliases=[[/^fut(esports)?$/,'FUT'],[/^(zetadivision|zeta)$/,'ZETA'],[/^(teamelektros|elektros|te)$/,'TE'],[/^(teamheretics|heretics|th)$/,'TH'],[/^(novo(esports)?)$/,'NOVO'],[/^(bountyhunters|bh)$/,'BH'],[/^(hmble|teamhmble|hmb)$/,'HMB'],[/^(replytotem|totemesports|totem|ttm)$/,'TTM'],[/^(crazyraccoon|cr)$/,'CR'],[/^(redcanids|red)$/,'RED'],[/^trb$/,'TRB'],[/^skcea$/,'SKCEA']];
+ const aliases=[[/^fut(esports)?$/,'FUT'],[/^(zetadivision|zeta)$/,'ZETA'],[/^(teamelektros|elektros|te)$/,'TE'],[/^(teamheretics|heretics|th)$/,'TH'],[/^(novo(esports)?)$/,'NOVO'],[/^(bountyhunters|bh)$/,'BH'],[/^(hmble|teamhmble|hmb)$/,'HMB'],[/^(replytotem|totemesports|totem|ttm|trm)$/,'TRM'],[/^(crazyraccoon|cr)$/,'CR'],[/^(redcanids|red)$/,'RED'],[/^(natusvincere|naviesports|navi)$/,'NAVI'],[/^(tribegaming|tribe|trb)$/,'TRB'],[/^skcea$/,'SKCEA']];
  for(const [re,label] of aliases)if(re.test(n))return label;
  return String(name||'').replace(/\s+(Esports|Gaming)$/i,'');
 }
@@ -841,6 +841,14 @@ function scrimTeamColor(name){
  if(/^trb$/.test(n))return '#d85b68';
  if(/^(crazyraccoon|cr)$/.test(n))return '#b88e91';
  return '#f2f2f2';
+}
+
+function changeScrimDate(){
+ const date=document.getElementById('scrimDateFilter')?.value||'';
+ const params=new URLSearchParams(location.search);
+ if(date)params.set('date',date);else params.delete('date');
+ history.replaceState(null,'',location.pathname+(params.toString()?'?'+params.toString():''));
+ render('scrims');
 }
 
 function applyScrimFilters(){
