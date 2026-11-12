@@ -469,6 +469,20 @@ footer{font-size:9px}
  .csScrimToolbar .csScrimFilters>label{grid-template-rows:auto 58px!important;gap:8px!important}
  .csScrimToolbar #scrimDateFilter,.csScrimToolbar #scrimRegion{height:58px!important;min-height:58px!important;font-size:14px!important;padding:0 8px!important;border-radius:15px!important}
 }
+
+/* Center control values without changing the established rectangle dimensions */
+.csScrimToolbar #scrimDateFilter{
+ text-align:center!important;
+ text-align-last:center!important;
+}
+.csScrimToolbar #scrimDateFilter::-webkit-date-and-time-value{
+ text-align:center!important;
+ margin:0 auto!important;
+}
+.csScrimToolbar #scrimRegion{
+ text-align:center!important;
+ text-align-last:center!important;
+}
 </style>
 </head>
 <body><div class="shell">
