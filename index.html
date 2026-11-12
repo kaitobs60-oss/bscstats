@@ -244,6 +244,7 @@ body{background:#050505;color:#f5f5f5;background-image:none}.side{background:#05
   <div class="navlabel">Events</div>
   <a class="nav" data-page="brackets"><svg class="menuIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h5v4H4zM4 16h5v4H4zM15 10h5v4h-5zM9 6h3v6h3M9 18h3v-6"/></svg><span>Brackets</span></a>
   <a class="nav" data-page="tournaments"><svg class="menuIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v6a5 5 0 0 1-10 0zM7 6H3v2a5 5 0 0 0 5 5M17 6h4v2a5 5 0 0 1-5 5"/></svg><span>Tournaments</span></a>
+  <a class="nav" data-page="predictor"><svg class="menuIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8m0-12.8L5.6 18.4"/></svg><span>WF Predictor</span></a>
  </nav>
  <div class="sideFoot">BSCSTATS · COMPETITIVE DATA<br><span>Not affiliated with Supercell</span></div>
 </aside><div class="drawerShade" id="drawerShade" onclick="closeMenu()"></div>
@@ -281,6 +282,7 @@ mvp:['Player statistics','Individual performance and MVP rankings.'],
 news:['News & Transfers','Competitive news and roster history.'],
 fantasy:['Fantasy League','Fantasy team builder.'],
 predictions:['Community Predictions','Community match predictions.'],
+predictor:['World Finals Predictor','2026 World Finals team matchups and predicted series scores.'],
 draftbot:['Draft Bot','Draft preparation tools.']
 };
 function table(headers,rows){return '<div class="tablewrap"><table><thead><tr>'+headers.map(x=>'<th>'+x+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>'}
@@ -304,7 +306,7 @@ if(page==='overview'){
  const teamOptions='<option value="">Select a team</option>'+featuredTeams.map(t=>'<option value="'+String(t[0]).replace(/"/g,'&quot;')+'">'+t[0]+'</option>').join('');
  c='<section class="bscHomeHero"><div class="bscHomeGlow"></div><div class="bscHomeCopy"><div class="bscHomeKicker"><i></i> BSCSTATS · BRAWL STARS ESPORTS</div><h1>EVERY<br><span>BRAWL COUNTS.</span></h1><p>Brawl Stars stats, pro scrims and esports. From your next ladder push to the world stage — follow teams, players, tournaments and the competitive scene.</p><div class="bscHomeActions"><button class="btn primary" onclick="render(\'players\')">Check a profile ↗</button><button class="btn ghost" onclick="render(\'leaderboards\')">Regional leaderboards</button></div><div class="bscHomeMeta"><span>TEAMS · PLAYERS · SCRIMS</span><span>REGIONAL BSC POINTS</span><span>2026 SEASON</span></div></div><div class="bscHomeEmblem"><div class="bscHomeOrbit"></div><div class="bscHomeOrbit inner"></div><div class="bscHomeLogo">BSC<span>.</span></div><small>COMPETE · TRACK · ANALYSE</small></div></section>'+
  '<section class="bscHomeBlock"><div class="bscHomeSectionHead"><div><span class="eyebrow">YOUR COMPETITIVE HUB</span><h2>Explore BSCSTATS</h2><p class="muted">Everything happening across the Brawl Stars pro scene.</p></div><span class="tag">2026 SEASON</span></div><div class="bscHomeTools">'+
- [['♙','Player profiles','Players, teams and career records','players'],['⚔','Pro scrims','Match results, sets and head-to-heads','scrims'],['♛','Leaderboards','Regional rankings and BSC Points','leaderboards'],['▦','Brackets','Championship stages and playoff paths','brackets'],['🏆','Tournaments','Community events and match archives','tournaments'],['◈','Draft analytics','Picks, bans and competitive drafts','draft'],['✦','Meta tracker','Brawler usage and win-rate trends','meta'],['⇄','Compare','Team and player performance','analytics'],['◎','Community predictions','Predict competitive matchups','predictions']].map(x=>'<button class="bscHomeTool" onclick="render(\''+x[3]+'\')"><span>'+x[0]+'</span><b>'+x[1]+'</b><small>'+x[2]+'</small><i>↗</i></button>').join('')+'</div></section>'+
+ [['♙','Player profiles','Players, teams and career records','players'],['⚔','Pro scrims','Match results, sets and head-to-heads','scrims'],['♛','Leaderboards','Regional rankings and BSC Points','leaderboards'],['▦','Brackets','Championship stages and playoff paths','brackets'],['🏆','Tournaments','Community events and match archives','tournaments'],['◈','Draft analytics','Picks, bans and competitive drafts','draft'],['✦','Meta tracker','Brawler usage and win-rate trends','meta'],['⇄','Compare','Team and player performance','analytics'],['◎','Community predictions','Predict competitive matchups','predictions'],['◉','WF Predictor','Predict World Finals winners and exact series scores','predictor']].map(x=>'<button class="bscHomeTool" onclick="render(\''+x[3]+'\')"><span>'+x[0]+'</span><b>'+x[1]+'</b><small>'+x[2]+'</small><i>↗</i></button>').join('')+'</div></section>'+
  '<section class="bscHomeSplit"><div class="bscHomePanel"><div class="bscHomeSectionHead"><div><span class="eyebrow">HEAD TO HEAD</span><h2>Compare any two teams</h2><p class="muted">Explore recorded results and match history.</p></div></div><div class="bscCompareForm"><label>TEAM 1<select class="field" id="homeCompareA">'+teamOptions+'</select></label><div class="bscVs">VS</div><label>TEAM 2<select class="field" id="homeCompareB">'+teamOptions+'</select></label><button class="btn primary" onclick="homeCompareA=document.getElementById(\'homeCompareA\').value;homeCompareB=document.getElementById(\'homeCompareB\').value;render(\'analytics\');document.getElementById(\'compareTeamA\').value=homeCompareA;document.getElementById(\'compareTeamB\').value=homeCompareB;compareTeams()">Compare teams ↗</button></div><div class="bscHomeFootnote">Comparisons use available BSCSTATS records. Elo and win odds appear only when supported by verified match data.</div></div>'+
  '<div class="bscHomePanel bscWorldPanel"><span class="eyebrow">THE WORLD STAGE</span><h2>World Finals <span>2026</span></h2><p>Tokyo · 20–22 November</p><div class="bscWorldLine"><b>2026</b><span>Championship season</span></div><button class="btn ghost" onclick="render(\'brackets\')">Explore brackets ↗</button></div></section>'+
  '<section class="bscHomeBlock"><div class="bscHomeSectionHead"><div><span class="eyebrow">COMPETITIVE ACTIVITY</span><h2>BSCSTATS at a glance</h2></div></div><div class="bscHomeStats"><button onclick="render(\'teams\')"><small>TRACKED TEAMS</small><b>'+teams.length+'</b><span>Team directory ↗</span></button><button onclick="render(\'players\')"><small>PROFILES</small><b>'+players.length+'</b><span>Player directory ↗</span></button><button onclick="render(\'scrims\')"><small>RECORDED SCRIMS</small><b>'+dbScrims.length.toLocaleString()+'</b><span>Scrim database ↗</span></button><button onclick="render(\'tournaments\')"><small>TOURNAMENTS</small><b>'+tournamentCount.toLocaleString()+'</b><span>Event archive ↗</span></button></div></section>'+
@@ -435,6 +437,29 @@ if(page==='maps'){c=filters()+'<div class="card"><h3>Map performance</h3><p clas
 if(page==='mvp'){c=filters()+table(['RANK','PLAYER','TEAM','MVP SCORE'],players.map((p,i)=>['#'+(i+1),p[0],p[1],'<span class="muted">Pending data</span>']))+demo}
 if(page==='news'){c='<div class="two"><div class="card"><h3>News Center</h3><p class="muted">Competitive news, tournament announcements and roster updates.</p><div class="empty">No news feed connected.</div></div><div class="card"><h3>Transfer Market</h3><p class="muted">Player moves, former teams, current roster and transfer history.</p><div class="empty">No verified transfers added.</div></div></div>'+demo}
 if(page==='fantasy'){c='<div class="hero"><div class="eyebrow">FANTASY BSCSTATS</div><h2>Build your dream roster</h2><p>Seleziona i tuoi professionisti preferiti e salva la tua formazione su questo dispositivo. Nessun denaro o scommessa.</p><div class="filters"><select class="field" id="fantasy1"><option value="">Choose player 1</option>'+players.map(p=>'<option>'+p[0]+'</option>').join('')+'</select><select class="field" id="fantasy2"><option value="">Choose player 2</option>'+players.map(p=>'<option>'+p[0]+'</option>').join('')+'</select><select class="field" id="fantasy3"><option value="">Choose player 3</option>'+players.map(p=>'<option>'+p[0]+'</option>').join('')+'</select></div><button class="btn primary" onclick="saveFantasy()">Save my roster</button><div id="fantasySaved" class="notice" style="display:none"></div></div>'+demo}
+if(page==='predictor'){
+ const wfTeams=[
+  {name:'FUT Esports',region:'EMEA',points:766,seed:'EMEA #1 · Playoffs'},
+  {name:'HMBLE',region:'EMEA',points:594,seed:'EMEA #2 · Group A'},
+  {name:'Totem Esports',region:'EMEA',points:413,seed:'EMEA #3 · Group A'},
+  {name:'NOVO Esports',region:'EMEA',points:388,seed:'EMEA #4 · Group B'},
+  {name:'Team Heretics',region:'EMEA',points:367,seed:'LCQ #2 · Group A'},
+  {name:'Natus Vincere',region:'EMEA',points:351,seed:'LCQ #1 · Group B'},
+  {name:'Tribe Gaming',region:'NA',points:584,seed:'NA #1 · Playoffs'},
+  {name:'Team Elektros',region:'NA',points:566,seed:'NA #2 · Group B'},
+  {name:'Bounty Hunters',region:'SA',points:573,seed:'SA #1 · Playoffs'},
+  {name:'RED Canids',region:'SA',points:518,seed:'SA #2 · Group A'},
+  {name:'ZETA DIVISION',region:'EA',points:616,seed:'EA #1 · Playoffs'},
+  {name:'Crazy Raccoon',region:'EA',points:559,seed:'EA #2 · Group B'}
+ ];
+ const opts=wfTeams.map(t=>'<option value="'+t.name+'">'+t.name+' · '+t.region+'</option>').join('');
+ const fixture=(a,b)=>'<button class="btn ghost" onclick="setWFPick(\''+a+'\',\''+b+'\')">'+a+' <span class="muted">vs</span> '+b+'</button>';
+ c='<div class="hero"><div class="eyebrow">TOKYO · 20–22 NOVEMBER 2026</div><h2>World Finals Predictor</h2><p>Choose any two qualified teams and estimate the winner plus every possible series score. The model uses the 2026 regional BSC Points as a strength indicator, not verified head-to-head results.</p></div>'+
+ '<div class="card"><div class="sectionhead"><h3>Predict a matchup</h3><span class="tag">12 qualified teams</span></div><div class="filters"><label class="field" style="display:block">TEAM A<select class="field" id="wfTeamA">'+opts+'</select></label><label class="field" style="display:block">TEAM B<select class="field" id="wfTeamB">'+opts+'</select></label><label class="field" style="display:block">SERIES FORMAT<select class="field" id="wfFormat"><option value="5">Best of 5</option><option value="7">Grand Final · Best of 7 (1–0 start advantage not included)</option></select></label></div><button class="btn primary" onclick="runWFPrediction()">Generate prediction</button><div id="wfPredictionOutput" style="margin-top:16px"><div class="empty">Select two teams and generate a prediction.</div></div></div>'+
+ '<div class="two" style="margin-top:14px"><div class="card"><div class="sectionhead"><h3>Group A · opening matches</h3><span class="tag">20 Nov</span></div><div class="actions">'+fixture('HMBLE','Team Heretics')+fixture('RED Canids','Totem Esports')+'</div></div><div class="card"><div class="sectionhead"><h3>Group B · opening matches</h3><span class="tag">20 Nov</span></div><div class="actions">'+fixture('Crazy Raccoon','Natus Vincere')+fixture('Team Elektros','NOVO Esports')+'</div></div></div>'+
+ '<div class="card" style="margin-top:14px"><div class="sectionhead"><h3>All qualified teams</h3><span class="tag">2026 BSC Points</span></div>'+table(['TEAM','REGION','BSC POINTS','STARTING STAGE'],wfTeams.map(t=>['<b>'+t.name+'</b>',t.region,t.points,t.seed]))+'</div>'+
+ '<div class="notice">Important: the percentages and scorelines are model estimates derived from the supplied 2026 BSC Points. They are not official odds, guaranteed outcomes, or predictions trained on World Finals match results. Team points from different regions are only a rough comparison. Grand Final starting advantage is not yet factored into the Bo7 calculation.</div>';
+}
 if(page==='predictions'){
  const sessionReady=!!window.bscSession;
  c='<div class="hero"><div class="eyebrow">BSCSTATS COMMUNITY</div><h2>Predict the match. Earn points. Climb the leaderboard.</h2><p>Pronostici gratuiti sui match competitivi. Nessun denaro, nessuna scommessa: solo punti community e classifiche settimanali, mensili e all-time.</p></div>'+
@@ -475,6 +500,29 @@ function openScrimDetail(id){
 
 function wireScrimFilters(){const el=document.getElementById('scrimSearch');el?.addEventListener('input',()=>{const q=el.value.toLowerCase();document.querySelectorAll('#content tbody tr').forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none')})}
 function goCompare(){const a=document.getElementById('homeTeamA')?.value,b=document.getElementById('homeTeamB')?.value;if(!a||!b||a===b){alert('Select two different teams.');return}render('analytics');const aa=document.getElementById('compareTeamA'),bb=document.getElementById('compareTeamB');if(aa)aa.value=a;if(bb)bb.value=b;compareTeams()}
+function setWFPick(a,b){const aa=document.getElementById('wfTeamA'),bb=document.getElementById('wfTeamB');if(aa)aa.value=a;if(bb)bb.value=b;runWFPrediction()}
+function runWFPrediction(){
+ const data=[
+  {name:'FUT Esports',points:766},{name:'HMBLE',points:594},{name:'Totem Esports',points:413},{name:'NOVO Esports',points:388},{name:'Team Heretics',points:367},{name:'Natus Vincere',points:351},
+  {name:'Tribe Gaming',points:584},{name:'Team Elektros',points:566},{name:'Bounty Hunters',points:573},{name:'RED Canids',points:518},{name:'ZETA DIVISION',points:616},{name:'Crazy Raccoon',points:559}
+ ];
+ const aName=document.getElementById('wfTeamA')?.value,bName=document.getElementById('wfTeamB')?.value,n=Number(document.getElementById('wfFormat')?.value||5),out=document.getElementById('wfPredictionOutput');
+ if(!out)return;if(!aName||!bName||aName===bName){out.innerHTML='<div class="empty">Choose two different teams.</div>';return}
+ const a=data.find(x=>x.name===aName),b=data.find(x=>x.name===bName);if(!a||!b)return;
+ const p=1/(1+Math.pow(10,(b.points-a.points)/400));
+ const comb=(nn,k)=>{let v=1;for(let i=1;i<=k;i++)v=v*(nn-i+1)/i;return v};
+ const seriesProb=(wins,losses)=>comb(wins+losses-1,losses)*Math.pow(p,wins)*Math.pow(1-p,losses);
+ const outcomes=[];
+ for(let l=0;l<Math.ceil(n/2);l++){const w=Math.ceil(n/2);outcomes.push({score:w+'-'+l,prob:seriesProb(w,l),winner:aName});outcomes.push({score:l+'-'+w,prob:seriesProb(w,l),winner:bName})}
+ outcomes.sort((x,y)=>y.prob-x.prob);
+ const winA=outcomes.filter(x=>x.winner===aName).reduce((v,x)=>v+x.prob,0)*100;
+ const winB=100-winA,top=outcomes[0];
+ const pct=v=>v.toFixed(1)+'%';
+ out.innerHTML='<div class="csMetrics"><div class="csMetric"><span>'+aName+' WIN CHANCE</span><b>'+pct(winA)+'</b><small>'+a.points+' BSC Points</small></div><div class="csMetric"><span>'+bName+' WIN CHANCE</span><b>'+pct(winB)+'</b><small>'+b.points+' BSC Points</small></div><div class="csMetric"><span>MOST LIKELY SCORE</span><b>'+top.score+'</b><small>'+top.winner+'</small></div></div>'+
+ '<div class="sectionhead" style="margin-top:18px"><h3>All possible series scores</h3><span class="tag">Best of '+n+'</span></div>'+
+ '<div class="bars">'+outcomes.map(x=>'<div class="barrow"><span>'+x.winner+' '+x.score+'</span><div class="track"><div class="fill" style="width:'+Math.max(1,x.prob*100)+'%"></div></div><b>'+pct(x.prob*100)+'</b></div>').join('')+'</div>'+
+ '<div class="csFootnote">Model input: 2026 BSC Points only. A higher point total increases the estimated per-set strength; series probabilities are calculated from that estimate. This does not include player form, draft/map matchup, roster changes, scrim form, or verified direct results.</div>';
+}
 function compareTeams(){
  const a=document.getElementById('compareTeamA')?.value,b=document.getElementById('compareTeamB')?.value,out=document.getElementById('teamCompareOutput');
  if(!out)return;if(!a||!b||a===b){out.innerHTML='<div class="empty">Select two different teams to compare.</div>';return}
