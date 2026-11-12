@@ -414,6 +414,61 @@ footer{font-size:9px}
 .csScrimFilters>label>input[type=date]{appearance:none!important;-webkit-appearance:none!important;text-align:center!important}
 .csScrimFilters>label>select{appearance:auto!important;-webkit-appearance:menulist!important}
 @media(max-width:760px){.csScrimFilters{grid-template-columns:repeat(2,minmax(0,1fr))!important;column-gap:12px!important}.csScrimFilters>label>.field{height:58px!important}}
+
+/* FINAL FIX — DATE and REGION are identical grid cells */
+.csScrimToolbar .csScrimFilters{
+ display:grid!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:14px!important;
+ width:100%!important;
+ min-width:0!important;
+ max-width:100%!important;
+ box-sizing:border-box!important;
+ overflow:visible!important;
+}
+.csScrimToolbar .csScrimFilters>label{
+ display:grid!important;
+ grid-template-rows:auto 70px!important;
+ gap:12px!important;
+ width:100%!important;
+ min-width:0!important;
+ max-width:100%!important;
+ margin:0!important;
+ box-sizing:border-box!important;
+}
+.csScrimToolbar #scrimDateFilter,
+.csScrimToolbar #scrimRegion{
+ display:block!important;
+ width:100%!important;
+ min-width:0!important;
+ max-width:100%!important;
+ height:70px!important;
+ min-height:70px!important;
+ margin:0!important;
+ padding:0 12px!important;
+ box-sizing:border-box!important;
+ border:1px solid #303030!important;
+ border-radius:20px!important;
+ background:#0b0b0b!important;
+ color:#f4f4f4!important;
+ font-size:18px!important;
+ font-weight:800!important;
+}
+.csScrimToolbar #scrimDateFilter{
+ -webkit-appearance:none!important;
+ appearance:none!important;
+ text-align:center!important;
+ color-scheme:dark!important;
+}
+.csScrimToolbar #scrimRegion{
+ -webkit-appearance:menulist!important;
+ appearance:auto!important;
+}
+@media(max-width:760px){
+ .csScrimToolbar .csScrimFilters{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+ .csScrimToolbar .csScrimFilters>label{grid-template-rows:auto 58px!important;gap:8px!important}
+ .csScrimToolbar #scrimDateFilter,.csScrimToolbar #scrimRegion{height:58px!important;min-height:58px!important;font-size:14px!important;padding:0 8px!important;border-radius:15px!important}
+}
 </style>
 </head>
 <body><div class="shell">
