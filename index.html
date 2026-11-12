@@ -980,7 +980,7 @@ async function communitySignOut(){await supabaseClient.auth.signOut();window.bsc
 async function submitCommunityPrediction(predictionId,teamId){const {data:{session}}=await supabaseClient.auth.getSession();if(!session){render('predictions');return}const {error}=await supabaseClient.from('prediction_entries').insert({prediction_id:predictionId,user_id:session.user.id,predicted_winner_team_id:teamId,points:0});alert(error?error.message:'Prediction saved. Points are assigned after the verified match result.');}
 
 function vote(btn){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('primary'));btn.classList.add('primary');}
-document.getElementById('nav').addEventListener('click',e=>{const n=e.target.closest('[data-page]');if(n)render(n.dataset.page)});render('overview');
+document.getElementById('nav').addEventListener('click',e=>{const n=e.target.closest('[data-page]');if(n)render(n.dataset.page)});const initialParams=new URLSearchParams(location.search);render(initialParams.get('page')==='scrims'||initialParams.has('date')?'scrims':'overview');
 window.bscPredictions=[];window.bscSession=null;
 supabaseClient.auth.getSession().then(({data})=>{window.bscSession=data.session;});
 supabaseClient.auth.onAuthStateChange((_event,session)=>{window.bscSession=session;});
