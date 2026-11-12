@@ -591,6 +591,8 @@ function teamLogo(name){
   te:"https://liquipedia.net/commons/images/4/48/ElektrosJP_lightmode.png",
   teamelektros:"https://liquipedia.net/commons/images/4/48/ElektrosJP_lightmode.png",
   tribe:"https://cdn.brawlfind.com/teams/2024/tribe-gaming.png?v=2",
+  trb:"https://cdn.brawlfind.com/teams/2024/tribe-gaming.png?v=2",
+  skcea:"https://liquipedia.net/brawlstars/Special:FilePath/SK_Gaming_2021_darkmode.png",
   tribegaming:"https://cdn.brawlfind.com/teams/2024/tribe-gaming.png?v=2",
   bh:"https://liquipedia.net/commons/images/thumb/1/1d/Bounty_Hunters_Esports_full_lightmode.png/600px-Bounty_Hunters_Esports_full_lightmode.png",
   bountyhunters:"https://liquipedia.net/commons/images/thumb/1/1d/Bounty_Hunters_Esports_full_lightmode.png/600px-Bounty_Hunters_Esports_full_lightmode.png",
@@ -825,7 +827,7 @@ function wirePlayerFilters(){const el=document.getElementById('playerSearch');el
 
 function scrimTeamLabel(name){
  const n=String(name||'').toLowerCase().replace(/[^a-z0-9]/g,'');
- const aliases=[[/^fut(esports)?$/,'FUT'],[/^(zetadivision|zeta)$/,'ZETA'],[/^(teamelektros|elektros|te)$/,'TE'],[/^(teamheretics|heretics|th)$/,'TH'],[/^(novo(esports)?)$/,'NOVO'],[/^(bountyhunters|bh)$/,'BH'],[/^(hmble|teamhmble|hmb)$/,'HMB'],[/^(replytotem|totemesports|totem|ttm)$/,'TTM'],[/^(crazyraccoon|cr)$/,'CR'],[/^(redcanids|red)$/,'RED']];
+ const aliases=[[/^fut(esports)?$/,'FUT'],[/^(zetadivision|zeta)$/,'ZETA'],[/^(teamelektros|elektros|te)$/,'TE'],[/^(teamheretics|heretics|th)$/,'TH'],[/^(novo(esports)?)$/,'NOVO'],[/^(bountyhunters|bh)$/,'BH'],[/^(hmble|teamhmble|hmb)$/,'HMB'],[/^(replytotem|totemesports|totem|ttm)$/,'TTM'],[/^(crazyraccoon|cr)$/,'CR'],[/^(redcanids|red)$/,'RED'],[/^trb$/,'TRB'],[/^skcea$/,'SKCEA']];
  for(const [re,label] of aliases)if(re.test(n))return label;
  return String(name||'').replace(/\s+(Esports|Gaming)$/i,'');
 }
@@ -836,6 +838,7 @@ function scrimTeamColor(name){
  if(/^(teamheretics|heretics|th)$/.test(n))return '#c9c1a8';
  if(/^(hmble|teamhmble|hmb)$/.test(n))return '#ffad54';
  if(/^(replytotem|totemesports|totem|ttm)$/.test(n))return '#55d58b';
+ if(/^trb$/.test(n))return '#d85b68';
  if(/^(crazyraccoon|cr)$/.test(n))return '#b88e91';
  return '#f2f2f2';
 }
