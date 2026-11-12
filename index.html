@@ -827,7 +827,7 @@ function wirePlayerFilters(){const el=document.getElementById('playerSearch');el
 
 function scrimTeamLabel(name){
  const n=String(name||'').toLowerCase().replace(/[^a-z0-9]/g,'');
- const aliases=[[/^fut(esports)?$/,'FUT'],[/^(zetadivision|zeta)$/,'ZETA'],[/^(teamelektros|elektros|te)$/,'TE'],[/^(teamheretics|heretics|th)$/,'TH'],[/^(novo(esports)?)$/,'NOVO'],[/^(bountyhunters|bh)$/,'BH'],[/^(hmble|teamhmble|hmb)$/,'HMB'],[/^(replytotem|totemesports|totem|ttm)$/,'TTM'],[/^(crazyraccoon|cr)$/,'CR'],[/^(redcanids|red)$/,'RED'],[/^(natusvincere|naviesports|navi)$/,'NAVI'],[/^(tribegaming|tribe|trb)$/,'TRB'],[/^skcea$/,'SKCEA']];
+ const aliases=[[/^fut(esports)?$/,'FUT'],[/^(zetadivision|zeta)$/,'ZETA'],[/^(teamelektros|elektros|te)$/,'TE'],[/^(teamheretics|heretics|th)$/,'TH'],[/^(novo(esports)?)$/,'NOVO'],[/^(bountyhunters(allu)?|bh)$/,'BH'],[/^(hmble|teamhmble|hmb)$/,'HMB'],[/^(replytotem|totemesports|totem|ttm)$/,'TTM'],[/^(crazyraccoon|cr)$/,'CR'],[/^(redcanids|red)$/,'RED'],[/^(natusvincere|naviesports|navi)$/,'NAVI'],[/^(tribegaming|tribe|trb)$/,'TRB'],[/^skcea$/,'SKCEA']];
  for(const [re,label] of aliases)if(re.test(n))return label;
  return String(name||'').replace(/\s+(Esports|Gaming)$/i,'');
 }
@@ -865,15 +865,15 @@ function applyScrimFilters(){
 function openManualScrimDetail(index){
  const row=document.querySelectorAll('#scrimRows .csScrimRow')[index];if(!row)return;
  const a=row.dataset.teamA||'Team A',b=row.dataset.teamB||'Team B',sa=row.dataset.sa||'0',sb=row.dataset.sb||'0';
- document.getElementById('pageTitle').textContent=a+' vs '+b;document.getElementById('pageSub').textContent='Scrim details · 12 Nov 2026';
- document.getElementById('content').innerHTML='<button class="btn" onclick="render(\\'scrims\\')">← Back to scrims</button><div class="csPanel" style="margin-top:14px"><div class="eyebrow">SCRIM RESULT</div><h2 style="text-align:center;font-size:26px;margin:18px 0">'+a+'　'+sa+' : '+sb+'　'+b+'</h2><p class="muted" style="text-align:center">12 Nov 2026</p><div class="empty">Individual set and draft details were not provided.</div></div>';
+ document.getElementById('pageTitle').textContent=scrimTeamLabel(a)+' vs '+scrimTeamLabel(b);document.getElementById('pageSub').textContent='Scrim details · 12 Nov 2026';
+ document.getElementById('content').innerHTML='<button class="btn" onclick="render(\\'scrims\\')">← Back to scrims</button><div class="csPanel" style="margin-top:14px"><div class="eyebrow">SCRIM RESULT</div><h2 style="text-align:center;font-size:26px;margin:18px 0">'+scrimTeamLabel(a)+'　'+sa+' : '+sb+'　'+scrimTeamLabel(b)+'</h2><p class="muted" style="text-align:center">12 Nov 2026</p><div class="empty">Individual set and draft details were not provided.</div></div>';
 }
 function openScrimDetail(id){
  const x=dbScrims.find(s=>String(s.id)===String(id));if(!x)return;
  const a=x.teams?.name||'Team A',b=x.opponent?.name||'Team B';
  const date=(x.played_at||'').slice(0,10)||'Date unavailable';
- document.getElementById('pageTitle').textContent=a+' vs '+b;document.getElementById('pageSub').textContent='Scrim details · '+date;
- document.getElementById('content').innerHTML='<button class="btn" onclick="render(\'scrims\')">← Back to scrims</button><div class="csPanel" style="margin-top:14px"><div class="eyebrow">SCRIM RESULT</div><h2 style="text-align:center;font-size:26px;margin:18px 0">'+a+'　'+x.score_a+' : '+x.score_b+'　'+b+'</h2><p class="muted" style="text-align:center">'+date+'</p><div class="csScrimGrid lower"><section><h3>Rosters & sets</h3><div class="empty">Player lineups and individual game sets have not been imported for this scrim.</div></section><section><h3>Draft · Picks & bans</h3><div class="empty">No verified draft records are attached to this scrim.</div></section></div></div>';
+ document.getElementById('pageTitle').textContent=scrimTeamLabel(a)+' vs '+scrimTeamLabel(b);document.getElementById('pageSub').textContent='Scrim details · '+date;
+ document.getElementById('content').innerHTML='<button class="btn" onclick="render(\'scrims\')">← Back to scrims</button><div class="csPanel" style="margin-top:14px"><div class="eyebrow">SCRIM RESULT</div><h2 style="text-align:center;font-size:26px;margin:18px 0">'+scrimTeamLabel(a)+'　'+x.score_a+' : '+x.score_b+'　'+scrimTeamLabel(b)+'</h2><p class="muted" style="text-align:center">'+date+'</p><div class="csScrimGrid lower"><section><h3>Rosters & sets</h3><div class="empty">Player lineups and individual game sets have not been imported for this scrim.</div></section><section><h3>Draft · Picks & bans</h3><div class="empty">No verified draft records are attached to this scrim.</div></section></div></div>';
 }
 
 function wireScrimFilters(){const el=document.getElementById('scrimSearch');el?.addEventListener('input',()=>{const q=el.value.toLowerCase();document.querySelectorAll('#content tbody tr').forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none')})}
