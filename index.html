@@ -348,6 +348,13 @@ footer{font-size:9px}
 }
 @media(max-width:390px){.main{padding-left:10px;padding-right:10px}.bscHomeTools{gap:6px}.bscHomeTool{padding:9px}.bscHomeTool b{font-size:10px}.main .title{font-size:20px}}
 
+
+/* Team crest consistency and graceful fallback */
+.csTeamLogoFrame{width:44px;height:44px;flex:0 0 44px;display:grid;place-items:center;overflow:hidden;border:1px solid rgba(174,125,255,.22);border-radius:11px;background:radial-gradient(circle at 50% 35%,#252033 0%,#111018 72%);box-shadow:inset 0 0 16px rgba(168,121,255,.08)}
+.csTeamLogoImg{width:100%;height:100%;max-width:100%;max-height:100%;padding:5px;object-fit:contain;border-radius:9px;background:transparent;display:block}
+.csTeamLogo{width:44px;height:44px;flex:0 0 44px;border:1px solid rgba(174,125,255,.25);border-radius:11px;display:grid;place-items:center;color:#e9dcff;font-size:12px;font-weight:900;letter-spacing:.5px;background:radial-gradient(circle at 50% 20%,#34264d,#15111e 72%);box-shadow:inset 0 0 16px rgba(168,121,255,.1)}
+.csScrimTeam.right .csTeamLogoFrame,.csScrimTeam.right .csTeamLogo{order:2}
+
 </style>
 </head>
 <body><div class="shell">
@@ -414,7 +421,58 @@ function bars(data){return '<div class="bars">'+data.map(x=>'<div class="barrow"
 function filters(opts){return '<div class="filters"><select class="field" id="period"><option>All time</option><option>2026</option><option>2025</option></select><select class="field"><option>All tournaments</option><option>World Finals</option><option>Monthly Finals</option><option>Brawl Cup</option><option>LCQ</option></select><select class="field"><option>All regions</option><option>EMEA</option><option>NA</option><option>SA</option><option>EA</option><option>CINA</option></select><input class="field" id="search" placeholder="Search..."></div>'}
 function toggleMenu(){document.getElementById('sideNav')?.classList.toggle('open');document.getElementById('drawerShade')?.classList.toggle('show')}
 function closeMenu(){document.getElementById('sideNav')?.classList.remove('open');document.getElementById('drawerShade')?.classList.remove('show')}
-function teamLogo(name){const n=String(name||"").toLowerCase().replace(/[^a-z0-9]/g,"");const logos={"fut":"https://images.seeklogo.com/logo-png/50/1/fut-esports-logo-png_seeklogo-509813.png","futesports":"https://images.seeklogo.com/logo-png/50/1/fut-esports-logo-png_seeklogo-509813.png","hmb":"https://liquipedia.net/commons/images/0/0b/HMBLE_2024_lightmode.png","hmble":"https://liquipedia.net/commons/images/0/0b/HMBLE_2024_lightmode.png","th":"https://brawlstars.inbox.supercell.com/xdjcscmv3zo3/4j2rurMvMh0nnFoCtLkSsc/2b846b4d552151aea6585889c02699ef/player_icon_heretics.png","teamheretics":"https://brawlstars.inbox.supercell.com/xdjcscmv3zo3/4j2rurMvMh0nnFoCtLkSsc/2b846b4d552151aea6585889c02699ef/player_icon_heretics.png","zeta":"https://liquipedia.net/brawlstars/Special:FilePath/ZETA_DIVISION_darkmode.png","zetadivision":"https://liquipedia.net/brawlstars/Special:FilePath/ZETA_DIVISION_darkmode.png","te":"https://liquipedia.net/commons/images/4/48/ElektrosJP_lightmode.png","teamelektros":"https://liquipedia.net/commons/images/4/48/ElektrosJP_lightmode.png","tribe":"https://cdn.brawlfind.com/teams/2024/tribe-gaming.png?v=2","tribegaming":"https://cdn.brawlfind.com/teams/2024/tribe-gaming.png?v=2","bh":"https://liquipedia.net/commons/images/thumb/1/1d/Bounty_Hunters_Esports_full_lightmode.png/600px-Bounty_Hunters_Esports_full_lightmode.png","bountyhunters":"https://liquipedia.net/commons/images/thumb/1/1d/Bounty_Hunters_Esports_full_lightmode.png/600px-Bounty_Hunters_Esports_full_lightmode.png","bountyhuntersallu":"https://liquipedia.net/commons/images/thumb/1/1d/Bounty_Hunters_Esports_full_lightmode.png/600px-Bounty_Hunters_Esports_full_lightmode.png","red":"https://liquipedia.net/commons/images/thumb/3/3b/Red_Canids_allmode.png/600px-Red_Canids_allmode.png","redcanids":"https://liquipedia.net/commons/images/thumb/3/3b/Red_Canids_allmode.png/600px-Red_Canids_allmode.png","cr":"https://cdn.brawlfind.com/teams/2024/crazy-raccoon.webp","crazyraccoon":"https://cdn.brawlfind.com/teams/2024/crazy-raccoon.webp","novo":"https://taiyoro.gg/_next/image?q=75&url=https%3A%2F%2Ftaiyoro-prod-media.s3.amazonaws.com%2Fteam%2FewynTmwYpE.png&w=3840","novoesports":"https://taiyoro.gg/_next/image?q=75&url=https%3A%2F%2Ftaiyoro-prod-media.s3.amazonaws.com%2Fteam%2FewynTmwYpE.png&w=3840","ttm":"https://cdn.brawlfind.com/teams/2025/reply-totem.webp","replytotem":"https://cdn.brawlfind.com/teams/2025/reply-totem.webp","totemesports":"https://cdn.brawlfind.com/teams/2025/reply-totem.webp","navi":"https://cdn.brawlfind.com/teams/2024/navi.png","natusvincere":"https://cdn.brawlfind.com/teams/2024/navi.png"};const url=logos[n];return url?'<img class="csTeamLogoImg" src="'+url+'" alt="'+String(name).replace(/["<>]/g,"")+' logo" loading="lazy" onerror="this.style.display=\'none\'">':'<span class="csTeamLogo">'+teamInitials(name)+'</span>';}
+function teamLogo(name){
+ const raw=String(name||"").trim();
+ const n=raw.toLowerCase().normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").replace(/[^a-z0-9]/g,"");
+ const logos={
+  fut:"https://images.seeklogo.com/logo-png/50/1/fut-esports-logo-png_seeklogo-509813.png",
+  futesports:"https://images.seeklogo.com/logo-png/50/1/fut-esports-logo-png_seeklogo-509813.png",
+  futesportsacademy:"https://images.seeklogo.com/logo-png/50/1/fut-esports-logo-png_seeklogo-509813.png",
+  hmb:"https://liquipedia.net/commons/images/0/0b/HMBLE_2024_lightmode.png",
+  hmbl:"https://liquipedia.net/commons/images/0/0b/HMBLE_2024_lightmode.png",
+  hmble:"https://liquipedia.net/commons/images/0/0b/HMBLE_2024_lightmode.png",
+  teamhmble:"https://liquipedia.net/commons/images/0/0b/HMBLE_2024_lightmode.png",
+  th:"https://brawlstars.inbox.supercell.com/xdjcscmv3zo3/4j2rurMvMh0nnFoCtLkSsc/2b846b4d552151aea6585889c02699ef/player_icon_heretics.png",
+  heretics:"https://brawlstars.inbox.supercell.com/xdjcscmv3zo3/4j2rurMvMh0nnFoCtLkSsc/2b846b4d552151aea6585889c02699ef/player_icon_heretics.png",
+  teamheretics:"https://brawlstars.inbox.supercell.com/xdjcscmv3zo3/4j2rurMvMh0nnFoCtLkSsc/2b846b4d552151aea6585889c02699ef/player_icon_heretics.png",
+  zeta:"https://liquipedia.net/brawlstars/Special:FilePath/ZETA_DIVISION_darkmode.png",
+  zetadivision:"https://liquipedia.net/brawlstars/Special:FilePath/ZETA_DIVISION_darkmode.png",
+  te:"https://liquipedia.net/commons/images/4/48/ElektrosJP_lightmode.png",
+  teamelektros:"https://liquipedia.net/commons/images/4/48/ElektrosJP_lightmode.png",
+  tribe:"https://cdn.brawlfind.com/teams/2024/tribe-gaming.png?v=2",
+  tribegaming:"https://cdn.brawlfind.com/teams/2024/tribe-gaming.png?v=2",
+  bh:"https://liquipedia.net/commons/images/thumb/1/1d/Bounty_Hunters_Esports_full_lightmode.png/600px-Bounty_Hunters_Esports_full_lightmode.png",
+  bountyhunters:"https://liquipedia.net/commons/images/thumb/1/1d/Bounty_Hunters_Esports_full_lightmode.png/600px-Bounty_Hunters_Esports_full_lightmode.png",
+  bountyhuntersallu:"https://liquipedia.net/commons/images/thumb/1/1d/Bounty_Hunters_Esports_full_lightmode.png/600px-Bounty_Hunters_Esports_full_lightmode.png",
+  red:"https://liquipedia.net/commons/images/thumb/3/3b/Red_Canids_allmode.png/600px-Red_Canids_allmode.png",
+  redcanids:"https://liquipedia.net/commons/images/thumb/3/3b/Red_Canids_allmode.png/600px-Red_Canids_allmode.png",
+  cr:"https://cdn.brawlfind.com/teams/2024/crazy-raccoon.webp",
+  crazyraccoon:"https://cdn.brawlfind.com/teams/2024/crazy-raccoon.webp",
+  novo:"https://taiyoro.gg/_next/image?q=75&url=https%3A%2F%2Ftaiyoro-prod-media.s3.amazonaws.com%2Fteam%2FewynTmwYpE.png&w=3840",
+  novoesports:"https://taiyoro.gg/_next/image?q=75&url=https%3A%2F%2Ftaiyoro-prod-media.s3.amazonaws.com%2Fteam%2FewynTmwYpE.png&w=3840",
+  ttm:"https://cdn.brawlfind.com/teams/2025/reply-totem.webp",
+  totem:"https://cdn.brawlfind.com/teams/2025/reply-totem.webp",
+  replytotem:"https://cdn.brawlfind.com/teams/2025/reply-totem.webp",
+  totemesports:"https://cdn.brawlfind.com/teams/2025/reply-totem.webp",
+  navi:"https://cdn.brawlfind.com/teams/2024/navi.png",
+  natusvincere:"https://cdn.brawlfind.com/teams/2024/navi.png",
+  sk:"https://liquipedia.net/brawlstars/Special:FilePath/SK_Gaming_2021_darkmode.png",
+  skgaming:"https://liquipedia.net/brawlstars/Special:FilePath/SK_Gaming_2021_darkmode.png"
+ };
+ const aliases=[
+  ["futesportsacademy","fut"],["futesports","fut"],["teamhmble","hmble"],
+  ["bountyhuntersallu","bountyhunters"],["replytotem","ttm"],["totemesports","ttm"],
+  ["natusvincere","navi"],["teamheretics","th"],["zetadivision","zeta"],
+  ["tribegaming","tribe"],["crazyraccoon","cr"],["novoesports","novo"],
+  ["teamelektros","te"],["skgaming","sk"]
+ ];
+ let url=logos[n];
+ if(!url){const alias=aliases.find(x=>n===x[0]||n.startsWith(x[0]));if(alias)url=logos[alias[1]];}
+ if(!url){const prefix=Object.keys(logos).sort((x,y)=>y.length-x.length).find(k=>n.startsWith(k));if(prefix)url=logos[prefix];}
+ const safe=raw.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+ const fallback='<span class="csTeamLogo csTeamLogoFallback" title="'+safe+'">'+teamInitials(raw)+'</span>';
+ return url?'<span class="csTeamLogoFrame" title="'+safe+'"><img class="csTeamLogoImg" src="'+url+'" alt="'+safe+' logo" loading="lazy" decoding="async" onerror="this.parentElement.outerHTML=\''+fallback.replace(/'/g,"\\'")+'\'"></span>':fallback;
+}
 function teamInitials(name){return String(name||"?").split(/\\s+/).filter(Boolean).slice(0,2).map(x=>x.slice(0,1)).join("").toUpperCase()||"?";}
 function setLeaderboardRegion(region){leaderboardRegion=region;render('leaderboards')}
 function setLeaderboardMode(mode){leaderboardMode=mode;render('leaderboards')}
