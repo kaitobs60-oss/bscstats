@@ -289,6 +289,65 @@ body{background:#050505;color:#f5f5f5;background-image:none}.side{background:#05
 .pr-method-stats b{font-size:15px;color:#d4b5ff}.pr-method-stats span{font-size:8px;color:#8c8198;align-self:center}
 @media(max-width:760px){.pr-heading{display:block}.pr-live{display:inline-block;margin-top:12px}.pr-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.pr-stat{padding:11px}.pr-stat strong{font-size:22px}.pr-two{grid-template-columns:1fr}.pr-panel{padding:12px}.pr-result-head,.pr-result-row{grid-template-columns:62px minmax(0,1fr) 48px 58px;gap:6px}.pr-result-head{font-size:7px}.pr-result-match{gap:4px}.pr-result-match b{font-size:9px}.pr-result-outcome{font-size:8px}.pr-method{grid-template-columns:1fr}.pr-method-stats{grid-template-columns:repeat(3,1fr)}.pr-method-stats span{font-size:7px}.pr-cal-row{grid-template-columns:57px 1fr 58px;gap:6px}.pr-split-row{grid-template-columns:minmax(0,1fr) 38px 65px}}
 
+
+/* BSCSTATS precision UI pass — compact typography, 4K and mobile scaling */
+:root{font-size:14px;--bg:#07060b;--panel:#0d0c12;--line:#27212f;--muted:#9991a5;--purple:#a879ff}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}
+body{font-size:13px;line-height:1.5;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-feature-settings:"ss01" on,"cv11" on}
+button,input,select,textarea{font:inherit}
+.siteMain{margin-left:248px;min-width:0}
+.side{width:248px!important;max-width:248px!important;transform:none!important;position:fixed!important;inset:0 auto 0 0!important;padding:16px 12px!important;overflow-y:auto!important}
+.side .navlabel{font-size:10px!important;padding:19px 12px 7px!important;letter-spacing:1.1px!important}
+.side .nav{height:43px!important;min-height:43px!important;padding:0 12px!important;margin:2px 0!important;gap:12px!important;border-radius:9px!important;font-size:13px!important;letter-spacing:0!important}
+.side .nav span{font-size:13px!important;font-weight:600!important;letter-spacing:0!important}
+.side .menuIcon{width:19px!important;height:19px!important;flex-basis:19px!important}
+.main{max-width:1900px;margin:0 auto;padding:24px clamp(22px,2.5vw,48px) 54px}
+.main .title{font-size:clamp(22px,1.5vw,29px);line-height:1.2;letter-spacing:-.65px}
+.main .sub{font-size:12px;line-height:1.55}
+.crumb{font-size:8px;letter-spacing:1px}
+.top{margin-bottom:18px;padding-bottom:14px}
+.card,.csPanel,.csHomePanel,.dashPanel,.pr-panel{padding:14px;border-radius:11px}
+.sectionhead h3,.panelHeading h3,.csPanelHead h2{font-size:13px}
+.eyebrow,.bscHomeKicker,.lbEyebrow{font-size:9px;letter-spacing:1.1px}
+.stat{font-size:21px}.statlabel{font-size:9px}
+.csMetric{padding:13px 14px;gap:6px}.csMetric span{font-size:9px}.csMetric b{font-size:24px}.csMetric small{font-size:9px}
+.csPageTitle{font-size:25px}
+.field{font-size:11px;min-height:34px;padding:8px 10px}
+.btn{font-size:10px;padding:8px 11px}
+.tag,.pill{font-size:8px}
+td{font-size:10px}th{font-size:8px}
+.bscHomeHero{min-height:310px;padding:30px 34px}
+.bscHomeHero h1{font-size:clamp(36px,3.8vw,54px);letter-spacing:-2px}
+.bscHomeHero p{font-size:12px}
+.bscHomeTool{min-height:110px;padding:13px}.bscHomeTool b{font-size:12px}.bscHomeTool small{font-size:9px}
+.csHomeHeroClean{min-height:310px;padding:32px 36px}
+.csExploreCard{min-height:120px;padding:14px}.csExploreCard b{font-size:12px}.csExploreCard small{font-size:9px}
+.lbRow{min-height:58px;padding:10px 14px}.lbTeam b{font-size:11px}.lbPoints{font-size:14px}
+.pr-heading h2{font-size:clamp(22px,2vw,30px)}.pr-stat{padding:12px 14px}.pr-stat strong{font-size:23px}
+footer{font-size:9px}
+@media(min-width:1800px){.main{max-width:1960px;padding-left:56px;padding-right:56px}.bscHomeHero,.csHomeHeroClean{min-height:340px}.bscHomeTools{gap:14px}.card,.csPanel,.csHomePanel{padding:17px}}
+@media(max-width:1000px){.side{width:220px!important;max-width:220px!important}.siteMain{margin-left:220px}.main{padding:20px 18px 42px}}
+@media(max-width:760px){
+ .side{width:min(82vw,330px)!important;max-width:330px!important;transform:translateX(-105%)!important;padding:18px 16px 24px!important;z-index:120!important}
+ .side.open{transform:translateX(0)!important}
+ .side .nav{height:48px!important;min-height:48px!important;padding:0 13px!important;gap:12px!important;font-size:14px!important}
+ .side .nav span{font-size:14px!important}
+ .side .navlabel{font-size:11px!important;padding:20px 12px 8px!important}
+ .siteMain{margin-left:0}
+ .main{padding:18px 14px 38px}
+ .main .title{font-size:22px}
+ .main .sub{font-size:11px}
+ .csMetric b{font-size:21px}
+ .bscHomeHero{min-height:0;padding:22px 16px 26px}
+ .bscHomeHero h1{font-size:clamp(31px,8vw,42px);letter-spacing:-1.3px}
+ .bscHomeHero p{font-size:11px}
+ .bscHomeTool{min-height:112px;padding:11px}
+ .bscHomeTool b{font-size:11px}
+ .bscHomeTool small{font-size:8px}
+ .card,.csPanel,.csHomePanel,.dashPanel,.pr-panel{padding:11px}
+}
+@media(max-width:390px){.main{padding-left:10px;padding-right:10px}.bscHomeTools{gap:6px}.bscHomeTool{padding:9px}.bscHomeTool b{font-size:10px}.main .title{font-size:20px}}
+
 </style>
 </head>
 <body><div class="shell">
