@@ -668,7 +668,7 @@ async function loadBscStatsData(){
   try{
     const {data:t,error:te}=await supabaseClient.from('teams').select('id,slug,name,region').or('region.is.null,region.neq.SCRIMS_ONLY').order('name');
     if(te) throw te;
-    const {data:p,error:pe}=await supabaseClient.from('players').select('id,nickname,nationality,current_team_id,teams(name)').order('nickname');
+    const {data:p,error:pe}=await supabaseClient.from('players').select('id,tag,nickname,nationality,current_team_id,teams(name)').order('nickname');
     if(pe) throw pe;
     const {data:s,error:se}=await supabaseClient.from('scrims').select('id,played_at,score_a,score_b,teams!scrims_team_a_id_fkey(name),opponent:teams!scrims_team_b_id_fkey(name)').order('played_at',{ascending:false}).limit(100);
     if(se) throw se;
