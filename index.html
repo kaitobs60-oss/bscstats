@@ -660,16 +660,21 @@ if(page==='players'){
 }
 if(page==='scrims'){
  const allScrims=dbScrims.map(x=>({id:x.id,date:(x.played_at||'').slice(0,10),a:x.teams?.name||'Team A',b:x.opponent?.name||'Team B',sa:Number(x.score_a),sb:Number(x.score_b),played:x.played_at||'',raw:x}));
+ const manualNov12=[
+ ['FUT','ZETA',10,9],['TE','TH',9,1],['FUT','NOVO',9,1],['BH','HMB',5,5],['TTM','ZETA',1,7],['BH','CR',6,6],['TH','TTM',8,2],['RED','ZETA',2,8],['FUT','TRB',9,1],
+ ['CR','TRB',9,3],['SKCEA','TTM',6,4],['FUT','HMB',7,3],['NAVI','ZETA',2,8],['RED','TE',4,4],['BH','TTM',1,7],['NAVI','TRB',4,6],['CR','HMB',7,3],['NOVO','TE',2,8],['CR','NAVI',3,9],['FUT','TE',7,3],
+ ['BH','TRB',3,7],['HMB','ZETA',8,2],['FUT','RED',10,0]
+ ].map((m,i)=>({id:'manual-nov12-'+i,date:'2026-11-12',a:m[0],b:m[1],sa:m[2],sb:m[3],played:'2026-11-12T'+String(23-i).padStart(2,'0')+':00:00',manual:true}));
  const qs=new URLSearchParams(location.search);
  const selectedDate=qs.get('date')||'2026-11-12';
- const recent=allScrims.filter(x=>!selectedDate||x.date===selectedDate).sort((a,b)=>b.played.localeCompare(a.played));
+ const recent=[...allScrims,...manualNov12.filter(m=>!allScrims.some(x=>x.date===m.date&&x.a===m.a&&x.b===m.b&&x.sa===m.sa&&x.sb===m.sb))].filter(x=>!selectedDate||x.date===selectedDate).sort((a,b)=>b.played.localeCompare(a.played));
  c='<div class="csScrimToolbar"><div class="csScrimFilters">'+
  '<label>DATE<input class="field" type="date" id="scrimDateFilter" value="'+selectedDate+'" onchange="applyScrimFilters()"></label>'+
  '<label>REGION<select class="field" id="scrimRegion" onchange="applyScrimFilters()"><option value="">All regions</option><option>EMEA</option><option>NA</option><option>SA</option><option>EA</option><option>CINA</option></select></label>'+
  '</div><input class="field csScrimSearch" id="scrimSearch" placeholder="Search teams or players" oninput="applyScrimFilters()" autocomplete="off"></div>'+
  '<div class="csScrimStats" id="scrimStats"><span><b id="scrimSets">'+recent.reduce((n,x)=>n+(Number.isFinite(x.sa)?x.sa:0)+(Number.isFinite(x.sb)?x.sb:0),0)+'</b> sets</span><i>•</i><span><b id="scrimProTeams">'+new Set(recent.flatMap(x=>[x.a,x.b])).size+'</b> pro teams</span><i>•</i><span><b id="scrimMatchups">'+recent.length+'</b> matchups</span></div>'+
  '<div class="csScrimFeedHead"><h2>Matchups</h2></div>'+
- '<div class="csRecent" id="scrimRows">'+(recent.length?recent.map(x=>'<button class="csScrimRow" data-date="'+x.date+'" data-region="'+((teams.find(t=>t[0]===x.a)?.[2]||'')+' '+(teams.find(t=>t[0]===x.b)?.[2]||'')).toLowerCase()+'" data-teams="'+(x.a+' '+x.b).toLowerCase()+'" data-team-a="'+x.a.toLowerCase()+'" data-team-b="'+x.b.toLowerCase()+'" data-players="'+players.filter(p=>p[1]===x.a||p[1]===x.b).map(p=>p[0]).join(' ').toLowerCase()+'" data-sa="'+(Number.isFinite(x.sa)?x.sa:0)+'" data-sb="'+(Number.isFinite(x.sb)?x.sb:0)+'" onclick="openScrimDetail(\''+String(x.id).replace(/'/g,'')+'\')"><span class="csScrimTeam">'+teamLogo(x.a)+'<b style="color:'+scrimTeamColor(x.a)+'">'+scrimTeamLabel(x.a)+'</b></span><strong class="csScrimScore"><i class="'+(x.sa>x.sb?'winner':'')+'">'+(Number.isFinite(x.sa)?x.sa:'—')+'</i><em>–</em><i class="'+(x.sb>x.sa?'winner':'')+'">'+(Number.isFinite(x.sb)?x.sb:'—')+'</i></strong><span class="csScrimTeam right"><b>'+scrimTeamLabel(x.b)+'</b>'+teamLogo(x.b)+'</span><span class="csScrimMeta">'+(x.date||'Date unavailable')+'</span><span class="csScrimArrow">›</span></button>').join(''):'<div class="csScrimEmpty">No scrim results recorded yet.</div>')+'</div>';
+ '<div class="csRecent" id="scrimRows">'+(recent.length?recent.map((x,i)=>'<button class="csScrimRow" data-date="'+x.date+'" data-region="'+((teams.find(t=>t[0]===x.a)?.[2]||'')+' '+(teams.find(t=>t[0]===x.b)?.[2]||'')).toLowerCase()+'" data-teams="'+(x.a+' '+x.b).toLowerCase()+'" data-team-a="'+x.a.toLowerCase()+'" data-team-b="'+x.b.toLowerCase()+'" data-players="'+players.filter(p=>p[1]===x.a||p[1]===x.b).map(p=>p[0]).join(' ').toLowerCase()+'" data-sa="'+(Number.isFinite(x.sa)?x.sa:0)+'" data-sb="'+(Number.isFinite(x.sb)?x.sb:0)+'" onclick="'+(x.manual?'openManualScrimDetail('+i+')':'openScrimDetail(\''+String(x.id).replace(/'/g,'')+'\')')+'"><span class="csScrimTeam">'+teamLogo(x.a)+'<b style="color:'+scrimTeamColor(x.a)+'">'+scrimTeamLabel(x.a)+'</b></span><strong class="csScrimScore"><i class="'+(x.sa>x.sb?'winner':'')+'">'+(Number.isFinite(x.sa)?x.sa:'—')+'</i><em>–</em><i class="'+(x.sb>x.sa?'winner':'')+'">'+(Number.isFinite(x.sb)?x.sb:'—')+'</i></strong><span class="csScrimTeam right"><b>'+scrimTeamLabel(x.b)+'</b>'+teamLogo(x.b)+'</span><span class="csScrimMeta">'+(x.date||'Date unavailable')+'</span><span class="csScrimArrow">›</span></button>').join(''):'<div class="csScrimEmpty">No scrim results recorded yet.</div>')+'</div>';
 }
 if(page==='tournaments'){
  c='<div class="filters"><select class="field"><option>All seasons</option><option>2026</option><option>2025</option></select><select class="field"><option>All regions</option><option>EMEA</option><option>NA</option><option>SA</option><option>EA</option><option>CINA</option></select><select class="field"><option>All event types</option><option>Monthly Finals</option><option>Brawl Cup</option><option>LCQ</option><option>World Finals</option></select></div>'+
@@ -842,6 +847,12 @@ function applyScrimFilters(){
  document.querySelectorAll('#scrimRows .csScrimRow').forEach(row=>{const ok=(!date||row.dataset.date===date)&&(!region||(row.dataset.region||'').includes(region))&&(!q||((row.dataset.teams||'')+' '+(row.dataset.players||'')).includes(q));row.style.display=ok?'':'none';if(ok){visible++;sets+=Number(row.dataset.sa||0)+Number(row.dataset.sb||0);[row.dataset.teamA||'',row.dataset.teamB||''].filter(Boolean).forEach(t=>teamSet.add(t))}});
  const setEl=document.getElementById('scrimSets'),teamEl=document.getElementById('scrimProTeams'),matchEl=document.getElementById('scrimMatchups');
  if(setEl)setEl.textContent=sets;if(teamEl)teamEl.textContent=teamSet.size;if(matchEl)matchEl.textContent=visible;
+}
+function openManualScrimDetail(index){
+ const row=document.querySelectorAll('#scrimRows .csScrimRow')[index];if(!row)return;
+ const a=row.dataset.teamA||'Team A',b=row.dataset.teamB||'Team B',sa=row.dataset.sa||'0',sb=row.dataset.sb||'0';
+ document.getElementById('pageTitle').textContent=a+' vs '+b;document.getElementById('pageSub').textContent='Scrim details · 12 Nov 2026';
+ document.getElementById('content').innerHTML='<button class="btn" onclick="render(\\'scrims\\')">← Back to scrims</button><div class="csPanel" style="margin-top:14px"><div class="eyebrow">SCRIM RESULT</div><h2 style="text-align:center;font-size:26px;margin:18px 0">'+a+'　'+sa+' : '+sb+'　'+b+'</h2><p class="muted" style="text-align:center">12 Nov 2026</p><div class="empty">Individual set and draft details were not provided.</div></div>';
 }
 function openScrimDetail(id){
  const x=dbScrims.find(s=>String(s.id)===String(id));if(!x)return;
