@@ -219,6 +219,27 @@ body{background:#050505;color:#f5f5f5;background-image:none}.side{background:#05
 .csScrimEmpty{padding:28px 14px;border:1px solid #242424;border-radius:12px;color:#888;text-align:center;background:#0a0a0a}
 @media(max-width:760px){.csScrimToolbar{padding-bottom:13px;margin-bottom:15px}.csScrimFilters{grid-template-columns:1fr 1fr;gap:8px}.csScrimFilters label{font-size:9px}.csScrimFilters .field{height:39px;font-size:11px}.csScrimFeedHead h2{font-size:17px}.csScrimRow{grid-template-columns:minmax(0,1fr) 82px minmax(0,1fr) 10px;gap:6px;min-height:76px;padding:10px 9px;border-radius:11px;margin-bottom:8px}.csScrimTeam{gap:6px}.csScrimTeam b{font-size:clamp(9px,2.8vw,13px)}.csTeamLogoImg,.csTeamLogo{width:30px;height:30px;flex-basis:30px;border-radius:7px;font-size:9px}.csScrimScore{gap:6px;font-size:21px}.csScrimMeta{font-size:8px;margin-top:-4px}.csScrimArrow{font-size:19px}}
 
+/* 12 November scrim feed — large match rows matching the supplied reference */
+.csScrimFeedHead{margin:4px 0 18px}
+.csScrimFeedHead h2{font-size:22px;letter-spacing:-.5px}
+.csScrimRow{grid-template-columns:minmax(0,1fr) 210px minmax(0,1fr) 22px;gap:22px;min-height:150px;padding:22px 34px;margin-bottom:14px;border:2px solid #222;border-radius:42px;background:#080808}
+.csScrimTeam{gap:20px}
+.csScrimTeam b{font-size:clamp(22px,2.4vw,34px);font-weight:850;letter-spacing:-.6px}
+.csTeamLogoImg,.csTeamLogo{width:68px;height:68px;flex:0 0 68px;border-radius:10px}
+.csTeamLogo{font-size:18px}
+.csScrimScore{gap:17px;font-size:48px;letter-spacing:-1px}
+.csScrimArrow{font-size:34px;color:#999}
+.csScrimMeta{display:none}
+.csScrimRow:hover{background:#0b0b0b;border-color:#303030}
+@media(max-width:760px){
+ .csScrimRow{grid-template-columns:minmax(0,1fr) 112px minmax(0,1fr) 12px;gap:8px;min-height:104px;padding:13px 12px;border-radius:25px;margin-bottom:10px}
+ .csScrimTeam{gap:7px}
+ .csScrimTeam b{font-size:clamp(12px,3.6vw,17px);letter-spacing:0}
+ .csTeamLogoImg,.csTeamLogo{width:40px;height:40px;flex-basis:40px;border-radius:8px}
+ .csTeamLogo{font-size:11px}
+ .csScrimScore{gap:7px;font-size:28px}
+ .csScrimArrow{font-size:22px}
+}
 /* Regional CoreStats-style leaderboards */
 .lbTopbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:4px 0 16px;flex-wrap:wrap}.lbRegions,.lbModes{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.lbRegionBtn,.lbModeBtn{border:1px solid #29233b;background:#100e18;color:#aaa1b8;border-radius:8px;padding:9px 13px;font-size:12px;font-weight:750}.lbRegionBtn.active,.lbModeBtn.active{background:#2a1b40;border-color:#8052b5;color:#fff;box-shadow:inset 0 0 0 1px #8052b544}.lbModes{padding:4px;border:1px solid #29233b;border-radius:10px;background:#0d0b14}.lbModeBtn{border:0;background:transparent}.lbModeBtn.active{background:#302044}.lbSearchWrap{margin:0 0 13px}.lbSearchWrap .field{width:100%;max-width:100%;height:42px}.lbTable{padding:0;overflow:hidden}.lbTableHead,.lbRow{display:grid;grid-template-columns:58px minmax(0,1fr) 90px;align-items:center;gap:12px;padding:13px 18px}.lbTableHead{background:#0d0b14;color:#948aa4;font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:850;border-bottom:1px solid #29233b}.lbTableHead span:last-child,.lbPoints{text-align:right}.lbRow{min-height:64px;border-bottom:1px solid #252031}.lbRow:last-child{border-bottom:0}.lbRank{color:#9a90a8;font-weight:800;font-variant-numeric:tabular-nums}.lbTeam{display:flex;align-items:center;gap:12px;min-width:0}.lbTeam b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lbTeam .csTeamLogoImg,.lbTeam .csTeamLogo{width:32px;height:32px;flex:0 0 32px}.lbPoints{font-size:17px;font-weight:900;font-variant-numeric:tabular-nums}.lbFootnote{margin:11px 2px 0;color:#777080;font-size:10px;line-height:1.5}
 @media(max-width:700px){.lbTopbar{align-items:stretch;gap:9px}.lbRegions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}.lbRegionBtn{padding:9px 6px;font-size:10px}.lbModes{width:max-content}.lbTableHead,.lbRow{grid-template-columns:30px minmax(0,1fr) 48px;padding:11px 9px;gap:7px}.lbTeam{gap:7px}.lbTeam b{font-size:10px}.lbTeam .csTeamLogoImg,.lbTeam .csTeamLogo{width:27px;height:27px;flex-basis:27px}.lbPoints{font-size:14px}}
@@ -509,16 +530,16 @@ if(page==='players'){
 }
 if(page==='scrims'){
  const allScrims=dbScrims.map(x=>({id:x.id,date:(x.played_at||'').slice(0,10),a:x.teams?.name||'Team A',b:x.opponent?.name||'Team B',sa:Number(x.score_a),sb:Number(x.score_b),played:x.played_at||'',raw:x}));
- const recent=allScrims.slice().sort((a,b)=>b.played.localeCompare(a.played));
  const qs=new URLSearchParams(location.search);
- const selectedDate=qs.get('date')||'';
+ const selectedDate=qs.get('date')||'2026-11-12';
+ const recent=allScrims.filter(x=>!selectedDate||x.date===selectedDate).sort((a,b)=>b.played.localeCompare(a.played));
  const teamOptions=[...new Set(allScrims.flatMap(x=>[x.a,x.b]))].sort();
  c='<div class="csScrimToolbar"><div class="csScrimFilters">'+
  '<label>DATE<input class="field" type="date" id="scrimDateFilter" value="'+selectedDate+'" onchange="applyScrimFilters()"></label>'+
  '<label>REGION<select class="field" id="scrimRegion" onchange="applyScrimFilters()"><option value="">All regions</option><option>EMEA</option><option>NA</option><option>SA</option><option>EA</option><option>CINA</option></select></label>'+
  '<label>SEARCH<input class="field" id="scrimSearch" placeholder="Search teams..." oninput="applyScrimFilters()"></label></div></div>'+
  '<div class="csScrimFeedHead"><h2>Recent Scrims</h2><small id="scrimCount">'+recent.length+' RESULTS</small></div>'+
- '<div class="csRecent" id="scrimRows">'+(recent.length?recent.map(x=>'<button class="csScrimRow" data-date="'+x.date+'" data-region="'+((teams.find(t=>t[0]===x.a)?.[2]||'')+' '+(teams.find(t=>t[0]===x.b)?.[2]||'')).toLowerCase()+'" data-teams="'+(x.a+' '+x.b).toLowerCase()+'" onclick="openScrimDetail(\''+String(x.id).replace(/'/g,'')+'\')"><span class="csScrimTeam">'+teamLogo(x.a)+'<b>'+x.a+'</b></span><strong class="csScrimScore"><i class="'+(x.sa>x.sb?'winner':'')+'">'+(Number.isFinite(x.sa)?x.sa:'—')+'</i><em>–</em><i class="'+(x.sb>x.sa?'winner':'')+'">'+(Number.isFinite(x.sb)?x.sb:'—')+'</i></strong><span class="csScrimTeam right"><b>'+x.b+'</b>'+teamLogo(x.b)+'</span><span class="csScrimMeta">'+(x.date||'Date unavailable')+'</span><span class="csScrimArrow">›</span></button>').join(''):'<div class="csScrimEmpty">No scrim results recorded yet.</div>')+'</div>';
+ '<div class="csRecent" id="scrimRows">'+(recent.length?recent.map(x=>'<button class="csScrimRow" data-date="'+x.date+'" data-region="'+((teams.find(t=>t[0]===x.a)?.[2]||'')+' '+(teams.find(t=>t[0]===x.b)?.[2]||'')).toLowerCase()+'" data-teams="'+(x.a+' '+x.b).toLowerCase()+'" onclick="openScrimDetail(\''+String(x.id).replace(/'/g,'')+'\')"><span class="csScrimTeam">'+teamLogo(x.a)+'<b style="color:'+scrimTeamColor(x.a)+'">'+scrimTeamLabel(x.a)+'</b></span><strong class="csScrimScore"><i class="'+(x.sa>x.sb?'winner':'')+'">'+(Number.isFinite(x.sa)?x.sa:'—')+'</i><em>–</em><i class="'+(x.sb>x.sa?'winner':'')+'">'+(Number.isFinite(x.sb)?x.sb:'—')+'</i></strong><span class="csScrimTeam right"><b>'+x.b+'</b>'+teamLogo(x.b)+'</span><span class="csScrimMeta">'+(x.date||'Date unavailable')+'</span><span class="csScrimArrow">›</span></button>').join(''):'<div class="csScrimEmpty">No scrim results recorded yet.</div>')+'</div>';
 }
 if(page==='tournaments'){
  c='<div class="filters"><select class="field"><option>All seasons</option><option>2026</option><option>2025</option></select><select class="field"><option>All regions</option><option>EMEA</option><option>NA</option><option>SA</option><option>EA</option><option>CINA</option></select><select class="field"><option>All event types</option><option>Monthly Finals</option><option>Brawl Cup</option><option>LCQ</option><option>World Finals</option></select></div>'+
@@ -666,6 +687,23 @@ function wireTeamFilters(){
  ['teamSearch','teamRegion','teamSort'].forEach(id=>document.getElementById(id)?.addEventListener('input',apply));apply();
 }
 function wirePlayerFilters(){const el=document.getElementById('playerSearch');el?.addEventListener('input',()=>{const q=el.value.toLowerCase();document.querySelectorAll('#content tbody tr').forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none')})}
+
+function scrimTeamLabel(name){
+ const n=String(name||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+ const aliases=[[/^fut(esports)?$/,'FUT'],[/^(zetadivision|zeta)$/,'ZETA'],[/^(teamelektros|elektros|te)$/,'TE'],[/^(teamheretics|heretics|th)$/,'TH'],[/^(novo(esports)?)$/,'NOVO'],[/^(bountyhunters|bh)$/,'BH'],[/^(hmble|teamhmble|hmb)$/,'HMB'],[/^(replytotem|totemesports|totem|ttm)$/,'TTM'],[/^(crazyraccoon|cr)$/,'CR'],[/^(redcanids|red)$/,'RED']];
+ for(const [re,label] of aliases)if(re.test(n))return label;
+ return String(name||'').replace(/\s+(Esports|Gaming)$/i,'');
+}
+function scrimTeamColor(name){
+ const n=String(name||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+ if(/^(bountyhunters|bh)$/.test(n))return '#ffd21f';
+ if(/^(novo(esports)?)$/.test(n))return '#8eb7ff';
+ if(/^(teamheretics|heretics|th)$/.test(n))return '#c9c1a8';
+ if(/^(hmble|teamhmble|hmb)$/.test(n))return '#ffad54';
+ if(/^(replytotem|totemesports|totem|ttm)$/.test(n))return '#55d58b';
+ if(/^(crazyraccoon|cr)$/.test(n))return '#b88e91';
+ return '#f2f2f2';
+}
 
 function applyScrimFilters(){
  const date=document.getElementById('scrimDateFilter')?.value||'',region=document.getElementById('scrimRegion')?.value.toLowerCase()||'',q=document.getElementById('scrimSearch')?.value.toLowerCase()||'';
