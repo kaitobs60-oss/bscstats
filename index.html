@@ -483,6 +483,29 @@ footer{font-size:9px}
  text-align:center!important;
  text-align-last:center!important;
 }
+
+/* iPhone Safari: center the date value within the full input width */
+.csScrimToolbar #scrimDateFilter{
+ display:flex!important;
+ align-items:center!important;
+ justify-content:center!important;
+ text-align:center!important;
+ text-align-last:center!important;
+ padding-left:8px!important;
+ padding-right:8px!important;
+}
+.csScrimToolbar #scrimDateFilter::-webkit-date-and-time-value{
+ display:block!important;
+ width:100%!important;
+ min-width:100%!important;
+ text-align:center!important;
+ margin:0 auto!important;
+}
+.csScrimToolbar #scrimDateFilter::-webkit-calendar-picker-indicator{
+ position:absolute!important;
+ right:12px!important;
+ margin:0!important;
+}
 </style>
 </head>
 <body><div class="shell">
