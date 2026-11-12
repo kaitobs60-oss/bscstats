@@ -827,7 +827,7 @@ function wirePlayerFilters(){const el=document.getElementById('playerSearch');el
 
 function scrimTeamLabel(name){
  const n=String(name||'').toLowerCase().replace(/[^a-z0-9]/g,'');
- const aliases=[[/^fut(esports)?$/,'FUT'],[/^(zetadivision|zeta)$/,'ZETA'],[/^(teamelektros|elektros|te)$/,'TE'],[/^(teamheretics|heretics|th)$/,'TH'],[/^(novo(esports)?)$/,'NOVO'],[/^(bountyhunters|bh)$/,'BH'],[/^(hmble|teamhmble|hmb)$/,'HMB'],[/^(replytotem|totemesports|totem|ttm|trm)$/,'TRM'],[/^(crazyraccoon|cr)$/,'CR'],[/^(redcanids|red)$/,'RED'],[/^(natusvincere|naviesports|navi)$/,'NAVI'],[/^(tribegaming|tribe|trb)$/,'TRB'],[/^skcea$/,'SKCEA']];
+ const aliases=[[/^fut(esports)?$/,'FUT'],[/^(zetadivision|zeta)$/,'ZETA'],[/^(teamelektros|elektros|te)$/,'TE'],[/^(teamheretics|heretics|th)$/,'TH'],[/^(novo(esports)?)$/,'NOVO'],[/^(bountyhunters|bh)$/,'BH'],[/^(hmble|teamhmble|hmb)$/,'HMB'],[/^(replytotem|totemesports|totem|ttm)$/,'TTM'],[/^(crazyraccoon|cr)$/,'CR'],[/^(redcanids|red)$/,'RED'],[/^(natusvincere|naviesports|navi)$/,'NAVI'],[/^(tribegaming|tribe|trb)$/,'TRB'],[/^skcea$/,'SKCEA']];
  for(const [re,label] of aliases)if(re.test(n))return label;
  return String(name||'').replace(/\s+(Esports|Gaming)$/i,'');
 }
