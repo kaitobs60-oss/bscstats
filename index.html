@@ -423,7 +423,7 @@ function toggleMenu(){document.getElementById('sideNav')?.classList.toggle('open
 function closeMenu(){document.getElementById('sideNav')?.classList.remove('open');document.getElementById('drawerShade')?.classList.remove('show')}
 function teamLogo(name){
  const raw=String(name||"").trim();
- const n=raw.toLowerCase().normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").replace(/[^a-z0-9]/g,"");
+ const n=raw.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"");
  const logos={
   fut:"https://images.seeklogo.com/logo-png/50/1/fut-esports-logo-png_seeklogo-509813.png",
   futesports:"https://images.seeklogo.com/logo-png/50/1/fut-esports-logo-png_seeklogo-509813.png",
