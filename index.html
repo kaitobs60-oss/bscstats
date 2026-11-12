@@ -398,6 +398,14 @@ footer{font-size:9px}
 .csScrimStats span{white-space:nowrap}.csScrimStats b{color:#f4f4f4;font-size:17px;font-weight:850;font-variant-numeric:tabular-nums}.csScrimStats i{font-style:normal;color:#626262}
 .csScrimFeedHead{margin:0 0 16px!important}.csScrimFeedHead h2{font-size:22px!important;font-weight:850!important}
 @media(max-width:760px){.csScrimToolbar{display:block!important}.csScrimFilters{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}.csScrimFilters .field{height:44px!important;font-size:12px!important;padding:0 10px!important}.csScrimSearch{height:46px!important;font-size:13px!important}.csScrimStats{gap:7px;font-size:11px;margin:2px 0 22px}.csScrimStats b{font-size:14px}.csScrimFeedHead{margin-bottom:13px!important}}
+
+/* Precise scrims date and region controls */
+.csScrimFilters{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:18px!important;align-items:end!important;width:100%!important;min-width:0!important}
+.csScrimFilters label{display:flex!important;flex-direction:column!important;gap:12px!important;width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important;color:#a8a8a8!important;font-size:13px!important;font-weight:850!important;letter-spacing:3px!important}
+.csScrimFilters label .field{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;height:70px!important;box-sizing:border-box!important;margin:0!important;padding:0 18px!important;border:1px solid #303030!important;border-radius:22px!important;background:#0b0b0b!important;color:#f4f4f4!important;font-size:20px!important;font-weight:800!important;letter-spacing:0!important}
+.csScrimFilters input[type=date]{text-align:center!important;color-scheme:dark!important}
+.csScrimFilters select{appearance:auto!important}
+@media(max-width:760px){.csScrimFilters{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:12px!important}.csScrimFilters label{font-size:11px!important;letter-spacing:2px!important;gap:9px!important}.csScrimFilters label .field{height:58px!important;padding:0 10px!important;font-size:15px!important;border-radius:16px!important}}
 </style>
 </head>
 <body><div class="shell">
@@ -424,7 +432,7 @@ footer{font-size:9px}
 <div class="siteMain">
 <header class="mobileTop"><button class="menuBtn" onclick="toggleMenu()" aria-label="Open menu">☰</button><div class="mobileBrand"><b>BSCSTATS</b><small id="mobilePage">HOME</small></div><span class="pill csStatus">● DATABASE</span></header>
 <div class="csEventStrip"><span class="csLiveDot"></span><b>NOW IN BSCSTATS</b><span>Competitive database</span><span class="csStripRight">Current event: <strong>Awaiting event data</strong></span></div>
-<main class="main"><div class="top"><div><div class="crumb" id="crumb">BSCSTATS / HOME</div><div class="title" id="pageTitle">Brawl Stars stats and esports</div><div class="sub" id="pageSub">Competitive data, pro scrims, teams and tournaments.</div></div><div class="topTools"><label class="sr-only" for="languagePicker">Website language</label><select class="languagePicker" id="languagePicker" aria-label="Website language" onchange="changeSiteLanguage(this.value)"><option value="it">🇮🇹 Italian</option><option value="en">🇬🇧 English</option><option value="uk">🇺🇦 Ukrainian</option></select><div class="gtranslate_wrapper" aria-hidden="true"></div><span class="pill csStatus">● DATABASE</span></div></div><div id="content"></div><footer>BSCSTATS · Independent Brawl Stars competitive statistics platform · Not affiliated with Supercell.</footer></main>
+<main class="main"><div class="top"><div><div class="crumb" id="crumb">BSCSTATS / HOME</div><div class="title" id="pageTitle">Brawl Stars stats and esports</div><div class="sub" id="pageSub">Competitive data, pro scrims, teams and tournaments.</div></div><div class="topTools"><span class="pill csStatus">● DATABASE</span></div></div><div id="content"></div><footer>BSCSTATS · Independent Brawl Stars competitive statistics platform · Not affiliated with Supercell.</footer></main>
 </div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const supabaseClient=window.supabase.createClient('https://xjncfrxsnriyikfkpkbs.supabase.co','sb_publishable_yakQagljFbhgvmfMIbV9hA_l1nCdMJQ');
@@ -892,33 +900,10 @@ async function loadBscStatsData(){
 }
 loadBscStatsData();
 
-function addScrim(){const a=document.getElementById('scrimTeamA').value.trim().toUpperCase(),b=document.getElementById('scrimTeamB').value.trim().toUpperCase(),sa=Number(document.getElementById('scrimScoreA').value),sb=Number(document.getElementById('scrimScoreB').value),date=document.getElementById('scrimDate').value;if(!a||!b||a===b||!date||!Number.isInteger(sa)||!Number.isInteger(sb)||sa<0||sb<0){alert('Completa correttamente tutti i campi.');return}const rows=JSON.parse(localStorage.getItem('bsc_scrims')||'[]');rows.push({a,b,sa,sb,date});localStorage.setItem('bsc_scrims',JSON.stringify(rows));render('scrims')}
-function saveFantasy(){const squad=['fantasy1','fantasy2','fantasy3'].map(id=>document.getElementById(id).value);if(squad.some(x=>!x)||new Set(squad).size!==3){alert('Scegli tre giocatori diversi.');return}localStorage.setItem('bsc_fantasy',JSON.stringify(squad));const box=document.getElementById('fantasySaved');box.style.display='block';box.textContent='Roster salvato su questo dispositivo: '+squad.join(' · ')}
-function generateDraft(){const mode=document.getElementById('dbMode').value,map=document.getElementById('dbMap').value,pos=document.getElementById('dbPosition').value;if(!mode||!map||!pos){alert('Seleziona modalità, mappa e posizione.');return}const suggestions=map==='Undermine'?['Gus','Edgar','Mortis','Max','Rico']:map==='Dueling Beetles'?['Lou','Colette','Stu','Byron','Belle']:map==='Kaboom Canyon'?['Piper','Belle','Colt','Griff','Gus']:map==='Dry Season'?['Mortis','Gray','Belle','Brock','Max']:['Carl','Ruffs','Piper','Colette','Spike'];document.getElementById('draftOutput').innerHTML='<div class="notice"><b>'+map+' · '+mode+' · '+pos+'</b><p>Possibili brawler da valutare: '+suggestions.join(' · ')+'</p><small>Spunti dimostrativi da verificare in base a patch, matchup e draft avversario. Non sono raccomandazioni statistiche ufficiali.</small></div>'}
+function addScrim(){const a=document.getElementById('scrimTeamA').value.trim().toUpperCase(),b=document.getElementById('scrimTeamB').value.trim().toUpperCase(),sa=Number(document.getElementById('scrimScoreA').value),sb=Number(document.getElementById('scrimScoreB').value),date=document.getElementById('scrimDate').value;if(!a||!b||a===b||!date||!Number.isInteger(sa)||!Number.isInteger(sb)||sa<0||sb<0){alert('Please complete all fields correctly.');return}const rows=JSON.parse(localStorage.getItem('bsc_scrims')||'[]');rows.push({a,b,sa,sb,date});localStorage.setItem('bsc_scrims',JSON.stringify(rows));render('scrims')}
+function saveFantasy(){const squad=['fantasy1','fantasy2','fantasy3'].map(id=>document.getElementById(id).value);if(squad.some(x=>!x)||new Set(squad).size!==3){alert('Choose three different players.');return}localStorage.setItem('bsc_fantasy',JSON.stringify(squad));const box=document.getElementById('fantasySaved');box.style.display='block';box.textContent='Roster salvato su questo dispositivo: '+squad.join(' · ')}
+function generateDraft(){const mode=document.getElementById('dbMode').value,map=document.getElementById('dbMap').value,pos=document.getElementById('dbPosition').value;if(!mode||!map||!pos){alert('Select a mode, map and position.');return}const suggestions=map==='Undermine'?['Gus','Edgar','Mortis','Max','Rico']:map==='Dueling Beetles'?['Lou','Colette','Stu','Byron','Belle']:map==='Kaboom Canyon'?['Piper','Belle','Colt','Griff','Gus']:map==='Dry Season'?['Mortis','Gray','Belle','Brock','Max']:['Carl','Ruffs','Piper','Colette','Spike'];document.getElementById('draftOutput').innerHTML='<div class="notice"><b>'+map+' · '+mode+' · '+pos+'</b><p>Possibili brawler da valutare: '+suggestions.join(' · ')+'</p><small>Spunti dimostrativi da verificare in base a patch, matchup e draft avversario. Non sono raccomandazioni statistiche ufficiali.</small></div>'}
 function vote(btn){const row=btn.closest('.prediction');row.querySelectorAll('button').forEach(b=>{b.classList.remove('primary');b.disabled=false});btn.classList.add('primary');const picks=JSON.parse(localStorage.getItem('bsc_predictions')||'{}');picks[row.querySelector('b').textContent]=btn.textContent;localStorage.setItem('bsc_predictions',JSON.stringify(picks));btn.parentElement.insertAdjacentHTML('afterend','<small class="muted">Prediction saved on this device</small>');row.querySelectorAll('button').forEach(b=>b.disabled=true)}
 document.addEventListener('input',e=>{if(e.target.id==='search'){const q=e.target.value.toLowerCase();document.querySelectorAll('#content tbody tr').forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none')}});
 </script>
-<script>
-function changeSiteLanguage(lang){
-  const target = lang === "en" ? "en" : lang;
-  if(typeof window.doGTranslate === "function"){
-    window.doGTranslate("en|" + target);
-  } else {
-    document.cookie = "googtrans=/en/" + target + ";path=/";
-    document.cookie = "googtrans=/en/" + target + ";path=/;domain=" + location.hostname;
-    location.reload();
-  }
-}
-</script>
-<script>
-window.gtranslateSettings = {
-  "default_language": "en",
-  "native_language_names": true,
-  "detect_browser_language": true,
-  "languages": ["en","it","uk"],
-  "flag_style": "2d",
-  "flag_size": 24,
-  "wrapper_selector": ".gtranslate_wrapper"
-};
-</script>
-<script src="https://cdn.gtranslate.net/widgets/latest/dropdown.js" defer></script></body></html>
+<script>document.cookie="googtrans=; Max-Age=0; path=/";document.cookie="googtrans=; Max-Age=0; path=/; domain="+location.hostname;</script></body></html>
