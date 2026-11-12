@@ -240,6 +240,17 @@ body{background:#050505;color:#f5f5f5;background-image:none}.side{background:#05
  .csScrimScore{gap:7px;font-size:28px}
  .csScrimArrow{font-size:22px}
 }
+/* Scrims filters: prevent date/region controls from overlapping */
+.csScrimToolbar{display:block!important;width:100%;min-width:0;overflow:visible}
+.csScrimFilters{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:end;gap:14px!important;width:100%;min-width:0}
+.csScrimFilters label{display:flex!important;flex-direction:column;gap:9px!important;min-width:0;width:100%;font-size:13px!important;letter-spacing:1.5px!important}
+.csScrimFilters .field{display:block!important;box-sizing:border-box!important;width:100%!important;max-width:100%!important;min-width:0!important;height:58px!important;padding:0 16px!important;font-size:16px!important;border-radius:18px!important}
+.csScrimFilters label:nth-child(3){grid-column:1/-1}
+@media(max-width:600px){
+ .csScrimFilters{grid-template-columns:minmax(0,1fr)!important;gap:12px!important}
+ .csScrimFilters label:nth-child(3){grid-column:auto}
+ .csScrimFilters .field{height:52px!important;font-size:15px!important}
+}
 /* Regional CoreStats-style leaderboards */
 .lbTopbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:4px 0 16px;flex-wrap:wrap}.lbRegions,.lbModes{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.lbRegionBtn,.lbModeBtn{border:1px solid #29233b;background:#100e18;color:#aaa1b8;border-radius:8px;padding:9px 13px;font-size:12px;font-weight:750}.lbRegionBtn.active,.lbModeBtn.active{background:#2a1b40;border-color:#8052b5;color:#fff;box-shadow:inset 0 0 0 1px #8052b544}.lbModes{padding:4px;border:1px solid #29233b;border-radius:10px;background:#0d0b14}.lbModeBtn{border:0;background:transparent}.lbModeBtn.active{background:#302044}.lbSearchWrap{margin:0 0 13px}.lbSearchWrap .field{width:100%;max-width:100%;height:42px}.lbTable{padding:0;overflow:hidden}.lbTableHead,.lbRow{display:grid;grid-template-columns:58px minmax(0,1fr) 90px;align-items:center;gap:12px;padding:13px 18px}.lbTableHead{background:#0d0b14;color:#948aa4;font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:850;border-bottom:1px solid #29233b}.lbTableHead span:last-child,.lbPoints{text-align:right}.lbRow{min-height:64px;border-bottom:1px solid #252031}.lbRow:last-child{border-bottom:0}.lbRank{color:#9a90a8;font-weight:800;font-variant-numeric:tabular-nums}.lbTeam{display:flex;align-items:center;gap:12px;min-width:0}.lbTeam b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lbTeam .csTeamLogoImg,.lbTeam .csTeamLogo{width:32px;height:32px;flex:0 0 32px}.lbPoints{font-size:17px;font-weight:900;font-variant-numeric:tabular-nums}.lbFootnote{margin:11px 2px 0;color:#777080;font-size:10px;line-height:1.5}
 @media(max-width:700px){.lbTopbar{align-items:stretch;gap:9px}.lbRegions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}.lbRegionBtn{padding:9px 6px;font-size:10px}.lbModes{width:max-content}.lbTableHead,.lbRow{grid-template-columns:30px minmax(0,1fr) 48px;padding:11px 9px;gap:7px}.lbTeam{gap:7px}.lbTeam b{font-size:10px}.lbTeam .csTeamLogoImg,.lbTeam .csTeamLogo{width:27px;height:27px;flex-basis:27px}.lbPoints{font-size:14px}}
