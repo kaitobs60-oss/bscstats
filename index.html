@@ -406,6 +406,14 @@ footer{font-size:9px}
 .csScrimFilters input[type=date]{text-align:center!important;color-scheme:dark!important}
 .csScrimFilters select{appearance:auto!important}
 @media(max-width:760px){.csScrimFilters{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:12px!important}.csScrimFilters label{font-size:11px!important;letter-spacing:2px!important;gap:9px!important}.csScrimFilters label .field{height:58px!important;padding:0 10px!important;font-size:15px!important;border-radius:16px!important}}
+
+/* Hard equal sizing for both Scrims filter controls */
+.csScrimFilters{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;column-gap:18px!important;row-gap:0!important;width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;overflow:hidden!important}
+.csScrimFilters>label{display:flex!important;flex-direction:column!important;flex:0 0 auto!important;width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;overflow:hidden!important}
+.csScrimFilters>label>.field{display:block!important;flex:0 0 100%!important;width:100%!important;inline-size:100%!important;min-width:0!important;min-inline-size:0!important;max-width:100%!important;max-inline-size:100%!important;box-sizing:border-box!important;margin:0!important}
+.csScrimFilters>label>input[type=date]{appearance:none!important;-webkit-appearance:none!important;text-align:center!important}
+.csScrimFilters>label>select{appearance:auto!important;-webkit-appearance:menulist!important}
+@media(max-width:760px){.csScrimFilters{grid-template-columns:repeat(2,minmax(0,1fr))!important;column-gap:12px!important}.csScrimFilters>label>.field{height:58px!important}}
 </style>
 </head>
 <body><div class="shell">
